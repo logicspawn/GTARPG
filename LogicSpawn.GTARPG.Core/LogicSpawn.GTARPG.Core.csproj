@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{37FF602D-130C-4CC1-9BC3-E263AEB2F179}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LogicSpawn.GTARPG.Core</RootNamespace>
+    <AssemblyName>LogicSpawn.GTARPG.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="NAudio">
+      <HintPath>..\..\..\..\Games\Steam\steamapps\common\Grand Theft Auto V\scripts\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio.WindowsMediaFormat">
+      <HintPath>..\..\..\..\Games\Steam\steamapps\common\Grand Theft Auto V\scripts\NAudio.WindowsMediaFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\Games\Steam\steamapps\common\Grand Theft Auto V\scripts\GTARPG\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptHookVDotNet, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Games\Steam\steamapps\common\Grand Theft Auto V\ScriptHookVDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="General\GM.cs" />
+    <Compile Include="General\MathMethods.cs" />
+    <Compile Include="General\RPGMethods.cs" />
+    <Compile Include="General\UI\RPGListMenu.cs" />
+    <Compile Include="General\UI\RPGMenu.cs" />
+    <Compile Include="General\UI\RPGMessageBox.cs" />
+    <Compile Include="General\UI\TiledMenu.cs" />
+    <Compile Include="General\UI\RPGUI.cs" />
+    <Compile Include="General\UI\TreeMenu.cs" />
+    <Compile Include="General\UI\UIExtensions.cs" />
+    <Compile Include="Objects\CoolDown.cs" />
+    <Compile Include="Objects\Cutscene.cs" />
+    <Compile Include="Objects\GTASprite.cs" />
+    <Compile Include="Objects\Item.cs" />
+    <Compile Include="Objects\Notification.cs" />
+    <Compile Include="Objects\Skill.cs" />
+    <Compile Include="Objects\WeaponDefinition.cs" />
+    <Compile Include="prototype\ModelViewerNew.cs" />
+    <Compile Include="Repository\CutsceneRepository.cs" />
+    <Compile Include="Repository\NpcRepository.cs" />
+    <Compile Include="Repository\QuestRepository.cs" />
+    <Compile Include="Repository\SkillRepository.cs" />
+    <Compile Include="Repository\ItemRepository.cs" />
+    <Compile Include="Scripts\AbilityTrees\NTree.cs" />
+    <Compile Include="Scripts\Popups\MessageToPlayer.cs" />
+    <Compile Include="Scripts\SkillEventHandler.cs" />
+    <Compile Include="Scripts\CutsceneHandler.cs" />
+    <Compile Include="Scripts\Popups\TutorialBox.cs" />
+    <Compile Include="Scripts\Sound\AudioHandler.cs" />
+    <Compile Include="Scripts\SubtitleHandler.cs" />
+    <Compile Include="Scripts\Core\Popup.cs" />
+    <Compile Include="Scripts\EventHandler.cs" />
+    <Compile Include="Scripts\Popups\HelpBox.cs" />
+    <Compile Include="Scripts\Popups\IntroTitle.cs" />
+    <Compile Include="Scripts\Popups\IntroCutscene.cs" />
+    <Compile Include="Scripts\Popups\SkillUnlocked.cs" />
+    <Compile Include="Scripts\Popups\QuestStarted.cs" />
+    <Compile Include="Scripts\Popups\QuestComplete.cs" />
+    <Compile Include="Scripts\Popups\KillStreaks.cs" />
+    <Compile Include="Scripts\Popups\Notifier.cs" />
+    <Compile Include="Scripts\Popups\LevelUp.cs" />
+    <Compile Include="Scripts\Questing\Quest.cs" />
+    <Compile Include="Scripts\SkillHandler\SkillHandler.cs" />
+    <Compile Include="Scripts\SkillHandler\SkillSlot.cs" />
+    <Compile Include="Scripts\Update\CoolDownManager.cs" />
+    <Compile Include="Scripts\Update\RPGInfo.cs" />
+    <Compile Include="Test.cs" />
+    <Compile Include="TestForm.cs" />
+    <Compile Include="WorldObjects\RPGBlips.cs" />
+    <Compile Include="WorldObjects\BlipObject.cs" />
+    <Compile Include="WorldObjects\NpcObject.cs" />
+    <Compile Include="WorldObjects\VehicleObject.cs" />
+    <Compile Include="GameData\NpcData.cs" />
+    <Compile Include="Scripts\UI\DebugWindow.cs" />
+    <Compile Include="Scripts\Update\CharCreationNew.cs" />
+    <Compile Include="prototype\ModelViewer.cs" />
+    <Compile Include="RPGLog.cs" />
+    <Compile Include="General\EntityMethods.cs" />
+    <Compile Include="WorldObjects\Core\EntityType.cs" />
+    <Compile Include="WorldObjects\LootItem.cs" />
+    <Compile Include="Scripts\Update\CharCreationNewUI.cs" />
+    <Compile Include="Scripts\Update\AutoSave.cs" />
+    <Compile Include="Scripts\Core\KeyHandlerScript.cs" />
+    <Compile Include="Scripts\KeyHandler\RPGKeyHandler.cs" />
+    <Compile Include="Scripts\UI\UIHandler.cs" />
+    <Compile Include="GameData\PlayerData.cs" />
+    <Compile Include="General\PlayerMethods.cs" />
+    <Compile Include="General\Data.cs" />
+    <Compile Include="WorldObjects\Core\WorldObject.cs" />
+    <Compile Include="RPG.cs" />
+    <Compile Include="General\Random.cs" />
+    <Compile Include="Scripts\Update\GameHandler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="prototype\Useful.cs" />
+    <Compile Include="Scripts\Core\UpdateScript.cs" />
+    <Compile Include="GameData\WorldData.cs" />
+    <Compile Include="Scripts\RPGInit.cs" />
+    <Compile Include="Scripts\Update\CheckPlayer.cs" />
+    <Compile Include="Scripts\Update\RandomScript.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /y "$(TargetDir)$(ProjectName).dll" "F:\Games\Steam\steamapps\common\Grand Theft Auto V\scripts\GTARPG\$(ProjectName).dll"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
