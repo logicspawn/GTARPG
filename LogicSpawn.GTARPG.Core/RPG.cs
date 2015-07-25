@@ -120,35 +120,47 @@ namespace LogicSpawn.GTARPG.Core
         {
 
             //Settings
-            var spawnInCarOnLoad = Settings.GetValue("General", "SpawnInCarOnLoad", true);
+            bool spawnInCarOnLoad = false;
+            try
+            {
+                spawnInCarOnLoad = Settings.GetValue("General", "SpawnInCarOnLoad", true);
+            }
+            catch(Exception e)
+            {
+                RPGLog.Log(e);
+            }
 
-
+            RPGLog.Log("Setting model:");
             Model m = PlayerData.ModelHash;
-            m.Request(1000);
+            m.Request(5000);
             Function.Call(Hash.SET_PLAYER_MODEL, Game.Player.Handle, m.Hash);
+            Script.Wait(500);
 
-
-            //Load weapons ETC
+            //Load weapons ETC            
+            RPGLog.Log("Loading Weapons");
             RPGMethods.LoadPlayerWeapons();
             if(spawnCar)
             {
+                RPGLog.Log("Spawning Car");
                 var vec = RPGMethods.SpawnCar();
                 if (vec == null)
                 {
                     RPGLog.Log("Vehicle was null, player or character must of been null.");
                     return;
                 }
-                if (spawnInCarOnLoad)
+                if (spawnInCarOnLoad && Game.Player.Character != null)
+                {
+                    RPGLog.Log("Teleporting Player into Car");
                     Game.Player.Character.Task.WarpIntoVehicle(vec, VehicleSeat.Driver);
+                }
             }
-            
 
-            
-             
             //remember we can control max health/ /useful for skills later on
+            RPGLog.Log("Setting player HP");
             Game.Player.Character.MaxHealth = 100;
             Game.Player.Character.Health = 100;
 
+            RPGLog.Log("Init Cooldowns");
             var cooldowns = RPG.PlayerData.Inventory.Where(i => i.Usable).Select(i => i.CoolDownTimer)
                 .Concat(RPG.PlayerData.Skills.Where(s => s.Unlocked).Select(s => s.CoolDownTimer));
 
@@ -156,6 +168,7 @@ namespace LogicSpawn.GTARPG.Core
             {
                 cooldown.Current = cooldown.CoolDownMsTime;
             }
+            RPGLog.Log("Loading Variations");
 
             RPGMethods.LoadVariations();
             RPGMethods.LoadVariations();
@@ -164,7 +177,8 @@ namespace LogicSpawn.GTARPG.Core
             RPGMethods.LoadVariations();
 
 
-            //Reload
+            //Reload            
+            RPGLog.Log("Reload quests if needed");
             foreach(var q in PlayerData.Quests.Where(q => q.InProgress))
             {
                 q.OnReload();

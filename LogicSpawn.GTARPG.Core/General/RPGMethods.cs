@@ -31,7 +31,7 @@ namespace LogicSpawn.GTARPG.Core.General
             }
             
             var m = new Model(PlayerData.CarHash);
-            m.Request(2000);
+            m.Request(5000);
 
             while (!m.IsLoaded)
                 Script.Wait(0);

@@ -326,6 +326,7 @@ namespace LogicSpawn.GTARPG.Core
                                      CarSecondaryColor = AvailableSecondaryColors[CurrentCarSecondaryColor],
                                      ModelVariations = CurVariations, Setup = {SafeArea = SafeArea}
                                  };
+            RPG.SaveAllData();
             View.CloseAllMenus();
             State = CharCreationState.Intro;
         }
