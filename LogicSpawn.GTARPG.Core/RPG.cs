@@ -187,7 +187,10 @@ namespace LogicSpawn.GTARPG.Core
             }
 
             RPGLog.Log("Loading Weapons");
-            RPGMethods.LoadPlayerWeapons();
+            if (m.IsValid && m.IsLoaded && Game.Player.Character != null && Game.Player.Character.Exists())
+            {
+                RPGMethods.LoadPlayerWeapons();
+            }
         }
 
         public static void LoadAllData()
