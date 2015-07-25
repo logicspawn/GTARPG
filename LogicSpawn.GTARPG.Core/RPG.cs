@@ -35,7 +35,7 @@ namespace LogicSpawn.GTARPG.Core
         private static Notifier _notifier;
         public static bool LoadedSuccessfully = true;
         
-        public static bool ExplosiveAmmo;
+        public static bool ExplosiveHits;
         public static bool SuperJump;
 
 

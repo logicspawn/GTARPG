@@ -12,7 +12,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Popups
             var skill = (Skill)args[0];
 
             popup.Size = new Size(UI.WIDTH, 115);
-            popup.Position = new Point(0, UI.HEIGHT / 2 - 50);
+            popup.Position = new Point(0, 0);
 
             var startedText = "Skill Unlocked";
             var color = Color.FromArgb(150, 100, 180, 0);

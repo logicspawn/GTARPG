@@ -13,7 +13,7 @@ namespace LogicSpawn.GTARPG.Core
         [JsonIgnore] public Ped Ped;
 
         public bool IsQuestNpc;
-        public string ModelName;
+        public PedHash ModelName;
         public BlipSprite BlipSprite;
         public Vector3 Position;
         public float Heading;
@@ -39,7 +39,7 @@ namespace LogicSpawn.GTARPG.Core
             Ped = ped;
         }
         
-        public NpcObject(string name, string modelName, Vector3 pos, float heading)
+        public NpcObject(string name, PedHash modelName, Vector3 pos, float heading)
             : base(0)
         {
             BlipSprite = BlipSprite.SMG;

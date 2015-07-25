@@ -415,7 +415,7 @@ namespace LogicSpawn.GTARPG.Core
             _shownMotives = false;
             _shownGender = false;
             _shownClass = false;
-
+            RPG.PlayerData.Setup.SafeArea = SafeArea;
             RPGMethods.CleanupObjects();
 
             if (RPG.UIHandler != null && RPG.UIHandler.View != null)
@@ -448,7 +448,7 @@ namespace LogicSpawn.GTARPG.Core
 
             if(Camera != null) Camera.Destroy();
             Game.Player.Character.Position = new Vector3(_playerPosition.X - 20, _playerPosition.Y, _playerPosition.Z);
-            Wait(1000);
+            Wait(10000);
             State = CharCreationState.PickMotives;
 
             LoadingCharCreate = false;
@@ -457,7 +457,9 @@ namespace LogicSpawn.GTARPG.Core
             Camera = World.CreateCamera(_camPosition, new Vector3(0,0,30), GameplayCamera.FieldOfView);
             Camera.MotionBlurStrength = 0.4f;
             World.RenderingCamera = Camera;
+            RPG.GameHandler.CreatedNpcBlips = false;
             Initialised = true;
+
         }
 
         public override void Update()

@@ -450,12 +450,13 @@ namespace LogicSpawn.GTARPG.Core
                         DialogEnd();
                         break;
                     case ResponseAction.Finish_Quest:
+                        
                         var qu = RPG.PlayerData.Quests.First(q => q.Name == selectedItem.Paramater);
+                        DialogEnd();
                         if (qu.ConditionsComplete)
                         {
                             qu.Complete();
                         }
-                        CurrentDialog.Current = CurrentDialog.StartingDialog;
                         break;
                     case ResponseAction.Custom_End:
                         selectedItem.CustomAction.Invoke();

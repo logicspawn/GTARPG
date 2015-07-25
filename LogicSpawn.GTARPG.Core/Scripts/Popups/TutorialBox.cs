@@ -36,12 +36,6 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Popups
 
         }
 
-
-        protected override bool ShowParameter
-        {
-            get { return true; }
-        }
-
         protected override bool CanRun
         {
             get { return true; }
