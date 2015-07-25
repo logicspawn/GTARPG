@@ -16,7 +16,7 @@ namespace LogicSpawn.GTARPG.Core
 {
     public static class RPG
     {
-        public const int Version = 0;
+        public const string Version = "0.1";
 
         public static bool GameLoaded;
         public static bool PlayerDead;

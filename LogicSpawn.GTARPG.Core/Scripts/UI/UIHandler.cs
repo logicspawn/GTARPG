@@ -75,6 +75,7 @@ namespace LogicSpawn.GTARPG.Core
                         new MenuNumericScroller("SafeArea Setting","",0,10,1,RPG.PlayerData.Setup.SafeArea).WithNumericActions(ChangeSafeArea,d => { }), 
                         new MenuToggle("Toggle Skill Bar", "",ShowSkillBar).WithToggles(() => ShowSkillBar = true, () => ShowSkillBar = false), 
                         new MenuToggle("Toggle Quest Tracker", "").WithToggles(() => ShowQuestTracker = true, () => ShowQuestTracker = false), 
+                        new MenuButton("Version", RPG.Version), 
                         new MenuButton("Back", "").WithActivate(() => View.PopMenu())
                     });
             CharacterMenu = new RPGMenu("Character Menu", new GTASprite("CommonMenu", "interaction_bgd", Color.ForestGreen), new IMenuItem[] { 

@@ -7,7 +7,6 @@ namespace LogicSpawn.GTARPG.Core
 {
     public class WorldData
     {
-        public int Version = RPG.Version;
         public List<LootItem> Loot;
         public List<VehicleObject> Vehicles;
         public List<NpcObject> Npcs;
