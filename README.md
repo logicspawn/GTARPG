@@ -46,7 +46,9 @@ v0.1.2
 - Fixed audio throwing error if it can't find files
 - Fixed popup menu throwing error if alpha > 255 or < 0
 - Hopefully fixed the '5000 cows' error by spawning correct number of targets
+
 v0.1.1 
 - Hopefully fixed black screen error 
+
 v0.1 
 - release
