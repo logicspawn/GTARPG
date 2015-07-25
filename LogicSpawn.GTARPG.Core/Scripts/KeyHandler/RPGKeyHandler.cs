@@ -112,10 +112,7 @@ namespace LogicSpawn.GTARPG.Core
                 {
                     tut.Hide();
                     EventHandler.Wait(300);
-                    if (!RPG.PlayerData.Tutorial.UsingSkills)
-                    {
-                        tut.Pop("You're ready to begin, but you need to learn to speak in a new way.", "Press K to spawn your vehicle.");
-                    }
+                    tut.Pop("You're ready to begin, but you need to learn to speak in a new way.", "Press K to spawn your vehicle.");
                 });
             } 
             
@@ -139,15 +136,12 @@ namespace LogicSpawn.GTARPG.Core
             {
                 var tut = RPG.GetPopup<TutorialBox>();
                 RPG.PlayerData.Tutorial.SpawnVehicle = true;
+                RPG.PlayerData.Tutorial.TutorialDoneExceptSpeak = true;
                 EventHandler.Do(o =>
                 {
                     tut.Hide();
                     EventHandler.Wait(300);
-                    if (!RPG.PlayerData.Tutorial.UsingSkills)
-                    {
-                        Function.Call(Hash.SET_NEW_WAYPOINT, -8.9106f, -1090.779f);
-                        tut.Pop("Vehicles are important, right? Time to make your way to Matthew and finish the tutorial quest. He's on the map with the marijuana symbol.", "Drive to Matthew and press E to speak with him.");
-                    }
+                    tut.Pop("Get to Matthew marked by the marijuana symbol and finish the tutorial quest.", "Drive to Matthew and press E to speak with him.");
                 });
             } 
             RPGMethods.SpawnCar(); 

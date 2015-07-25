@@ -31,7 +31,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
             //.WithStartingUnlocked()
 
             //Toughen Up
-            Skills.Add(new Skill("Toughen Up", "Hard times call for tough measures. Suit up with some armor.", 500) { CoolDownMs = 30000 }
+            Skills.Add(new Skill("Toughen Up", "Hard times call for tough measures. Suit up with some armor.", 100) { CoolDownMs = 30000 }
                 .WithAction(o =>
                 {
                     Game.Player.Character.Armor += o.GetIntParam("Armor Amount");
@@ -39,21 +39,21 @@ namespace LogicSpawn.GTARPG.Core.Repository
                 .WithModTree(ToughenUpTree())
                 .WithParam("Armor Amount", 10, o => ("+" + o.GetIntParam("Armor Amount") + " Armor"))
                 .WithVisibleParam("Cooldown", o => ((float)o.CoolDownMs / 1000).ToString("0.0") + "s")
-                .WithMods(Mod("Increased Armor", 500), Mod("Swift Change", 500))
+                .WithMods(Mod("Increased Armor", 100), Mod("Swift Change", 200))
             );
 
             //Blazed Off Glory
-            Skills.Add(new Skill("Blazed Off Glory", "This narcotic makes people go wild. Luckily in a good way.", 500) { CoolDownMs = 30000 }
+            Skills.Add(new Skill("Blazed Off Glory", "This narcotic makes people go wild. Luckily in a good way.", 100) { CoolDownMs = 30000 }
                         .WithAction(BlazedOffGlory)
                         .WithModTree(BlazedOffGloryTree())
                         .WithParam("Blaze Time", 15000, o => (o.GetFloatParam("Blaze Time") / 1000).ToString("0.0") + "s")
                         .WithParam("Damage Buff", 0.5f, o => ( "+" + (o.GetFloatParam("Damage Buff") * 100).ToString("0.0") + "% damage"))
                         .WithVisibleParam("Cooldown", o => ((float)o.CoolDownMs / 1000).ToString("0.0") + "s")
-                        .WithMods(Mod("Two Puffs", 500), Mod("Three Puffs", 1000), Mod("Four Puffs", 1500), Mod("Lethal Dose", 2000))
+                        .WithMods(Mod("Two Puffs", 100), Mod("Lethal Dose", 200))
                         .WithCooldown(120000));
 
             //Reject Nonsense
-            Skills.Add(new Skill("Reject Nonsense", "Nearby enemies fly into the air.", 1000) { CoolDownMs = 30000 }
+            Skills.Add(new Skill("Reject Nonsense", "Nearby enemies fly into the air.", 100) { CoolDownMs = 30000 }
                 .WithAction(o =>
                                 {
                                     var radius = o.GetFloatParam("Radius");
@@ -62,45 +62,45 @@ namespace LogicSpawn.GTARPG.Core.Repository
                                     foreach(var ped in nearbyPeds)
                                     {
                                         if (ped.RelationshipGroup != Game.Player.Character.RelationshipGroup)
-                                            ped.Position = ped.Position + new Vector3(0, 0, knockupHeight);
+                                            ped.ApplyForce(new Vector3(0, 0, knockupHeight));
                                     }
                                 })
                 .WithModTree(RejectNonsenseTree())
-                .WithParam("Knockup Height", 15000, o => (o.GetFloatParam("Blaze Time") / 1000).ToString("0.0") + "s")
-                .WithParam("Radius", 15000, o => (o.GetFloatParam("Blaze Time") / 1000).ToString("0.0") + "s")
+                .WithParam("Knockup Height", 15, o => (o.GetFloatParam("Knockup Height")) + "m")
+                .WithParam("Radius", 5, o => (o.GetFloatParam("Radius")) + "m")
                 .WithVisibleParam("Cooldown", o => ((float)o.CoolDownMs / 1000).ToString("0.0") + "s")
-                .WithMods(Mod("Reach For The Stars", 500), Mod("Knocked Up", 1000))
+                .WithMods(Mod("Reach For The Stars", 100), Mod("Knocked Up", 200))
             );
 
             //Rampage
-            Skills.Add(new Skill("Rampage", "Restores 10 points of armor.", 2500) { CoolDownMs = 30000 }
+            Skills.Add(new Skill("Rampage", "Explosive ammo, melee and super jump. Go wild.", 100) { CoolDownMs = 30000 }
                 .WithAction(o =>
                 {
                     SkillEventHandler.Do(x =>
                         {
                             var ramgpageTime = o.GetIntParam("Rampage Time");
-                            RPG.ExplosiveAmmo = true;
+                            RPG.ExplosiveHits = true;
                             RPG.SuperJump = true;
-                           SkillEventHandler.Wait(ramgpageTime);
-                            RPG.ExplosiveAmmo = false;
+                            SkillEventHandler.Wait(ramgpageTime);
+                            RPG.ExplosiveHits = false;
                             RPG.SuperJump = false;
                         });
                 })
                 .WithModTree(RampageTree())
                 .WithParam("Rampage Time", 5000, o => (o.GetFloatParam("Rampage Time") / 1000).ToString("0.0") + "s")
                 .WithVisibleParam("Cooldown", o => ((float)o.CoolDownMs / 1000).ToString("0.0") + "s")
-                .WithMods(Mod("Rampage I", 500), Mod("Rampage II", 1000))
+                .WithMods(Mod("Rampage I", 100), Mod("Rampage II", 200))
             );
 
             //Reinforcements
-            Skills.Add(new Skill("Reinforcements", "Summon backup to assist you.", 1000) { CoolDownMs = 30000 }
+            Skills.Add(new Skill("Reinforcements", "Summon backup to assist you.", 100) { CoolDownMs = 30000 }
                 .WithAction(Reinforcement)
                 .WithModTree(ReinforcementTree())
                 .WithParam("Crew Size", 1, o => (o.GetIntParam("Crew Size")).ToString() + " members")
                 .WithParam("Member HP", 20, o => (o.GetIntParam("Member HP")).ToString())
                 .WithParam("Weapon", WeaponHash.Pistol.ToString(), o => (o.GetStringParam("Weapon").ToString()))
                 .WithVisibleParam("Cooldown", o => ((float)o.CoolDownMs / 1000).ToString("0.0") + "s")
-                .WithMods(Mod("Additional Flyers", 1000), Mod("Fund Kevlar", 1000), Mod("Fund Weapons", 1000))
+                .WithMods(Mod("Additional Flyers", 200), Mod("Fund Kevlar", 200), Mod("Fund Weapons", 200))
                 .WithCooldown(120000)
             );
 
@@ -118,9 +118,14 @@ namespace LogicSpawn.GTARPG.Core.Repository
                     foreach (var ped in nearbyPeds)
                     {
                         if (ped.RelationshipGroup != Game.Player.Character.RelationshipGroup)
-                            ped.Health = ped.Armor = 0;
+                        {
+                            ped.Health -= 100;
+                            ped.Armor -= 100;
+                            
+                        }
                     } 
                     Game.Player.Character.IsInvincible = false;
+                    SkillEventHandler.Wait(1000);
                     Game.FadeScreenIn(1000);
                 });
             })
@@ -134,7 +139,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
             {
                 Function.Call(Hash.SET_TIME_SCALE, rng < 80 ? 0.4f : 0.2f);
                 Function.Call(Hash.SET_TIMECYCLE_MODIFIER, rng < 80 ? "phone_cam6" : "phone_cam7");
-                var slowTime = skill.GetIntParam("SlowTime");
+                var slowTime = skill.GetIntParam("Slow Time");
                 if (rng > 80)
                 {
 
@@ -196,9 +201,9 @@ namespace LogicSpawn.GTARPG.Core.Repository
         {
             var pos = new Point(UI.WIDTH / 2 - NTree.NodeCenter.Width, UI.HEIGHT / 2 - NTree.NodeCenter.Height * 3);
 
-            var startingNode = new Node("Get High", new GTASprite("mpinventory", "mp_specitem_weed"), NodeType.Skill).WithUnusable();
+            var startingNode = new Node("Reinforcements", new GTASprite("mpinventory", "mp_specitem_weed"), NodeType.Skill).WithUnusable();
 
-            var tree = new NTree("Get High", startingNode, TreeType.SkillMod, pos);
+            var tree = new NTree("Reinforcements", startingNode, TreeType.SkillMod, pos);
             tree.AddChild(new Node("Additional Flyers", new GTASprite("mpinventory", "team_deathmatch"), NodeType.SkillMod)
                 .WithUnlockAction(o => { var skill = (Skill)o; skill.SetParam("Crew Size", 3); })
                 .WithDescription("Distribute more flyers to increase crew size to 3"));
@@ -235,21 +240,15 @@ namespace LogicSpawn.GTARPG.Core.Repository
         {
             var pos = new Point(UI.WIDTH / 2 - NTree.NodeCenter.Width, UI.HEIGHT / 2 - NTree.NodeCenter.Height * 3);
 
-            var startingNode = new Node("Get High", new GTASprite("mpinventory", "mp_specitem_weed"), NodeType.Skill).WithUnusable();
+            var startingNode = new Node("Blazed Off Glory", new GTASprite("mpinventory", "mp_specitem_weed"), NodeType.Skill).WithUnusable();
 
-            var tree = new NTree("Get High", startingNode, TreeType.SkillMod, pos);
+            var tree = new NTree("Blazed Off Glory", startingNode, TreeType.SkillMod, pos);
             tree.AddChild(new Node("Two Puffs", new GTASprite("mpinventory", "team_deathmatch"), NodeType.SkillMod)
                     .WithUnlockAction(o => { var skill = (Skill)o; skill.SetParam("Blaze Time", 20000); })
-                    .WithDescription("Increases blaze time to 20 seconds"))
-                .AddChild(new Node("Threee Puffs", new GTASprite("mpinventory", "team_deathmatch"), NodeType.SkillMod)
-                    .WithUnlockAction(o => { var skill = (Skill)o; skill.SetParam("Blaze Time", 25000); })
-                    .WithDescription("Increases blaze time to 25 seconds"))
-                .AddChild(new Node("Four Puffs", new GTASprite("mpinventory", "team_deathmatch"), NodeType.SkillMod)
-                    .WithUnlockAction(o => { var skill = (Skill)o; skill.SetParam("Blaze Time", 30000); })
-                    .WithDescription("Increases blaze time to 30 seconds"));
+                    .WithDescription("Increases blaze time to 20 seconds"));
             tree.AddChild(new Node("Lethal Dose", new GTASprite("mpinventory", "team_deathmatch"), NodeType.SkillMod)
-                .WithUnlockAction(o => { var skill = (Skill)o; skill.SetParam("Damage Buff", 0.8f);})
-                .WithDescription("Increases damage buff to 80%"));
+                .WithUnlockAction(o => { var skill = (Skill)o; skill.SetParam("Damage Buff", 2.0f);})
+                .WithDescription("Increases damage buff to 200%"));
             return tree;
         }
 
@@ -277,7 +276,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
 
             var tree = new NTree("Reject Nonsense", startingNode, TreeType.SkillMod, pos);
             tree.AddChild(new Node("Reach For The Stars", new GTASprite("mpinventory", "team_deathmatch"), NodeType.SkillMod)
-                .WithUnlockAction(o => { var skill = (Skill)o; skill.SetParam("Knockup Height", 10); })
+                .WithUnlockAction(o => { var skill = (Skill)o; skill.SetParam("Knockup Height", 50); })
                 .WithDescription("Increases knockup height"));
             tree.AddChild(new Node("Knocked Up", new GTASprite("mpinventory", "team_deathmatch"), NodeType.SkillMod)
                 .WithUnlockAction(o => { var skill = (Skill)o; skill.SetParam("Radius", 10); })
@@ -293,10 +292,10 @@ namespace LogicSpawn.GTARPG.Core.Repository
 
             var tree = new NTree("Rampage", startingNode, TreeType.SkillMod, pos);
             tree.AddChild(new Node("Rampage I", new GTASprite("mpinventory", "team_deathmatch"), NodeType.SkillMod)
-                .WithUnlockAction(o => { var skill = (Skill)o; skill.SetParam("Rampage Time", 8); })
+                .WithUnlockAction(o => { var skill = (Skill)o; skill.SetParam("Rampage Time", 8000); })
                 .WithDescription("Increases rampage time to 8 seconds"));
             tree.AddChild(new Node("Rampage II", new GTASprite("mpinventory", "team_deathmatch"), NodeType.SkillMod)
-                .WithUnlockAction(o => { var skill = (Skill)o; skill.SetParam("Rampage Time", 10); })
+                .WithUnlockAction(o => { var skill = (Skill)o; skill.SetParam("Rampage Time", 10000); })
                 .WithDescription("Increases rampage time to 10 seconds"));
             return tree;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GTA;
 using GTA.Math;
+using GTA.Native;
 using LogicSpawn.GTARPG.Core.General;
 using LogicSpawn.GTARPG.Core.Objects;
 
@@ -16,13 +17,13 @@ namespace LogicSpawn.GTARPG.Core.Repository
         {
             Npcs = new List<NpcObject>();
 
-            var npc1 = new NpcObject("Matthew", "OMEGA", new Vector3(-8.9106f, -1090.779f, 26.6720f), 90.2f);
+            var npc1 = new NpcObject("Matthew", PedHash.Omega, new Vector3(-8.9106f, -1090.779f, 26.6720f), 90.2f);
             npc1.SetBlip(BlipSprite.Marijuana);
             npc1.SetDialog("Can I Help you?",
                            Response("I'm still working on the assignments ...", 1).WithCondition(ResponseCondition.QuestInProgress("Welcome to GTA:RPG")),
                            Response("About these assignments... It's impossible.", 0).WithCondition(ResponseCondition.QuestInProgress("Welcome to GTA:RPG")),
                            Response("Listen... I'm done with the assignments.", 2).WithCondition(ResponseCondition.QuestConditionsDone("Welcome to GTA:RPG")),
-                           Response("Apex told me to speak with you.", 3).WithCondition(ResponseCondition.QuestConditionsDone("The Grind Begins")),
+                           Response("Apex told me to speak with you.", 99).WithCondition(ResponseCondition.QuestConditionsDone("The Grind Begins")),
                            Response("I want to prove myself.", 5).WithConditions(ResponseCondition.QuestComplete("The Grind Begins"), ResponseCondition.QuestNotInProgressOrDone("Potential")),
                            Response("Later Homie", ResponseAction.End),
                            Response("You sellin'?", ResponseAction.Vendor))
@@ -32,10 +33,10 @@ namespace LogicSpawn.GTARPG.Core.Repository
                      Response("Ite", ResponseAction.End))
                 .Add(2, "Damn dude, you're legit. I'll let our boss know what's up",
                      Response("Good shit", ResponseAction.Finish_Quest, "Welcome to GTA:RPG"))
-                .Add(2, "Alright alright homeslice, I can see from your face you've been busy",
+                .Add(99, "Alright alright homeslice, I can see from your face you've been busy",
                      Response("I'm good at this, what can I say?", 3),
                      Response("Yeah yeah, give me a reward already.", 3),
-                     Response("I'm ready for the next task", ResponseAction.Finish_Quest, "Welcome to GTA:RPG"))
+                     Response("I'm ready for the next task", ResponseAction.Finish_Quest, "The Grind Begins"))
                 .Add(3, "Woah easy there. Our boy here's completed one contract and think he King B or something.",
                      Response("What's next?", 4))
                 .Add(4, "Take this and speak to me again when you're ready for some big things.",
@@ -55,7 +56,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
                 .Add(10, "Right, you'll find him on the map, he's one of the SMG symbols. You know how to use your map right?",
                      Response("Damn straight man, I'll head there now", ResponseAction.Start_Quest, "Potential"));
 
-            var npc2 = new NpcObject("King B", "JANITOR", new Vector3(-65f, -1202f, 27f), 135f);
+            var npc2 = new NpcObject("King B", PedHash.JanitorSMM, new Vector3(-65f, -1202f, 27f), 135f);
             npc2.SetDialog("What's good my man?",
                                 Response("Later Homie", ResponseAction.End),
                                 Response("Who are you?", 0),
@@ -69,7 +70,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
                 .Add(3, "Yeah.", 
                     Response("Alright homie, should of said.", ResponseAction.Vendor));
 
-            var npc3 = new NpcObject("John Doe", "POLOGOON", new Vector3(-62f, -1214f, 28f), 332f);
+            var npc3 = new NpcObject("John Doe", PedHash.PoloGoon01GMY, new Vector3(-67f, -1208f, 28f), 312f);
             npc3.SetDialog("Yes? Keep it simple please.",
                            Response("Matthew sent me to get a package.", 1).WithCondition(ResponseCondition.QuestInProgress("Potential")),
                            Response("You need some help?", 8).WithConditions(ResponseCondition.QuestComplete("Potential"), ResponseCondition.QuestNotInProgressOrDone("Trouble in the Cap")),
@@ -79,13 +80,13 @@ namespace LogicSpawn.GTARPG.Core.Repository
                 .Add(1, "Oh really? You would be that young chap that Apex was talking about. How you finding the criminal life?",
                      Response("Well I've been doing this a long time...", 2),
                      Response("It's alright, I was hoping to make more money though", 3),
-                     Response("You gonna keep dicking about or hand me over this package?", 4))
+                     Response("You gonna keep dicking about or hand over the package?", 4))
                 .Add(2, "And here you are, standing before the Apexers.",
                      Response("There's only so much a single man can do.", 5),
                      Response("...", 6))
-                .Add(3, "I'm the dark knight, you feel me",
-                     Response("Whatever homie...", ResponseAction.End))
-                .Add(4, "Damn son, you got a bit of a bite to you. Could be a good thing, but don't try that shit with me or you'll be out of here before a gun can sit your dollar ass down",
+                .Add(3, "In due time, in due time. Take the package and good luck",
+                     Response("[Take Package]", ResponseAction.Custom_End, () => RPG.PlayerData.AddItem(ItemRepository.Get("Boxed Package"))))
+                .Add(4, "Damn son, you got a bit of a bite to you. Could be a good thing, but don't try that shit with me or you'll be out of here before you know",
                      Response("Who the fuck do you think you are? You wanna go right here?", 7),
                      Response("Woah chill, I didn't mean to piss you off man", 6))
                 .Add(5, "I like the way you think. Most new recruits would've crumbled under that question. Take this and don't die alright?",
@@ -96,14 +97,14 @@ namespace LogicSpawn.GTARPG.Core.Repository
                      Response("That's what's up!", ResponseAction.Custom_End, () => RPG.PlayerData.AddItem(ItemRepository.Get("Boxed Package"))))
 
                 .Add(8, "Quite simply, yeah. I need some cash. You game?",
-                     Response("Sure let's do it.", 5),
+                     Response("Sure let's do it.", 9),
                      Response("Let's talk about something else.", ResponseAction.Return_To_Start))
                 .Add(9, "Alright, it's simple, just cap some dudes and grab their money holders.",
                      Response("Just a couple of wallets? Alright no problem", 10))
                 .Add(10, "You know what, make it some purses too, I like you man, and I wanna make sure you cover all the bases",
                      Response("What do you mean by that?", 11),
                      Response("Whatever, no difference to me", ResponseAction.Start_Quest, "Trouble in the Cap"))
-                .Add(11, "One guy came through here, big as day. Killed a few guys, came up against a woman, hesitated and she killed him before he could blink.",
+                .Add(11, "One guy came through here, big as day. Killed a few guys, came up against a woman, hesitated and she killed him in seconds.",
                      Response("That won't happen to me, no one takes me down", 12))
                 .Add(12, "Haha. Alicia would laugh if she heard you say that. Anyways, you doing this or what?",
                      Response("Sure, I'm down", ResponseAction.Start_Quest, "Trouble in the Cap"),
@@ -118,7 +119,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
                 .Add(15, "Well I wasn't paying attention, missed the name. It's one of those CraftSquad dudes.",
                      Response("Who's CraftSquad?", 16),
                      Response("So what do you want me to do?", 17))
-                .Add(16, "Some wannabe gangbangers, they aint got shit on us. Well, other than the incriminating cell phone about our activies...",
+                .Add(16, "Some wannabe gangbangers, they aint got shit on us. Well, other than the incriminating cell phone about our activities...",
                      Response("Relax man, what's the plan?", 17))
 
                 .Add(17, "Just go and kill anyone you can find that's part of CraftSquad, I'm sure it'll turn up",
@@ -136,10 +137,10 @@ namespace LogicSpawn.GTARPG.Core.Repository
                      Response("I'm listening", 23))
                 .Add(22, "I've learned my lesson man, shit, this is my only slip up in 6 months. Let me make it up to you.",
                      Response("Go on", 23))
-                .Add(22, "Go to Jackson and tell him 'The Golden Doe has landed' he'll hook you up.",
+                .Add(23, "Go to Jackson and tell him 'The Golden Doe has landed' he'll hook you up.",
                      Response("This better be worth it.", ResponseAction.Start_Quest, "Doe!"));
 
-            var npc4 = new NpcObject("Alicia", "MISTY", new Vector3(-53f, -1216f, 28f), 56f);
+            var npc4 = new NpcObject("Alicia", PedHash.Misty01, new Vector3(-53f, -1216f, 28f), 56f);
             npc4.SetDialog("You can stand there and look at me or speak up. Just don't waste my time.",
                            Response("What do you do around here?", 1),
                            Response("Apex sounded pissed, what's going on?", 3).WithConditions(ResponseCondition.QuestComplete("An Assassin's Greed"), ResponseCondition.QuestNotInProgressOrDone("Smash the CraftSquad")),
@@ -155,11 +156,11 @@ namespace LogicSpawn.GTARPG.Core.Repository
                      Response("That's was John's problem not mine.", 4),
                      Response("Whatever, what do you need me to do?", 5))
                 .Add(4, "I don't care who's problem it is, you better sort this mess out.",
-                     Response("Tell me the plan", 7))
-                .Add(5, "This is a big task, but we need to end this. Take out as many guys of CraftSquad as you can. This is it, you do this and you'll have Apex's attention.",
+                     Response("Tell me the plan",5))
+                .Add(5, "We need to end CraftSquad. Take out as many of them as you can. Do this, and you'll have Apex's attention.",
                      Response("Consider it done.", ResponseAction.Start_Quest, "Smash the CraftSquad"));
 
-            var npc5 = new NpcObject("Jackson", "CLAY", new Vector3(-567, -1071, 22), 162f);
+            var npc5 = new NpcObject("Jackson", PedHash.Clay, new Vector3(-567, -1071, 22), 162f);
             npc5.SetDialog("What's up man?",
                            Response("I've got the package right here, and the thugs are out of the picture", 0).WithCondition(ResponseCondition.QuestConditionsDone("Potential")),
                            Response("The Golden Doe has landed, or some shit", 8).WithCondition(ResponseCondition.QuestConditionsDone("Doe!")),
@@ -167,8 +168,8 @@ namespace LogicSpawn.GTARPG.Core.Repository
                            Response("Nothing, catch you later man.", ResponseAction.End))
                 .Add(0, "You the real deal huh. You want in on a little secret?", 
                     Response("Go on", 1))
-                .Add(1, "Do you know what's in that package? I can see it's still sealed, so you haven't have you?", 
-                    Response("No... Should I of?", 2))
+                .Add(1, "Do you know what's in that package? I can see it's still sealed, so you don't know, do you?", 
+                    Response("No... Should I?", 2))
                 .Add(2, "Well... new recruits get a test man, if you would of looked at the package I'd of killed you right here.", 
                     Response("Well shit.", 3),
                     Response("Over my living body bitch, what'd you think this is?", 6))

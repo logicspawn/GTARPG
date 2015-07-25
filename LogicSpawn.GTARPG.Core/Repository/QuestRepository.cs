@@ -22,7 +22,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
                 Quests = new List<Quest>();
 
                 //Starting Quest
-                Quests.Add(new Quest("Welcome to GTA:RPG", "Show me you've got what it takes. Get yourself an ammo pack.", false, false, 10, 500)
+                Quests.Add(new Quest("Welcome to GTA:RPG", "Show me you've got what it takes.", false, false, 10, 500)
                                .AddCondiiton(QuestCondition.Custom("Complete the tutorial", "Tutorial", () => RPG.PlayerData.Tutorial.TutorialDoneExceptSpeak))
                                .WithOnStart(q => EventHandler.Do(o =>
                                {
@@ -38,7 +38,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
                                                                             RPG.PlayerData.Quests.First(qu => qu.Name == "The Grind Begins").Start();
                                                                         }))
                 );
-                Quests.Add(new Quest("The Grind Begins", "Start a contract.", false, false, 10, 600)
+                Quests.Add(new Quest("The Grind Begins", "Complete a contract and return to Matthew.", false, false, 15, 600)
                                .AddCondiiton(QuestCondition.Custom("Contract completed","q_Start_contract", ()=> RPG.PlayerData.CompletedContracts > 0))
                                .WithOnStart(q => EventHandler.Do(o =>
                                                                       {
@@ -48,9 +48,9 @@ namespace LogicSpawn.GTARPG.Core.Repository
                                                                           RPG.Subtitle("Apex: Hope those words weren't to big for you, get a contract done, and then return to Matthew.", 5000);EventHandler.Wait(5000);
                                                                       }))
                 );
-                Quests.Add(new Quest("Potential", "Apex and co. are impressed by your abilities. Pass their test and prove you're truly good.", false, false, 10, 800)
+                Quests.Add(new Quest("Potential", "Apex and co. are impressed by your abilities. Pass their test and prove you're truly good.", false, false, 25, 800)
                                .AddCondiiton(QuestCondition.Acquire("Acquire the package", "Boxed Package",1))
-                               .AddCondiiton(QuestCondition.Kill("Eliminate threats",5,new Vector3(-302,-1136,23),PedHash.Genstreet01AMO, PedHash.Genstreet01AMY))
+                               .AddCondiiton(QuestCondition.Kill("Eliminate threats",5,new Vector3(-302,-1136,23),PedHash.Genstreet01AMO, PedHash.Genstreet01AMY)).WithSpawnedTargets()
                                .AddReward(QuestReward.Item("Bandages", 2), QuestReward.Item("Simple Protective Gear", 3))
                 );
                 Quests.Add(new Quest("Trouble in the Cap", "Help John Doe get some money so he can get some snacks.", false, false, 10, 800)
@@ -63,8 +63,8 @@ namespace LogicSpawn.GTARPG.Core.Repository
                                    RPG.PlayerData.Quests.First(qu => qu.Name == "An Assassin's Greed").Start();
                                }))
                 );
-                Quests.Add(new Quest("An Assassin's Greed", "Assisinate the targets till you find the stolen phone", false, false, 10, 800)
-                               .AddCondiiton(QuestCondition.Loot("Phone Recovered", "Incriminating Phone", "prop_npc_phone_02", 25, 1, PedHash.Genstreet01AMO, PedHash.Genstreet01AMY))
+                Quests.Add(new Quest("An Assassin's Greed", "Assisinate the targets till you find the stolen phone", false, false, 15, 800)
+                               .AddCondiiton(QuestCondition.Loot("Phone Recovered", "Incriminating Phone", "prop_npc_phone_02", 25, 1, PedHash.Genstreet01AMO, PedHash.Genstreet01AMY)).WithSpawnedTargets(1)
                                .AddReward(QuestReward.Item("Refurbished Kevlar", 5))
                                .WithOnComplete(q => EventHandler.Do(o =>
                                {
@@ -75,6 +75,18 @@ namespace LogicSpawn.GTARPG.Core.Repository
                                    RPG.Subtitle("Apex: Now.", 5000);
                                }))
                                .WithAutoComplete()
+                );
+                
+                //-- John 'side-quest'
+                Quests.Add(new Quest("Doe!", "Accept John's apology.", false, false, 25, 800)
+                               .AddCondiiton(QuestCondition.Custom("Get to Jackson", "q_Reach_Jackson", () => Game.Player.Character.Position.DistanceTo(new Vector3(-567, -1071, 22)) < 5))
+                               .AddReward(QuestReward.Item("Adv Health Kit", 5), QuestReward.Item("Adv Armor Kit", 5))
+                );
+
+                Quests.Add(new Quest("Smash the CraftSquad", "Take out the enemies of CraftSquad", false, false, 35, 800)
+                               .AddCondiiton(QuestCondition.Kill("Targets Killed",20,PedHash.Genstreet01AMO, PedHash.Genstreet01AMY)).WithSpawnedTargets(5)
+                               .AddReward(QuestReward.Item("Adv Health Kit", 1), QuestReward.Item("Adv Armor Kit", 1))
+                               .WithAutoComplete()
                                .WithOnComplete(q => EventHandler.Do(o =>
                                {
                                    RPG.Subtitle("Apex: Woah, you actually did it.", 3000); EventHandler.Wait(5000);
@@ -83,18 +95,6 @@ namespace LogicSpawn.GTARPG.Core.Repository
                                    EventHandler.Wait(3000);
                                    RPG.GetPopup<MessageToPlayer>().Show();
                                }))
-                );
-                
-                //-- John 'side-quest'
-                Quests.Add(new Quest("Doe!", "Accept John's apology.", false, false, 10, 800)
-                               .AddCondiiton(QuestCondition.Custom("Get to Jackson", "q_Reach_Jackson", () => Game.Player.Character.Position.DistanceTo(new Vector3(-567, -1071, 22)) < 5))
-                               .AddReward(QuestReward.Item("Adv Health Kit", 5), QuestReward.Item("Adv Armor Kit", 5))
-                );
-
-                Quests.Add(new Quest("Smash the CraftSquad", "Take out the enemies of CraftSquad", false, false, 10, 800)
-                               .AddCondiiton(QuestCondition.Kill("Targets Killed",20,PedHash.Genstreet01AMO, PedHash.Genstreet01AMY)).WithSpawnedTargets(5)
-                               .AddReward(QuestReward.Item("Adv Health Kit", 1), QuestReward.Item("Adv Armor Kit", 1))
-                               .WithAutoComplete()
                 );
                 
 
