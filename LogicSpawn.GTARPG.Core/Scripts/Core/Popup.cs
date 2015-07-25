@@ -60,7 +60,7 @@ namespace LogicSpawn.GTARPG.Core
                 {
                     if (FadeInPopup)
                     {
-                        RPGUI.SetAlpha(_popup, (int)(((float)_timeWaited / fadeTime) * 255));
+                        RPGUI.SetAlpha(_popup, Math.Min((int)(((float)_timeWaited / fadeTime) * 255),255));
                     }
                 }
 
@@ -78,7 +78,7 @@ namespace LogicSpawn.GTARPG.Core
                     if(FadeOutPopup)
                     {
                         var timeOfFrame = _timeWaited - (showTime - fadeTime);
-                        RPGUI.SetAlpha(_popup, (int)(255 - (255 * ((float)timeOfFrame / fadeTime))));
+                        RPGUI.SetAlpha(_popup, Math.Max((int)(255 - (255 * ((float)timeOfFrame / fadeTime))),0));
                     }
                 }
 
