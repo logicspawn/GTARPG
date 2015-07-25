@@ -8,10 +8,10 @@ namespace LogicSpawn.GTARPG.Core
         
         public override void Update()
         {
-            if (!RPG.LoadedSuccessfully || CharCreationNew.Enabled) return;
+            if (!RPG.GameLoaded || !RPG.LoadedSuccessfully || CharCreationNew.Enabled) return;
 
             Wait(30000);
-            if (!RPG.LoadedSuccessfully || CharCreationNew.Enabled) return;
+            if (!RPG.GameLoaded || !RPG.LoadedSuccessfully || CharCreationNew.Enabled) return;
 
             while(RPG.GameLoaded)
             {

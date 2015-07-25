@@ -132,13 +132,15 @@ namespace LogicSpawn.GTARPG.Core
 
             RPGLog.Log("Setting model:");
             Model m = PlayerData.ModelHash;
+            RPGLog.Log("Setting model to: " + m.Hash);
             m.Request(5000);
-            Function.Call(Hash.SET_PLAYER_MODEL, Game.Player.Handle, m.Hash);
-            Script.Wait(500);
-
+            if(m.IsValid && m.IsLoaded)
+            {
+                Function.Call(Hash.SET_PLAYER_MODEL, Game.Player.Handle, m.Hash);
+                Script.Wait(500);
+            }
+            
             //Load weapons ETC            
-            RPGLog.Log("Loading Weapons");
-            RPGMethods.LoadPlayerWeapons();
             if(spawnCar)
             {
                 RPGLog.Log("Spawning Car");
@@ -184,6 +186,8 @@ namespace LogicSpawn.GTARPG.Core
                 q.OnReload();
             }
 
+            RPGLog.Log("Loading Weapons");
+            RPGMethods.LoadPlayerWeapons();
         }
 
         public static void LoadAllData()

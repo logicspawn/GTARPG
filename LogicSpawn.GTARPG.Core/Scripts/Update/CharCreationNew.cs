@@ -334,6 +334,7 @@ namespace LogicSpawn.GTARPG.Core
         private void ChooseName()
         {
             RPGInfo.KeyboardActive = true;
+            Script.Wait(0);
             String test = Game.GetUserInput(15); //new code
             RPGInfo.KeyboardActive = false;
             PlayerName = test;
