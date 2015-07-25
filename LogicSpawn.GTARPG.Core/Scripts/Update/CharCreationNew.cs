@@ -139,7 +139,7 @@ namespace LogicSpawn.GTARPG.Core
         {
             KeyDown += OnKeyDown;
             Instance = this;
-            CurrentCarModel = 0;
+            CurrentCarModel = Random.Range(0, 50);
             CurrentCharModel = Random.Range(0, 50);
             View.MenuTransitions = false;
             View.MenuPosition = new Point(UI.WIDTH - 300, 0);
