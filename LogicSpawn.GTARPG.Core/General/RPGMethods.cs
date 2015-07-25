@@ -127,14 +127,22 @@ namespace LogicSpawn.GTARPG.Core.General
 
         public static void LoadPlayerWeapons()
         {
-            Game.Player.Character.Weapons.RemoveAll();
-            for (int i = 0; i < PlayerData.Weapons.Count; i++)
+            try
             {
-                var wepDefinition = PlayerData.Weapons[i];
-                Game.Player.Character.Weapons.Give(wepDefinition.WeaponHash, 0, false, false);
-                Game.Player.Character.Weapons[wepDefinition.WeaponHash].Ammo = wepDefinition.AmmoCount;
+                Game.Player.Character.Weapons.RemoveAll(); //
+                for (int i = 0; i < PlayerData.Weapons.Count; i++)
+                {
+                    var wepDefinition = PlayerData.Weapons[i];
+                    Game.Player.Character.Weapons.Give(wepDefinition.WeaponHash, 0, false, false);
+                    Script.Wait(500);
+                    Game.Player.Character.Weapons[wepDefinition.WeaponHash].Ammo = wepDefinition.AmmoCount;
+                }
+                Game.Player.Character.Weapons.Give(WeaponHash.Unarmed, 0, true, false);
             }
-            Game.Player.Character.Weapons.Give(WeaponHash.Unarmed, 0, true, false);
+            catch(Exception ex)
+            {
+                RPGLog.Log(ex);
+            }
         }
 
         public static void Loot(LootItem loot)

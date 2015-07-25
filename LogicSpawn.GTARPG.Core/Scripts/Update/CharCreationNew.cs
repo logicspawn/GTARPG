@@ -767,7 +767,6 @@ namespace LogicSpawn.GTARPG.Core
             
             //E
             IntroState = CharIntroState.E;
-            Game.PlayMusic("PROLOGUE_TEST_MISSION_END");
             SetCam(Game.Player.Character.Position + new Vector3(75, 25, 100));
             Wait(7500);
 
@@ -788,6 +787,8 @@ namespace LogicSpawn.GTARPG.Core
             Game.Player.Character.Position = _playerPosition;
             Game.Player.Character.Heading = _playerHeading;
 
+            Wait(500);
+
             //Give and spawn stuff::
             //Give Weps
             for (int i = 0; i < Data.WeaponHashes.Length; i++)
@@ -802,6 +803,7 @@ namespace LogicSpawn.GTARPG.Core
             }
 
             RPG.SaveAllData();
+            Wait(500);
 
             //Give personal vehicle
             RPG.InitCharacter(false);
@@ -809,12 +811,12 @@ namespace LogicSpawn.GTARPG.Core
             Game.FadeScreenIn(500);
             RPG.GameHandler.Init();
             RPG.GameLoaded = true;
-            Enabled = false;
             bgMusic.Dispose();
-            Wait(6000);
+            Wait(5000);
 
-            //RPG.GetPopup<HelpBox>().Show();
             RPG.GetPopup<TutorialBox>().Show("A new quest has been started and added to your tracker.","Press J to open up your menu.");
+            Enabled = false;
+
         }
 
         private void SetCam(Vector3 pos, bool lookAtPlayer = false)

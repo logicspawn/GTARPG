@@ -120,16 +120,6 @@ namespace LogicSpawn.GTARPG.Core
         {
 
             //Settings
-            bool spawnInCarOnLoad = false;
-            try
-            {
-                spawnInCarOnLoad = Settings.GetValue("General", "SpawnInCarOnLoad", true);
-            }
-            catch(Exception e)
-            {
-                RPGLog.Log(e);
-            }
-
             RPGLog.Log("Setting model:");
             Model m = PlayerData.ModelHash;
             RPGLog.Log("Setting model to: " + m.Hash);
@@ -149,11 +139,6 @@ namespace LogicSpawn.GTARPG.Core
                 {
                     RPGLog.Log("Vehicle was null, player or character must of been null.");
                     return;
-                }
-                if (spawnInCarOnLoad && Game.Player.Character != null)
-                {
-                    RPGLog.Log("Teleporting Player into Car");
-                    Game.Player.Character.Task.WarpIntoVehicle(vec, VehicleSeat.Driver);
                 }
             }
 
