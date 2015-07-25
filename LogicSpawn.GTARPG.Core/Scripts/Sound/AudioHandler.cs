@@ -57,6 +57,11 @@ namespace LogicSpawn.GTARPG.Core
         {
             IWavePlayer waveOutDevice = new WaveOutEvent();
             var path = MusicPath + musicName + ".mp3";
+            if(!File.Exists(path))
+            {
+                RPGLog.Log("Did not find music to play");
+                return waveOutDevice;
+            }
             AudioFileReader audioFileReader = new AudioFileReader(path);
             audioFileReader.Volume = Volume;
             waveOutDevice.Init(audioFileReader);
@@ -69,6 +74,11 @@ namespace LogicSpawn.GTARPG.Core
         {
             IWavePlayer waveOutDevice = new WaveOutEvent();
             var path = SFXPath + sfxName + ".mp3";
+            if (!File.Exists(path))
+            {
+                RPGLog.Log("Did not find SFX to play");
+                return waveOutDevice;
+            }
             AudioFileReader audioFileReader = new AudioFileReader(path);
             audioFileReader.Volume = Volume;
             waveOutDevice.Init(audioFileReader);
@@ -84,6 +94,11 @@ namespace LogicSpawn.GTARPG.Core
 
             var path = SFXPath + sfxName + "." + ext;
             Wait(250);
+            if (!File.Exists(path))
+            {
+                RPGLog.Log("Did not find killstreak SFX to play");
+                return KillStreakDevice;
+            }
             AudioFileReader audioFileReader = new AudioFileReader(path);
             audioFileReader.Volume = 0.6f * Volume;
             
