@@ -21,7 +21,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
             Skills = new List<Skill>();
 
             //Get High
-            Skills.Add(new Skill("Get High", "Time seems to move slower...What's the worst that could happen?", 1000)
+            Skills.Add(new Skill("Get High", "Time seems to move slower...What's the worst that could happen?", 100)
                         .WithAction(GetHigh)
                         .WithModTree(GetHighTree())
                         .WithParam("Slow Time", 5000, o => (o.GetFloatParam("Slow Time") / 1000).ToString("0.0") + "s")

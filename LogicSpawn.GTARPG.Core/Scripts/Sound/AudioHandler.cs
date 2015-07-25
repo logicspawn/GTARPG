@@ -21,7 +21,7 @@ namespace LogicSpawn.GTARPG.Core
         {   
             get { return Path.Combine(_basePath, "Audio\\Sfx\\"); }
         }
-        public float Volume = 1.0f;
+        public float Volume = 0.35f;
 
         public AudioHandler()
         {
