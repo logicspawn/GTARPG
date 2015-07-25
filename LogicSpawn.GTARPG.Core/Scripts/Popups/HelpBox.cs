@@ -15,11 +15,9 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Popups
                                  {
                                      "press j to open the main menu to browse inventory, buy goods, receive contracts",
                                      "Earn XP by getting kills, completing contracts, destroying vehicles",
-                                     "A quest has been started, use the menu to purchase an ammo pack, they will come in handy",
                                      "In the Character Menu section, you can unlock new skills for SP ( Gained alongside normal XP) ",
                                      "Remember, you can press K at any time to respawn your personal vehicle.",
-                                     "Press F7 to reopen this help menu",
-                                     "this mod is a work in progress, expect things to change, like this tutorial :)",
+                                     "this mod is a work in progress, expect things to improve",
                                      "Hotkeys:",
                                      "[J] Main Menu -- [I] Inventory -- [O] Character Menu -- [K] Spawn Your Vehicle -- [L] Quest Log ",
                                      "[F8] Save Game -- [F9] Load Game -- [F10] New Game -- [F11] Debug -- ",

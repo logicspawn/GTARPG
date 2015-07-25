@@ -51,7 +51,7 @@ namespace LogicSpawn.GTARPG.Core
             if(keyEventArgs.KeyCode == Keys.F5)
             {
 
-                RPG.PlayerData.SkillExp += 100000;
+                //RPG.PlayerData.SkillExp += 100000;
 //                RPG.PlayerData.Setup.SafeArea -= 1;
 //                if (RPG.PlayerData.Setup.SafeArea < 0) RPG.PlayerData.Setup.SafeArea = 0;
 //                RPG.Notify("ayy lmao?");
@@ -100,8 +100,8 @@ namespace LogicSpawn.GTARPG.Core
 
             if(keyEventArgs.KeyCode == Keys.F6)
             {
-                RPG.PlayerData.Setup.SafeArea += 1;
-                if (RPG.PlayerData.Setup.SafeArea == 11) RPG.PlayerData.Setup.SafeArea = 10;
+                //RPG.PlayerData.Setup.SafeArea += 1;
+                //if (RPG.PlayerData.Setup.SafeArea == 11) RPG.PlayerData.Setup.SafeArea = 10;
 
                 
                 
@@ -165,22 +165,22 @@ namespace LogicSpawn.GTARPG.Core
         }
 
 
-        private void ChangeVariation(int obj)
-        {
-            var index = Mennu.SelectedIndex;
-            var kvp = variations.ElementAt(index);
-            var component = kvp.Key;
-            Function.Call(Hash.SET_PED_COMPONENT_VARIATION, Game.Player.Character, component, obj, 0,0);
-        }
+        //private void ChangeVariation(int obj)
+        //{
+        //    var index = Mennu.SelectedIndex;
+        //    var kvp = variations.ElementAt(index);
+        //    var component = kvp.Key;
+        //    Function.Call(Hash.SET_PED_COMPONENT_VARIATION, Game.Player.Character, component, obj, 0,0);
+        //}
 
-        private Menu Mennu;
-        Dictionary<int, int> variations = new Dictionary<int, int>();
-
-
-        private void SelectTile(int obj)
-        {
-            throw new NotImplementedException();
-        }
+        //private Menu Mennu;
+        //Dictionary<int, int> variations = new Dictionary<int, int>();
+        //
+        //
+        //private void SelectTile(int obj)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
       
         public override void Update()
