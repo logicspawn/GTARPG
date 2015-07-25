@@ -11,6 +11,7 @@ namespace LogicSpawn.GTARPG.Core
             if (!RPG.LoadedSuccessfully || CharCreationNew.Enabled) return;
 
             Wait(30000);
+            if (!RPG.LoadedSuccessfully || CharCreationNew.Enabled) return;
 
             while(RPG.GameLoaded)
             {
