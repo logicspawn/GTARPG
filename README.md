@@ -2,6 +2,7 @@
 An RPG mod for Grand Theft Auto V
 
 Current Version: v0.1.2
+
 Copyright 2015 LogicSpawn
 
 About
@@ -51,4 +52,4 @@ v0.1.1
 - Hopefully fixed black screen error 
 
 v0.1 
-- release
+- Release
