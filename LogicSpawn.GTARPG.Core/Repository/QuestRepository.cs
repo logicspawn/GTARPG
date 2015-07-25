@@ -101,18 +101,18 @@ namespace LogicSpawn.GTARPG.Core.Repository
 
                 //Contracts:
                 Quests.Add(new Quest("Are you Chicken?", "Cluck cluck cluck, these are worst than the cows... silence them", true, true, 15, 500)
-                               .AddCondiiton(QuestCondition.Kill("Chickens silenced", 5, PedHash.Hen))
+                               .AddCondiiton(QuestCondition.Kill("Chickens silenced", 5, PedHash.Hen)).WithSpawnedTargets(5)
                                .AddReward(QuestReward.Item("Bandages", 2), QuestReward.Item("Simple Protective Gear", 3))
                                .WithSpawnedTargets()
                 );
                 Quests.Add(new Quest("Moooooove them", "Mooo. Moo.. MOO? Mooo? Are you kidding me? Remove these pests.", true, true, 15, 500)
-                               .AddCondiiton(QuestCondition.Kill("Moos silenced", 5, PedHash.Cow))
+                               .AddCondiiton(QuestCondition.Kill("Moos silenced", 5, PedHash.Cow)).WithSpawnedTargets(5)
                                .AddReward(QuestReward.Item("Bandages", 3))
                                .WithSpawnedTargets()
                 );
 
                 Quests.Add(new Quest("Boar'd", "We've got some boars roaming around, sort em out will ya?", true, true, 15, 500)
-                               .AddCondiiton(QuestCondition.Kill("Boars eliminated", 5, PedHash.Boar))
+                               .AddCondiiton(QuestCondition.Kill("Boars eliminated", 5, PedHash.Boar)).WithSpawnedTargets(5)
                                .AddReward(QuestReward.Item("Simple Protective Gear", 3))
                                .WithSpawnedTargets()
                 );
@@ -127,17 +127,17 @@ namespace LogicSpawn.GTARPG.Core.Repository
                                .WithSpawnedTargets()
                 );
                 Quests.Add(new Quest("Guitar Hero", "No need to fret. One of my ventures is in need of some shredding machines. Get them for me.", true, true, 50, 750)
-                               .AddCondiiton(QuestCondition.Loot("Guitars Acquired", "Shredding Machine", "prop_el_guitar_01", 80, 5, PedHash.Paparazzi,PedHash.MovieStar,PedHash.PoloGoon01GMY))
+                               .AddCondiiton(QuestCondition.Loot("Guitars Acquired", "Shredding Machine", "prop_el_guitar_01", 80, 5, PedHash.Paparazzi, PedHash.MovieStar, PedHash.PoloGoon01GMY)).WithSpawnedTargets(5)
                                .AddReward(QuestReward.Item("Refurbished Kevlar", 5))
                                .WithSpawnedTargets()
                 );
 
                 Quests.Add(new Quest("Grandrune", "Buddy of mine starting playing a new game, he's a roleplayer you know? Get some cowhides for him.", true, true, 15, 650)
-                               .AddCondiiton(QuestCondition.Loot("Cowhide @ 130gp ea", "Cowhide", "prop_paper_box_01", 100, 5, PedHash.Cow))
+                               .AddCondiiton(QuestCondition.Loot("Cowhide @ 130gp ea", "Cowhide", "prop_paper_box_01", 100, 5, PedHash.Cow)).WithSpawnedTargets(5)
                                .WithSpawnedTargets()
                 );
                 Quests.Add(new Quest("Theftscape", "Buddy of mine starting playing a new game, he's a roleplayer you know? Get some feathers for him.", true, true, 15, 650)
-                               .AddCondiiton(QuestCondition.Loot("Feathers collected", "Feather", "prop_cs_cardbox_01", 100, 50, PedHash.Hen))
+                               .AddCondiiton(QuestCondition.Loot("Feathers collected", "Feather", "prop_cs_cardbox_01", 100, 50, PedHash.Hen)).WithSpawnedTargets(5)
                                .WithSpawnedTargets(10)
                 );
 
@@ -150,20 +150,20 @@ namespace LogicSpawn.GTARPG.Core.Repository
                 );
 
                 Quests.Add(new Quest("Elimination", "You know what to do", true, true, 30, 500)
-                               .AddCondiiton(QuestCondition.Kill("Kill Street Thugs", 5, PedHash.Genstreet01AMO, PedHash.Genstreet01AMY))
-                               .AddCondiiton(QuestCondition.Kill("Kill Street Punks", 5, PedHash.StrPunk01GMY, PedHash.StrPunk01GMY))
+                               .AddCondiiton(QuestCondition.Kill("Kill Street Thugs", 5, PedHash.Genstreet01AMO, PedHash.Genstreet01AMY)).WithSpawnedTargets(5)
+                               .AddCondiiton(QuestCondition.Kill("Kill Street Punks", 5, PedHash.StrPunk01GMY, PedHash.StrPunk01GMY)).WithSpawnedTargets(5)
                                .AddReward(QuestReward.Item("Ammo Pack I", 1), QuestReward.Item("Health Kit", 5), QuestReward.Item("Adv Health Kit", 2), QuestReward.Item("Vehicle Repair Kit", 1))
                                .WithSpawnedTargets()
                 );
 
                 Quests.Add(new Quest("Gutter Trash", "Cleanse them. They are not as good as you.", true, true, 15, 500)
-                               .AddCondiiton(QuestCondition.Kill("Street Thugs Cleansed", 5, PedHash.Genstreet01AMO, PedHash.Genstreet01AMY))
+                               .AddCondiiton(QuestCondition.Kill("Street Thugs Cleansed", 5, PedHash.Genstreet01AMO, PedHash.Genstreet01AMY)).WithSpawnedTargets(5)
                                .AddReward(QuestReward.Item("Ammo Pack I", 1), QuestReward.Item("Health Kit", 5))
                                .WithSpawnedTargets()
                 );
 
                 Quests.Add(new Quest("Punk'd", "These pests need to be killed. Why? You know better than to ask...", true, true, 15, 500)
-                               .AddCondiiton(QuestCondition.Kill("Punk Eliminated", 5, PedHash.StrPunk01GMY, PedHash.StrPunk02GMY))
+                               .AddCondiiton(QuestCondition.Kill("Punk Eliminated", 5, PedHash.StrPunk01GMY, PedHash.StrPunk02GMY)).WithSpawnedTargets(5)
                                .AddReward(QuestReward.Item("Adv Health Kit", 2), QuestReward.Item("Vehicle Repair Kit", 1))
                                .WithSpawnedTargets()
                 );
