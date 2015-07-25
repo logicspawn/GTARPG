@@ -20,12 +20,12 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Popups
                                      "Feel free to continue playing, completing contracts and earning exp.",
                                      "",
                                      "Planned Features in the future:",
-                                     "- Vehicle: Mod tree, cruise control and weapon systems",
-                                     "- Quests: Animated cutscenes and more quest condition types ",
-                                     "- Player Customisation: More customisation for player stats and progression",
+                                     "Vehicle: Mod tree, cruise control and weapon systems",
+                                     "Quests: Animated cutscenes and more quest condition types ",
+                                     "Player Customisation: More customisation for player stats and progression",
                                      "",
                                      "Once again thanks for playing, hope you had a great time.",
-                                     "- LogicSpawn -",
+                                     "LogicSpawn",
                                  };
             var extra = lines.Length;
             popup.Size = new Size(popup.Size.Width, popup.Size.Height + extra*20);
@@ -50,7 +50,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Popups
 
         protected override void OnFinish()
         {
-            RPG.Notify("Good luck!");
+
         }
 
         protected override bool CanRun

@@ -115,10 +115,17 @@ namespace LogicSpawn.GTARPG.Core.General
                 new UIRectangle(new Point(offset.Width, offset.Height - UI.HEIGHT), new Size(300, UI.HEIGHT), UnselectedItemColor).Draw();
             }
 
-            var container = new UIContainer(new Point(UI.WIDTH/2 - 300, UI.HEIGHT - 150), new Size(600, 140), Color.FromArgb(70, 8, 8, 8));
-            container.Items.Add(new UIText(Caption, new Point(301, 25 + 1), 0.42f, Color.Black, Font.ChaletComprimeCologne, true));
-            container.Items.Add(new UIText(Caption, new Point(300, 25), 0.42f, Color.White, Font.ChaletComprimeCologne, true));
+            var container = new UIContainer(new Point(UI.WIDTH/2 - 300, UI.HEIGHT - 150), new Size(600, 140));
+            new UIRectangle(new Point(0, UI.HEIGHT - 150),new Size(UI.WIDTH,140), Color.FromArgb(70, 8, 8, 8)).Draw();
+            var lines = RPGUI.FormatText(Caption, 90);
 
+            container.Items.Add(new UIText(lines[0], new Point(301, 5 + 1), 0.42f, Color.Black, Font.ChaletComprimeCologne, true));
+            container.Items.Add(new UIText(lines[0], new Point(300, 5), 0.42f, Color.White, Font.ChaletComprimeCologne, true));
+            if(lines.Length >1)
+            {
+                container.Items.Add(new UIText(lines[1], new Point(301, 25 + 1), 0.42f, Color.Black, Font.ChaletComprimeCologne, true));
+                container.Items.Add(new UIText(lines[1], new Point(300, 25), 0.42f, Color.White, Font.ChaletComprimeCologne, true));
+            }
 
                 
             for (int i = 0; i < 4; i++)

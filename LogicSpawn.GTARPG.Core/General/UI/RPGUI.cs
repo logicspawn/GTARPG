@@ -80,7 +80,7 @@ namespace LogicSpawn.GTARPG.Core.General
         public static string[] FormatText(string text, int maxLineLength)
         {
             var formattedText = new List<string>();
-            
+            if (text.Length <= maxLineLength) return new string[]{text};
             //var lines = text.Split('\n');
             //foreach(var line in lines)
             //{

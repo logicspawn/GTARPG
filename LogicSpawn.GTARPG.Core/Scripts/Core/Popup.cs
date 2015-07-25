@@ -70,11 +70,8 @@ namespace LogicSpawn.GTARPG.Core
                     {
                         while (_show)
                         {
-                            while (ShowParameter)
-                            {
-                                _popup.Draw();
-                                Wait(0);
-                            }
+                            _popup.Draw();
+                            Wait(0);
                         }
                     }
 
@@ -133,7 +130,6 @@ namespace LogicSpawn.GTARPG.Core
         }
 
         protected virtual bool FadeInPopup { get { return true; } }
-        protected virtual bool ShowParameter { get { return true; } }
         protected virtual bool HideOnlyWhenClosed { get { return false; } }
         protected virtual bool FadeOutPopup { get { return true; } }
     }

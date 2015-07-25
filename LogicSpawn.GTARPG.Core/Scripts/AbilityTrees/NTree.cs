@@ -66,7 +66,7 @@ namespace LogicSpawn.GTARPG.Core.AbilityTrees
                 new UIText(Ref, new Point(UI.WIDTH / 2, UI.HEIGHT - 95), 0.3f, Color.White, 0, true).Draw();
                 new UIText(skill.Description, new Point(UI.WIDTH / 2, UI.HEIGHT - 75), 0.22f, Color.White, 0, true).Draw();
 
-                var topPoint = new Point(UI.WIDTH/2, UI.HEIGHT - 50);
+                var topPoint = new Point(UI.WIDTH/2, UI.HEIGHT - 62);
 
                 var i = 0;
                 var sparams = SkillRepository.GetVisibleParams(Ref);
