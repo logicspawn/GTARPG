@@ -435,18 +435,18 @@ namespace LogicSpawn.GTARPG.Core
             foreach(var npc in NpcDatas)
             {
                 var dist = npc.Position.DistanceTo(Game.Player.Character.Position);
-
-                var pos = npc.Ped != null ? npc.Ped.Position : npc.Position;
-                pos.Z += 1.0f;
-                OutputArgument xArg = new OutputArgument();
-                OutputArgument yArg = new OutputArgument();
-                Function.Call(Hash._WORLD3D_TO_SCREEN2D, pos.X, pos.Y, pos.Z, xArg, yArg);
-                var x = xArg.GetResult<float>();
-                var y = yArg.GetResult<float>();
-
-
                 if (dist < 20)
                 {
+                    var pos = npc.Ped != null ? npc.Ped.Position : npc.Position;
+                    pos.Z += 1.0f;
+                    OutputArgument xArg = new OutputArgument();
+                    OutputArgument yArg = new OutputArgument();
+                    Function.Call(Hash._WORLD3D_TO_SCREEN2D, pos.X, pos.Y, pos.Z, xArg, yArg);
+                    var x = xArg.GetResult<float>();
+                    var y = yArg.GetResult<float>();
+
+
+                
                     new UIRectangle(new Point((int)(UI.WIDTH * x) - 50, (int)(UI.HEIGHT * y) + 12), new Size(100, 2), Color.DodgerBlue).Draw();
                     new UIText(npc.Name, new Point((int)(UI.WIDTH * x), (int)(UI.HEIGHT * y)), 0.21f, Color.White, 0, true).Draw();
                 }
@@ -471,7 +471,7 @@ namespace LogicSpawn.GTARPG.Core
                         }
                         catch
                         {
-                            RPGLog.Log("Error setting npc and player friendlynes.");
+                            RPGLog.Log("Error setting npc and player friendliness.");
                         }
                         npc.SetPed(ped);
                         npc.Spawned = true;

@@ -764,7 +764,6 @@ namespace LogicSpawn.GTARPG.Core
                 InventoryMenu.Items.Clear();
                 InventoryMenu.Items.AddRange(inventoryList);
                 InventoryMenu.Initialize();
-                RPGLog.Log("inv:" + InventoryMenu.Items.Count);
             }
 
             RPGUI.FormatMenuWithFooter(InventoryMenu);
