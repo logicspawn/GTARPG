@@ -115,7 +115,7 @@ namespace LogicSpawn.GTARPG.Core
         public void AddExp(int i)
         {
             Exp += i;
-            SkillExp += Exp/2;
+            SkillExp += Exp * 15;
             if (Exp >= ExpToLevel)
             {
                 Exp -= ExpToLevel;
