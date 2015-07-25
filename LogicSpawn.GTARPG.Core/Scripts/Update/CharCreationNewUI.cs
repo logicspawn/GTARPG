@@ -77,7 +77,6 @@ namespace LogicSpawn.GTARPG.Core
         }
         private void B()
         {
-            //new UIText("A Mod by PROLogicX", new Point(UI.WIDTH - 300, UI.HEIGHT - 80), 1.4f, Color.Black, 1, true).Draw();
             RPG.GetPopup<IntroCutscene>().Show("A Mod for GTA V", 1.2f);
         }
         private void C()

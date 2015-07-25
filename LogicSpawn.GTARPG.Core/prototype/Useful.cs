@@ -86,7 +86,7 @@ namespace LogicSpawn.GTARPG.Core
             new UIRectangle(new Point(RPGInfo.IsWideScreen ? 51 : 170, UI.HEIGHT - 41), new Size(181,9), Color.FromArgb(240,66,66,66)).Draw();
             new UIRectangle(new Point(5,5), new Size(200,8), Color.Green).Draw();
             new UIRectangle(new Point(5,16), new Size(200,8), Color.DodgerBlue).Draw();
-            new UIText("prologicx" + " level " + 5 + " criminal", new Point(51, UI.HEIGHT - 44), 0.25f, Color.White, 0, false).Draw();
+            new UIText("player" + " level " + 5 + " criminal", new Point(51, UI.HEIGHT - 44), 0.25f, Color.White, 0, false).Draw();
 
             //Weapon skins
             Function.Call(Hash.SET_PED_WEAPON_TINT_INDEX, Game.Player.Character.Handle, Convert.ToInt32(WeaponHash.MicroSMG), 3);

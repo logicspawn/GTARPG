@@ -43,7 +43,6 @@ namespace LogicSpawn.GTARPG.Core
             get { return IsOpen(CharacterMenu); }
         }
 
-        private const string ModInfo = "GTA:RPG v0.0.Dev by PROLogicX ";
         private PlayerData PlayerData
         {
             get { return RPG.PlayerData; }
@@ -101,7 +100,6 @@ namespace LogicSpawn.GTARPG.Core
             //var o = new MenuNumericScroller("Number", "", d => { }, d => { }, 0, 100, 1);
             //var p = new MenuToggle("Toggle", "", ()=> { }, () => { });
 
-            //"GTA RPG ALPHA BY PROLOGICX", 
             MainMenu = new RPGMenu("RPG Menu", new GTASprite("CommonMenu", "interaction_bgd", Color.DodgerBlue), new IMenuItem[] {                
                 new MenuButton("Inventory", "").WithActivate(OpenInventory), 
                 new MenuButton("Character Menu", "").WithActivate(OpenCharacterMenu),
