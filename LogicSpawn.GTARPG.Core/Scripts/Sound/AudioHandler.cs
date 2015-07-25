@@ -31,6 +31,12 @@ namespace LogicSpawn.GTARPG.Core
 
             _basePath = Path.Combine(Application.StartupPath, "scripts\\GTARPG");
 
+            var path = MusicPath + "intro" + ".mp3";
+            if (!File.Exists(path))
+            {
+                _basePath = Path.Combine(Application.StartupPath, "scripts\\");
+            }
+
             Tick += OnTick;
         }
 
