@@ -39,7 +39,7 @@ namespace LogicSpawn.GTARPG.Core
         
         public static bool ExplosiveHits;
         public static bool SuperJump;
-
+        public static GameMode GameMode;
 
 
         static RPG()
@@ -47,6 +47,7 @@ namespace LogicSpawn.GTARPG.Core
             PlayerData = new PlayerData();
             WorldData = new WorldData();
             SkillHandler = new SkillHandler();
+            GameMode = GameMode.NotPlaying;
         }
 
         private static Notifier Notifier
@@ -75,6 +76,7 @@ namespace LogicSpawn.GTARPG.Core
         public static void Initialise()
         {
             RPGLog.Log("Initialising RPG Mod.");
+            RPG.GameMode = GameMode.FullRPG;
             Loading = true;
             Script.Wait(1);
 
@@ -124,6 +126,7 @@ namespace LogicSpawn.GTARPG.Core
         public static void InitCharacter(bool spawnCar = true)
         {
             LoadTutorial();
+            RPG.GameMode = GameMode.FullRPG;
 
             //Settings
             RPGLog.Log("Setting model:");
@@ -330,5 +333,12 @@ namespace LogicSpawn.GTARPG.Core
                 All.Add(popup);
             }
         }
+    }
+
+    public enum GameMode
+    {
+        FullRPG,
+        PlayingAsTrio,
+        NotPlaying
     }
 }

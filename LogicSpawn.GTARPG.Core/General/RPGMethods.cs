@@ -78,9 +78,31 @@ namespace LogicSpawn.GTARPG.Core.General
             }
         }
 
+        public static void PlayAsTrio()
+        {
+            RPG.SaveAllData();
+            RPG.GameMode = GameMode.PlayingAsTrio;
+            Game.FadeScreenOut(500);
+            var c = Player.CurrentVehicle;
+            if (c != null && c.Exists())
+            {
+                Player.Task.WarpOutOfVehicle(c);
+                if (c.Exists())
+                {
+                    c.Delete();
+                }
+            }
+
+            Model m = PedHash.Michael;
+            m.Request(1000);
+            Function.Call(Hash.SET_PLAYER_MODEL, Game.Player.Handle, m.Hash);
+            Game.FadeScreenIn(500);
+        }
+
         public static void ReturnToNormal()
         {
             RPG.SaveAllData();
+            RPG.GameMode = GameMode.NotPlaying;
 
             Game.FadeScreenOut(500);
             var c = Player.CurrentVehicle;

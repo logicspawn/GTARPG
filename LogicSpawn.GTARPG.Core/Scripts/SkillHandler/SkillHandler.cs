@@ -65,13 +65,28 @@ namespace LogicSpawn.GTARPG.Core
             skillBarUI.Items.Add(new UIText(Slots[1].GetText(), new Point(107, 8), 0.18f, Slots[1].Usable ? Color.White : Color.DarkGray, 0, true));
             skillBarUI.Items.Add(new UIText("[" + Slots[1].Key + "]", new Point(105, 23), 0.16f, Color.White, 0, true));
 
-            skillBarUI.Items.Add(new UIRectangle(new Point(145, 5), new Size(64, 18), Slots[2].Usable ? Color.FromArgb(120, 85, 85, 85) : Color.FromArgb(50, 8, 8, 8)));
-            if (!Slots[2].IsEmpty && !Slots[2].Usable && Slots[2].CooldownRatio < 1)
+            if(RPG.GameMode == GameMode.FullRPG)
             {
-                skillBarUI.Items.Add(new UIRectangle(new Point(145, 5), new Size((int)(65 * Slots[2].CooldownRatio), 18), Color.FromArgb(120, 85, 85, 85)));
+                skillBarUI.Items.Add(new UIRectangle(new Point(145, 5), new Size(64, 18), Slots[2].Usable ? Color.FromArgb(120, 85, 85, 85) : Color.FromArgb(50, 8, 8, 8)));
+                if (!Slots[2].IsEmpty && !Slots[2].Usable && Slots[2].CooldownRatio < 1)
+                {
+                    skillBarUI.Items.Add(new UIRectangle(new Point(145, 5), new Size((int)(65 * Slots[2].CooldownRatio), 18), Color.FromArgb(120, 85, 85, 85)));
+                }
+                skillBarUI.Items.Add(new UIText(Slots[2].GetText(), new Point(177, 8), 0.18f, Slots[2].Usable ? Color.White : Color.DarkGray, 0, true));
+                skillBarUI.Items.Add(new UIText("[CapsLock]", new Point(175, 23), 0.16f, Color.White, 0, true));
             }
-            skillBarUI.Items.Add(new UIText(Slots[2].GetText(), new Point(177, 8), 0.18f, Slots[2].Usable ? Color.White : Color.DarkGray, 0, true));
-            skillBarUI.Items.Add(new UIText("[CapsLock]", new Point(175, 23), 0.16f, Color.White, 0, true));
+            else
+            {
+                skillBarUI.Items.Add(new UIRectangle(new Point(145, 5), new Size(64, 18), Slots[2].Usable ? Color.FromArgb(120, 85, 85, 85) : Color.FromArgb(50, 8, 8, 8)));
+                if (!Slots[2].IsEmpty && !Slots[2].Usable && Slots[2].CooldownRatio < 1)
+                {
+                    skillBarUI.Items.Add(new UIRectangle(new Point(145, 5), new Size(65, 18), Color.FromArgb(120, 85, 85, 85)));
+                }
+                skillBarUI.Items.Add(new UIText("Class Skill", new Point(177, 8), 0.18f, Slots[2].Usable ? Color.White : Color.DarkGray, 0, true));
+                skillBarUI.Items.Add(new UIText("[CapsLock]", new Point(175, 23), 0.16f, Color.White, 0, true));
+            }
+
+
 
             skillBarUI.Items.Add(new UIRectangle(new Point(215, 5), new Size(64, 18), Slots[3].Usable ? Color.FromArgb(120, 85, 85, 85) : Color.FromArgb(50, 8, 8, 8)));
             if (!Slots[3].IsEmpty && !Slots[3].Usable && Slots[3].CooldownRatio < 1)

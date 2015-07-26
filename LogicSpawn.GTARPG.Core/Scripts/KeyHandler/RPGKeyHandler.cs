@@ -116,7 +116,11 @@ namespace LogicSpawn.GTARPG.Core
                 });
             } 
             
-            RPG.UIHandler.CloseAll(); RPG.SkillHandler.Use(Keys.CapsLock);
+            RPG.UIHandler.CloseAll();
+            if (RPG.GameMode == GameMode.FullRPG)
+            {
+                RPG.SkillHandler.Use(Keys.CapsLock);
+            }
         }
         private void UseSkillU() { RPG.UIHandler.CloseAll(); RPG.SkillHandler.Use(Keys.U); }
         private void UseSkillB() { RPG.UIHandler.CloseAll(); RPG.SkillHandler.Use(Keys.B); }
