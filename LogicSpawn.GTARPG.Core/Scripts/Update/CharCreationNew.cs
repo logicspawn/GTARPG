@@ -654,7 +654,7 @@ namespace LogicSpawn.GTARPG.Core
             {
                 Motive = PlayerMotive.Lawless;
             }
-
+            State = CharCreationState.PickClass;
             View.PopMenu();
         }
 
