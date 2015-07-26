@@ -21,7 +21,8 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
         public bool IsContract;
         public bool IsRepeatable;
         public bool AutoComplete;
-        
+        public bool Cancellable;
+
         public QuestMode QuestMode;
         public List<QuestCondition> Conditions;
         public List<QuestReward> AdditionalRewards;
@@ -49,8 +50,13 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
             get { return Conditions.All(c => c.Done); }
         }
 
+        
+        public bool CreateHandInBlip = false;
+        public Vector3 HandInBlipPosition = Vector3.Zero;
+
         [JsonIgnore] 
         public List<BlipObject> BlipObjects;
+
 
         public Quest()
         {
@@ -64,6 +70,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
             MoneyReward = moneyReward;
             IsContract = isContract;
             IsRepeatable = isRepeatable;
+            Cancellable = true;
             Conditions = new List<QuestCondition>();
             AdditionalRewards = new List<QuestReward>();
             BlipObjects = new List<BlipObject>();
@@ -71,6 +78,8 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
             OnComplete = q => { };
             OnStart = q => { };
             AmountToSpawn = -1;
+            CreateHandInBlip = false;
+            HandInBlipPosition = Vector3.Zero;
         }
 
         public void CheckState()
@@ -101,6 +110,12 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
         private void SetupConditions()
         {
             BlipObjects = new List<BlipObject>();
+
+            if(CreateHandInBlip)
+            {
+                BlipObjects.Add(RPGBlips.QuestHandIn(Name, HandInBlipPosition));
+            }
+
             foreach (var c in Conditions)
             {
                 SetupCondition(c, true);
@@ -134,7 +149,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
                     EventHandler.Do(q =>
                     {
                       var pos = c.Position;
-                      var amountToSpawn = AmountToSpawn == -1 ? (int)(long)c.Parameters["Amount"] : AmountToSpawn;
+                      var amountToSpawn = AmountToSpawn;
                       var playerGroup = Game.Player.Character.RelationshipGroup;
                       var enemies = World.AddRelationshipGroup("RPG_Enemies");
                       World.SetRelationshipBetweenGroups(Relationship.Neutral, playerGroup, enemies);
@@ -427,6 +442,19 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
         public Quest WithAutoComplete()
         {
             AutoComplete = true;
+            return this;
+        }
+
+        public Quest WithCannotBeCancelled()
+        {
+            Cancellable = false;
+            return this;
+        }
+
+        public Quest AddFinishBlip(Vector3 position)
+        {
+            CreateHandInBlip = true;
+            HandInBlipPosition = position;
             return this;
         }
     }

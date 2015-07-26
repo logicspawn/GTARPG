@@ -25,6 +25,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
                            Response("Listen... I'm done with the assignments.", 2).WithCondition(ResponseCondition.QuestConditionsDone("Welcome to GTA:RPG")),
                            Response("Apex told me to speak with you.", 99).WithCondition(ResponseCondition.QuestConditionsDone("The Grind Begins")),
                            Response("I want to prove myself.", 5).WithConditions(ResponseCondition.QuestComplete("The Grind Begins"), ResponseCondition.QuestNotInProgressOrDone("Potential")),
+                           Response("I'm ready for those assassins", ResponseAction.Start_Quest, "An Assassin's Greed").WithConditions(ResponseCondition.QuestComplete("Trouble in the Cap"), ResponseCondition.QuestNotInProgressOrDone("An Assassin's Greed")),
                            Response("Later Homie", ResponseAction.End),
                            Response("You sellin'?", ResponseAction.Vendor))
                 .Add(0, "Nothing is impossible. Don't let your dreams be dreams. JUST DO IT.",
@@ -53,10 +54,11 @@ namespace LogicSpawn.GTARPG.Core.Repository
                      Response("I'll handle it.", 10))
                 .Add(9, "Fine. Just make sure you take out the other gang members on your way. That sound alright?",
                      Response("Oh I'm sorry, I thought you just meant they were beefin'", 8))
-                .Add(10, "Right, you'll find him on the map, he's one of the SMG symbols. You know how to use your map right?",
+                .Add(10, "Right, he's the SMG symbol. You know how to use your map right?",
                      Response("Damn straight man, I'll head there now", ResponseAction.Start_Quest, "Potential"));
 
             var npc2 = new NpcObject("King B", PedHash.JanitorSMM, new Vector3(-65f, -1202f, 27f), 135f);
+            npc2.SetBlip(BlipSprite.AssaultRifle);
             npc2.SetDialog("What's good my man?",
                                 Response("Later Homie", ResponseAction.End),
                                 Response("Who are you?", 0),
@@ -71,6 +73,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
                     Response("Alright homie, should of said.", ResponseAction.Vendor));
 
             var npc3 = new NpcObject("John Doe", PedHash.PoloGoon01GMY, new Vector3(-67f, -1208f, 28f), 312f);
+            npc3.SetBlip(BlipSprite.SMG);
             npc3.SetDialog("Yes? Keep it simple please.",
                            Response("Matthew sent me to get a package.", 1).WithCondition(ResponseCondition.QuestInProgress("Potential")),
                            Response("You need some help?", 8).WithConditions(ResponseCondition.QuestComplete("Potential"), ResponseCondition.QuestNotInProgressOrDone("Trouble in the Cap")),
@@ -141,6 +144,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
                      Response("This better be worth it.", ResponseAction.Start_Quest, "Doe!"));
 
             var npc4 = new NpcObject("Alicia", PedHash.Misty01, new Vector3(-53f, -1216f, 28f), 56f);
+            npc4.SetBlip(BlipSprite.Sniper);
             npc4.SetDialog("You can stand there and look at me or speak up. Just don't waste my time.",
                            Response("What do you do around here?", 1),
                            Response("Apex sounded pissed, what's going on?", 3).WithConditions(ResponseCondition.QuestComplete("An Assassin's Greed"), ResponseCondition.QuestNotInProgressOrDone("Smash the CraftSquad")),
@@ -160,7 +164,8 @@ namespace LogicSpawn.GTARPG.Core.Repository
                 .Add(5, "We need to end CraftSquad. Take out as many of them as you can. Do this, and you'll have Apex's attention.",
                      Response("Consider it done.", ResponseAction.Start_Quest, "Smash the CraftSquad"));
 
-            var npc5 = new NpcObject("Jackson", PedHash.Clay, new Vector3(-567, -1071, 22), 162f);
+            var npc5 = new NpcObject("Jackson", PedHash.Clay, new Vector3(-567, -1072, 22), 162f);
+            npc5.SetBlip(BlipSprite.RPG);
             npc5.SetDialog("What's up man?",
                            Response("I've got the package right here, and the thugs are out of the picture", 0).WithCondition(ResponseCondition.QuestConditionsDone("Potential")),
                            Response("The Golden Doe has landed, or some shit", 8).WithCondition(ResponseCondition.QuestConditionsDone("Doe!")),

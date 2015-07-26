@@ -23,7 +23,9 @@ namespace LogicSpawn.GTARPG.Core.Repository
 
                 //Starting Quest
                 Quests.Add(new Quest("Welcome to GTA:RPG", "Show me you've got what it takes.", false, false, 10, 500)
+                               .AddFinishBlip(new Vector3(-8.9106f, -1090.779f, 26.6720f))
                                .AddCondiiton(QuestCondition.Custom("Complete the tutorial", "Tutorial", () => RPG.PlayerData.Tutorial.TutorialDoneExceptSpeak))
+                               .WithCannotBeCancelled()
                                .WithOnStart(q => EventHandler.Do(o =>
                                {
                                    RPG.Subtitle("???: Welcome. Welcome. So you wanna make bank yeah?", 5000);
@@ -40,6 +42,8 @@ namespace LogicSpawn.GTARPG.Core.Repository
                 );
                 Quests.Add(new Quest("The Grind Begins", "Complete a contract and return to Matthew.", false, false, 15, 600)
                                .AddCondiiton(QuestCondition.Custom("Contract completed","q_Start_contract", ()=> RPG.PlayerData.CompletedContracts > 0))
+                               .AddFinishBlip(new Vector3(-8.9106f, -1090.779f, 26.6720f))
+                               .WithCannotBeCancelled()
                                .WithOnStart(q => EventHandler.Do(o =>
                                                                       {
                                                                           RPG.Subtitle("???: I am Apex, the top of the food chain, leader of the Apexers. The one you want to impress.", 5000);EventHandler.Wait(5000);
@@ -49,11 +53,13 @@ namespace LogicSpawn.GTARPG.Core.Repository
                                                                       }))
                 );
                 Quests.Add(new Quest("Potential", "Apex and co. are impressed by your abilities. Pass their test and prove you're truly good.", false, false, 25, 800)
+                               .AddFinishBlip(new Vector3(-567, -1072, 22))           
                                .AddCondiiton(QuestCondition.Acquire("Acquire the package", "Boxed Package",1))
                                .AddCondiiton(QuestCondition.Kill("Eliminate threats",5,new Vector3(-302,-1136,23),PedHash.Genstreet01AMO, PedHash.Genstreet01AMY)).WithSpawnedTargets()
                                .AddReward(QuestReward.Item("Bandages", 2), QuestReward.Item("Simple Protective Gear", 3))
                 );
                 Quests.Add(new Quest("Trouble in the Cap", "Help John Doe get some money so he can get some snacks.", false, false, 10, 800)
+                               .AddFinishBlip(new Vector3(-67f, -1208f, 28f))           
                                .AddCondiiton(QuestCondition.LootAnyPed("Wallets Stolen","Men's Wallet","prop_ld_wallet_02",80,5))
                                .AddCondiiton(QuestCondition.LootAnyPed("Purses Stolen","Woman's Purse","prop_ld_purse_01",80,5))
                                .AddReward(QuestReward.Item("Bandages", 2), QuestReward.Item("Simple Protective Gear", 3))
@@ -71,7 +77,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
                                    RPG.Subtitle("Apex: Do you know what you have done? You've just killed one of our undercover agents inside CraftsSquad.", 5000); EventHandler.Wait(5000);
                                    RPG.Subtitle("Apex: Be happy you were just following orders, John will get the real smack for this.", 5000); EventHandler.Wait(5000);
                                    RPG.Subtitle("Apex: In the mean time you better sort out the armada that's converging on your position.", 5000); EventHandler.Wait(5000);
-                                   RPG.Subtitle("Apex: You better talk to Alicia.", 5000); EventHandler.Wait(8000);
+                                   RPG.Subtitle("Apex: You better talk to Alicia. Look for the Sniper on your map.", 5000); EventHandler.Wait(8000);
                                    RPG.Subtitle("Apex: Now.", 5000);
                                }))
                                .WithAutoComplete()
@@ -79,6 +85,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
                 
                 //-- John 'side-quest'
                 Quests.Add(new Quest("Doe!", "Accept John's apology.", false, false, 25, 800)
+                               .AddFinishBlip(new Vector3(-567, -1072, 22))           
                                .AddCondiiton(QuestCondition.Custom("Get to Jackson", "q_Reach_Jackson", () => Game.Player.Character.Position.DistanceTo(new Vector3(-567, -1071, 22)) < 5))
                                .AddReward(QuestReward.Item("Adv Health Kit", 5), QuestReward.Item("Adv Armor Kit", 5))
                 );
