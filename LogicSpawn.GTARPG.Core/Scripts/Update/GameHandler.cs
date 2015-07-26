@@ -32,7 +32,7 @@ namespace LogicSpawn.GTARPG.Core
 
         public List<int> KilledPeds = new List<int>();
         public List<int> KilledVecs = new List<int>();
-        public bool CreatedNpcBlips;
+        public bool InitiateNpcs;
 
         public GameHandler()
         {
@@ -80,15 +80,19 @@ namespace LogicSpawn.GTARPG.Core
                 Function.Call(Hash.SET_SUPER_JUMP_THIS_FRAME, Game.Player.Handle);
             }
 
-            if(!CreatedNpcBlips)
+            if(!InitiateNpcs)
             {
+                NpcDatas.AddRange(NpcRepository.Npcs);
+
                 foreach (var npc in NpcDatas)
                 {
+                    npc.Spawned = false;
+
                     var blip = World.CreateBlip(npc.Position);
                     blip.Sprite = npc.BlipSprite;
                     WorldData.Blips.Add(new BlipObject("Blip_" + npc.Name, blip));
                 }
-                CreatedNpcBlips = true;
+                InitiateNpcs = true;
             }
 
             if(!PlayerData.Tutorial.BoughtAmmoFromShop && PlayerData.Tutorial.PressJToOpenMenu)
@@ -435,6 +439,7 @@ namespace LogicSpawn.GTARPG.Core
             foreach(var npc in NpcDatas)
             {
                 var dist = npc.Position.DistanceTo(Game.Player.Character.Position);
+
                 if (dist < 20)
                 {
                     var pos = npc.Ped != null ? npc.Ped.Position : npc.Position;
@@ -445,8 +450,6 @@ namespace LogicSpawn.GTARPG.Core
                     var x = xArg.GetResult<float>();
                     var y = yArg.GetResult<float>();
 
-
-                
                     new UIRectangle(new Point((int)(UI.WIDTH * x) - 50, (int)(UI.HEIGHT * y) + 12), new Size(100, 2), Color.DodgerBlue).Draw();
                     new UIText(npc.Name, new Point((int)(UI.WIDTH * x), (int)(UI.HEIGHT * y)), 0.21f, Color.White, 0, true).Draw();
                 }
@@ -456,7 +459,7 @@ namespace LogicSpawn.GTARPG.Core
                     //RPGLog.Log("Found unspawned NPC");
                     if (dist < 100)
                     {
-                        //RPGLog.Log("Spawning NPC");
+                        RPGLog.Log("Spawning NPC");
                         var model = new Model(npc.ModelName);
                         model.Request(1000);
                         var ped = World.CreatePed(model, npc.Position, npc.Heading);
@@ -465,6 +468,11 @@ namespace LogicSpawn.GTARPG.Core
                         {
                             ped.RelationshipGroup = Game.Player.Character.RelationshipGroup;
                             ped.IsInvincible = true;
+                            EventHandler.Do(o =>
+                                                {
+                                                    EventHandler.Wait(1000);
+                                                    ped.FreezePosition = true;
+                                                });
                             Function.Call(Hash.SET_PED_DEFAULT_COMPONENT_VARIATION, ped.Handle);
                             Function.Call(Hash.SET_PED_CAN_BE_TARGETTED, ped.Handle, false);
                             Function.Call(Hash.SET_PED_CAN_BE_TARGETTED_BY_PLAYER, ped.Handle, false);
@@ -477,7 +485,6 @@ namespace LogicSpawn.GTARPG.Core
                         npc.Spawned = true;
                     }
                 }
-                
             }
         }
 
