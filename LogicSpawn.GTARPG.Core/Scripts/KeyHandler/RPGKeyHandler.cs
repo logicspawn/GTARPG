@@ -141,7 +141,7 @@ namespace LogicSpawn.GTARPG.Core
                 {
                     tut.Hide();
                     EventHandler.Wait(300);
-                    tut.Pop("Get to Matthew marked by the marijuana symbol and finish the tutorial quest.", "Drive to Matthew and press E to speak with him.");
+                    tut.Pop("Quest hand in NPCs are marked in by the dollar sign on the map.", "Drive to Matthew ($) and press E to speak with him and finish your quest.");
                 });
             } 
             RPGMethods.SpawnCar(); 
@@ -189,6 +189,8 @@ namespace LogicSpawn.GTARPG.Core
                     if (npcObject.Name == "Matthew" && RPG.PlayerData.Tutorial.PressJToOpenMenu && RPG.PlayerData.Tutorial.BoughtAmmoFromShop && RPG.PlayerData.Tutorial.GetAKill && RPG.PlayerData.Tutorial.UnlockSkillWithSp && RPG.PlayerData.Tutorial.UsingSkills && RPG.PlayerData.Tutorial.SpawnVehicle)
                     {
                         var tut = RPG.GetPopup<TutorialBox>();
+                        RPG.PlayerData.Tutorial.TutorialDoneExceptSpeak = true;
+                        RPG.PlayerData.Tutorial.SpokeToNpc = true;
                         EventHandler.Do(o =>
                         {
                             tut.Hide();
