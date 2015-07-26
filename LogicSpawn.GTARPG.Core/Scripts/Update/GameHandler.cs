@@ -80,6 +80,11 @@ namespace LogicSpawn.GTARPG.Core
                 Function.Call(Hash.SET_SUPER_JUMP_THIS_FRAME, Game.Player.Handle);
             }
 
+            if (RPG.GameMode == GameMode.FullRPG)
+            {
+                Function.Call(Hash.DESTROY_MOBILE_PHONE);
+            }
+
             if(!InitiateNpcs)
             {
                 NpcDatas.AddRange(NpcRepository.Npcs);
@@ -98,7 +103,7 @@ namespace LogicSpawn.GTARPG.Core
             if(!PlayerData.Tutorial.BoughtAmmoFromShop && PlayerData.Tutorial.PressJToOpenMenu)
             {
                 var tut = RPG.GetPopup<TutorialBox>();
-                var ammo = PlayerData.Inventory.FirstOrDefault(i => i.Name == "Ammo Pack I");
+                var ammo = PlayerData.Inventory.FirstOrDefault(i => i.Name.Contains("Ammo"));
                 if(ammo != null)
                 {
                     PlayerData.Tutorial.BoughtAmmoFromShop = true;
@@ -499,6 +504,8 @@ namespace LogicSpawn.GTARPG.Core
             }
 
             RPG.Audio.DisposeAll();
+            Function.Call(Hash.DESTROY_MOBILE_PHONE);    
+            Function.Call(Hash.CREATE_MOBILE_PHONE,0);    
 
             int objDestroyed = 0;
             var count = RPG.WorldData.AllObjects.Count;

@@ -20,6 +20,7 @@ namespace LogicSpawn.GTARPG.Core
         public const string Version = "0.1.4";
 
         public static bool Loading;
+        public static bool UsingController;
         public static bool GameLoaded;
         public static bool PlayerDead;
         public static bool CutsceneRunning;

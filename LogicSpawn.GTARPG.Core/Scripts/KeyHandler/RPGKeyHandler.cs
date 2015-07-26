@@ -3,20 +3,123 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using GTA;
+using GTA.Math;
 using GTA.Native;
 using LogicSpawn.GTARPG.Core.AbilityTrees;
 using LogicSpawn.GTARPG.Core.General;
 using LogicSpawn.GTARPG.Core.Objects;
 using LogicSpawn.GTARPG.Core.Scripts.Popups;
+using Control = GTA.Control;
 
 namespace LogicSpawn.GTARPG.Core
 {
     public class RPGKeyHandler : KeyHandlerScript
     {
+        private int holdTime = 0;
         private PlayerData PlayerData
         {
             get { return RPG.PlayerData; }
         }
+
+        public RPGKeyHandler()
+        {
+            Tick += ControllerSupport;
+        }
+
+        private void ControllerSupport(object sender, EventArgs e)
+        {
+            //Controller Support
+            var up = Game.IsControlJustPressed(0, Control.ScriptPadUp);
+            var down = Game.IsControlJustPressed(0, Control.ScriptPadDown);
+            var left = Game.IsControlJustPressed(0, Control.ScriptPadLeft);
+            var right = Game.IsControlJustPressed(0, Control.ScriptPadRight);
+            var back = Game.IsControlJustPressed(0, Control.Reload);
+            var special = Game.IsControlJustPressed(0, Control.SpecialAbility);
+
+            var interactPressed = Game.IsControlPressed(0, Control.Sprint);
+            if (interactPressed && Game.Player.Character.Velocity == Vector3.Zero)
+            {
+                holdTime += 1;
+            }
+            else
+            {
+                holdTime = 0;
+            }
+
+            var skillMod = Game.IsControlPressed(0, Control.Jump);
+            var hotkeyMod = Game.IsControlPressed(0, Control.Reload);
+            
+            if (special)
+            {
+                UseSkillCaps();
+            } 
+
+            if (skillMod)
+            {
+                if (up)
+                {
+                    UseSkillT();
+                }
+                if (right)
+                {
+                    UseSkillY();
+                }
+                if (down)
+                {
+                    UseSkillU();
+                }
+                if (left)
+                {
+                    UseSkillB();
+                }
+            }
+
+            if (hotkeyMod)
+            {
+                if (up)
+                {
+                    ShowCharacterMenu();
+                }
+                if (left)
+                {
+                    ShowMenu();
+                }
+                if (down)
+                {
+                    SpawnCar();
+                }
+                if (right)
+                {
+                    ShowInventory();
+                } 
+            }
+
+            if (!skillMod && !hotkeyMod)
+            {
+                if (back)
+                {
+                    CloseViewMenu();
+                }
+            }
+
+            if (holdTime > 30)
+            {
+                Interact();
+                holdTime = -30;
+            }
+
+            //ControllerToggle
+            if(up || down || left || right)
+            {
+                RPG.UsingController = true;
+            }
+
+            if(Game.IsKeyPressed(Keys.W) ||Game.IsKeyPressed(Keys.A)||Game.IsKeyPressed(Keys.S)||Game.IsKeyPressed(Keys.D))
+            {
+                RPG.UsingController = false;
+            }
+        }
+
 
         protected override void Init()
         {

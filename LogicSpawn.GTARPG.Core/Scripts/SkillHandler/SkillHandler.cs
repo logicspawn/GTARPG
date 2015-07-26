@@ -55,7 +55,7 @@ namespace LogicSpawn.GTARPG.Core
                 skillBarUI.Items.Add(new UIRectangle(new Point(5, 5), new Size((int)(65 * Slots[0].CooldownRatio), 18), Color.FromArgb(120, 85, 85, 85)));
             }
             skillBarUI.Items.Add(new UIText(Slots[0].GetText(), new Point(35, 8), 0.18f, Slots[0].Usable ? Color.White : Color.DarkGray, 0, true));
-            skillBarUI.Items.Add(new UIText("[" + Slots[0].Key + "]", new Point(32, 23), 0.16f, Color.White, 0, true));
+            skillBarUI.Items.Add(new UIText("[" + (RPG.UsingController ? "(Up)" : Slots[0].Key.ToString()) + "]", new Point(32, 23), 0.16f, Color.White, 0, true));
 
             skillBarUI.Items.Add(new UIRectangle(new Point(75, 5), new Size(64, 18), Slots[1].Usable ? Color.FromArgb(120, 85, 85, 85) : Color.FromArgb(50, 8, 8, 8)));
             if (!Slots[1].IsEmpty && !Slots[1].Usable && Slots[1].CooldownRatio < 1)
@@ -63,7 +63,7 @@ namespace LogicSpawn.GTARPG.Core
                 skillBarUI.Items.Add(new UIRectangle(new Point(75, 5), new Size((int)(65 * Slots[1].CooldownRatio), 18), Color.FromArgb(120, 85, 85, 85)));
             }
             skillBarUI.Items.Add(new UIText(Slots[1].GetText(), new Point(107, 8), 0.18f, Slots[1].Usable ? Color.White : Color.DarkGray, 0, true));
-            skillBarUI.Items.Add(new UIText("[" + Slots[1].Key + "]", new Point(105, 23), 0.16f, Color.White, 0, true));
+            skillBarUI.Items.Add(new UIText("[" + (RPG.UsingController ? "(Right)" : Slots[1].Key.ToString()) + "]", new Point(105, 23), 0.16f, Color.White, 0, true));
 
             if(RPG.GameMode == GameMode.FullRPG)
             {
@@ -73,7 +73,7 @@ namespace LogicSpawn.GTARPG.Core
                     skillBarUI.Items.Add(new UIRectangle(new Point(145, 5), new Size((int)(65 * Slots[2].CooldownRatio), 18), Color.FromArgb(120, 85, 85, 85)));
                 }
                 skillBarUI.Items.Add(new UIText(Slots[2].GetText(), new Point(177, 8), 0.18f, Slots[2].Usable ? Color.White : Color.DarkGray, 0, true));
-                skillBarUI.Items.Add(new UIText("[CapsLock]", new Point(175, 23), 0.16f, Color.White, 0, true));
+                skillBarUI.Items.Add(new UIText((RPG.UsingController ? "(Special)" : "[CapsLock]"), new Point(175, 23), 0.16f, Color.White, 0, true));
             }
             else
             {
@@ -83,7 +83,7 @@ namespace LogicSpawn.GTARPG.Core
                     skillBarUI.Items.Add(new UIRectangle(new Point(145, 5), new Size(65, 18), Color.FromArgb(120, 85, 85, 85)));
                 }
                 skillBarUI.Items.Add(new UIText("Class Skill", new Point(177, 8), 0.18f, Slots[2].Usable ? Color.White : Color.DarkGray, 0, true));
-                skillBarUI.Items.Add(new UIText("[CapsLock]", new Point(175, 23), 0.16f, Color.White, 0, true));
+                skillBarUI.Items.Add(new UIText((RPG.UsingController ? "(Special)" : "[CapsLock]"), new Point(175, 23), 0.16f, Color.White, 0, true));
             }
 
 
@@ -94,7 +94,7 @@ namespace LogicSpawn.GTARPG.Core
                 skillBarUI.Items.Add(new UIRectangle(new Point(215, 5), new Size((int)(65 * Slots[3].CooldownRatio), 18), Color.FromArgb(120, 85, 85, 85)));
             }
             skillBarUI.Items.Add(new UIText(Slots[3].GetText(), new Point(247, 8), 0.18f, Slots[3].Usable ? Color.White : Color.DarkGray, 0, true));
-            skillBarUI.Items.Add(new UIText("[" + Slots[3].Key + "]", new Point(245, 23), 0.16f, Color.White, 0, true));
+            skillBarUI.Items.Add(new UIText("[" + (RPG.UsingController ? "(Down)" : Slots[3].Key.ToString()) + "]", new Point(245, 23), 0.16f, Color.White, 0, true));
 
             skillBarUI.Items.Add(new UIRectangle(new Point(285, 5), new Size(64, 18), Slots[4].Usable ? Color.FromArgb(120, 85, 85, 85) : Color.FromArgb(50, 8, 8, 8)));
             if (!Slots[4].IsEmpty && !Slots[4].Usable && Slots[4].CooldownRatio < 1)
@@ -102,7 +102,7 @@ namespace LogicSpawn.GTARPG.Core
                 skillBarUI.Items.Add(new UIRectangle(new Point(285, 5), new Size((int)(65 * Slots[4].CooldownRatio), 18), Color.FromArgb(120, 85, 85, 85)));
             }
             skillBarUI.Items.Add(new UIText(Slots[4].GetText(), new Point(317, 8), 0.18f, Slots[4].Usable ? Color.White : Color.DarkGray, 0, true));
-            skillBarUI.Items.Add(new UIText("[" + Slots[4].Key + "]", new Point(315, 23), 0.16f, Color.White, 0, true));
+            skillBarUI.Items.Add(new UIText("[" + (RPG.UsingController ? "(Left)" : Slots[3].Key.ToString()) + "]", new Point(315, 23), 0.16f, Color.White, 0, true));
 
             return skillBarUI;
         }

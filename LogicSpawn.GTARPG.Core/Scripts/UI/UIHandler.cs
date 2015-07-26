@@ -13,6 +13,7 @@ using GTA.Native;
 using LogicSpawn.GTARPG.Core.General;
 using LogicSpawn.GTARPG.Core.Objects;
 using LogicSpawn.GTARPG.Core.Repository;
+using Control = GTA.Control;
 using Font = GTA.Font;
 using Menu = GTA.Menu;
 using Notification = LogicSpawn.GTARPG.Core.Objects.Notification;
@@ -63,6 +64,7 @@ namespace LogicSpawn.GTARPG.Core
         public UIHandler()
         {
             RPG.UIHandler = this;
+            KeyDown += OnKeyDown;
             //Use some fancy transitions
             View.MenuTransitions = true;
             View.PopMenu();
@@ -118,6 +120,11 @@ namespace LogicSpawn.GTARPG.Core
             RPGUI.FormatMenu(ActionsMenu);
             RPGUI.FormatMenu(MainMenu);
             RPGUI.FormatMenu(CharacterMenu);
+        }
+
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            
         }
 
         private void ChangeSafeArea(double obj)
@@ -216,7 +223,8 @@ namespace LogicSpawn.GTARPG.Core
                 else if (ShowUI)
                 {
                     var interactUI = new UIContainer(new Point(UI.WIDTH / 2 - 120, UI.HEIGHT - 100), new Size(240, 17), Color.FromArgb(70, 70, 200, 70));
-                    interactUI.Items.Add(new UIText("Press E To Loot " + nearbyLoot.Name, new Point(240 / 2, 1), 0.25f, Color.White, 0, true));
+                    var lootStr = RPG.UsingController ? "Hold (A) To Loot " : "Press E To Loot ";
+                    interactUI.Items.Add(new UIText(lootStr + nearbyLoot.Name, new Point(240 / 2, 1), 0.25f, Color.White, 0, true));
                     interactUI.Draw();
                     showingLoot = true;
                 }
@@ -227,6 +235,62 @@ namespace LogicSpawn.GTARPG.Core
             {
                 World.RenderingCamera = NpcCamera;
                 OpenDialog();
+            }
+
+            //Controller Support
+            var up = Game.IsControlJustPressed(0, Control.ScriptPadUp);
+            var down = Game.IsControlJustPressed(0, Control.ScriptPadDown);
+            var left = Game.IsControlJustPressed(0, Control.ScriptPadLeft);
+            var right = Game.IsControlJustPressed(0, Control.ScriptPadRight);
+            var back = Game.IsControlJustPressed(0, Control.Reload);
+            var interact = Game.IsControlJustPressed(0, Control.Sprint);
+
+            var skillMod = Game.IsControlPressed(0, Control.Jump);
+            var hotkeyMod = Game.IsControlPressed(0, Control.Reload);
+
+            if (interact)
+            {
+                if (CurrentDialog != null)
+                    DialogMenu.OnActivate();
+                else
+                    View.HandleActivate();
+            }
+            if (back)
+            {
+                View.HandleBack();
+            }
+
+            if (!skillMod && !hotkeyMod)
+            {
+                if (left)
+                {
+                    if (CurrentDialog != null)
+                        DialogMenu.OnChangeItem(false);
+                    else
+                        View.HandleChangeItem(false);
+                }
+                if (right)
+                {
+                    if (CurrentDialog != null)
+                        DialogMenu.OnChangeItem(true);
+                    else
+                        View.HandleChangeItem(true);
+                }
+                if (up)
+                {
+                    if (CurrentDialog != null)
+                        DialogMenu.OnChangeSelection(false);
+                    else
+                        View.HandleChangeSelection(false);
+                }
+                if (down)
+                {
+                    if (CurrentDialog != null)
+                        DialogMenu.OnChangeSelection(true);
+                    else
+                        View.HandleChangeSelection(true);
+                }
+
             }
 
             if (!ShowUI || CurrentDialog != null) return;
@@ -241,7 +305,8 @@ namespace LogicSpawn.GTARPG.Core
                     if (npcObject != null)
                     {
                         var interactUI = new UIContainer(new Point(UI.WIDTH / 2 - 120, UI.HEIGHT - 122), new Size(240, 17), Color.FromArgb(70, 190, 190, 190));
-                        interactUI.Items.Add(new UIText("Press E to Interact with " + npcObject.Name, new Point(240 / 2, 1), 0.25f, Color.White, 0, true));
+                        var interactStr = RPG.UsingController ? "Hold (A) to Interact with " : "Press E to Interact with ";
+                        interactUI.Items.Add(new UIText(interactStr + npcObject.Name, new Point(240 / 2, 1), 0.25f, Color.White, 0, true));
                         interactUI.Draw();
                     }
                 }

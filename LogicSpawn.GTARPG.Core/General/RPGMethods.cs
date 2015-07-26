@@ -92,7 +92,7 @@ namespace LogicSpawn.GTARPG.Core.General
                     c.Delete();
                 }
             }
-
+            Function.Call(Hash.CREATE_MOBILE_PHONE,0);
             Model m = PedHash.Michael;
             m.Request(1000);
             Function.Call(Hash.SET_PLAYER_MODEL, Game.Player.Handle, m.Hash);
