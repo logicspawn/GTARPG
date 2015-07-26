@@ -154,7 +154,8 @@ namespace LogicSpawn.GTARPG.Core
             CharSelectMenu = new RPGMenu("Character Creation", new GTASprite("commonmenu","interaction_bgd",Color.DodgerBlue), new IMenuItem[] {
                         //new MenuButton("Next Character", NextModel),
                         //new MenuButton("Previous Character", "", PreviousModel),
-                        new MenuButton("Reroll Character", "").WithActivate(RandomModel),
+                        new MenuButton("Random Character", "").WithActivate(RandomModel),
+                        new MenuEnumScroller("Character Model","",AvailablePeds.Select(x => x.ToString()).ToArray()).WithEnumActions(SetCharModel,d=> { }), 
                         //new MenuButton("Try Out New Clothes", "", RandomiseLook),
                         //new MenuButton("Switch To Car Select", "", SwitchBetweenModelAndCar),
                         //new MenuButton("Choose Name", "", ChooseName),
@@ -164,7 +165,8 @@ namespace LogicSpawn.GTARPG.Core
             CarSelectMenu = new RPGMenu("Vehicle Selection", new GTASprite("commonmenu", "interaction_bgd", Color.Red), new IMenuItem[] {
                         //new MenuButton("Next Car", NextModel),
                         //new MenuButton("Previous Car", "", PreviousModel),
-                        new MenuButton("Reroll Vehicle", "").WithActivate(RandomModel),
+                        new MenuButton("Random Vehicle", "").WithActivate(RandomModel),
+                        new MenuEnumScroller("Vehicle","",AvailableCars.Select(x => x.ToString()).ToArray()).WithEnumActions(SetCarModel,d=> { }), 
                         //new MenuButton("Switch To Model Select", "", SwitchBetweenModelAndCar),
                         new MenuEnumScroller("Primary Color Group","",ColorGroups).WithEnumActions(SetPrimaryColorGroup,d=> { }), 
                         new MenuEnumScroller("Primary Color","",AvailableColors.Select(x => x.ToString()).ToArray()).WithEnumActions(SetColor,d=> { }), 
@@ -190,6 +192,19 @@ namespace LogicSpawn.GTARPG.Core
             FinaliseMenu.HeaderHeight = 25; 
         }
 
+        private void SetCarModel(int obj)
+        {
+            ClearPrevModel();
+            CurrentCarModel = obj;
+            CarSelectMenu.SelectedIndex = 1;
+        }
+        private void SetCharModel(int obj)
+        {
+            ClearPrevModel();
+            CurrentCharModel = obj;
+            CharSelectMenu.SelectedIndex = 1;
+        }
+
         private void ChangeSafeArea(double obj)
         {
             RPG.PlayerData.Setup.SafeArea = (int)obj;
@@ -198,10 +213,7 @@ namespace LogicSpawn.GTARPG.Core
 
         private void OnKeyDown(object sender, KeyEventArgs keyEventArgs)
         {
-            if (Enabled && keyEventArgs.KeyCode == Keys.Back)
-            {
-                HandleBack();
-            }
+
         }
 
         private void SetSecondaryColorGroup(int obj)
@@ -305,7 +317,12 @@ namespace LogicSpawn.GTARPG.Core
             if(State == CharCreationState.Character)
                 CurrentCharModel = Random.Range(0, AvailablePeds.Length);
             else
+            {
                 CurrentCarModel = Random.Range(0, AvailableCars.Length);
+                var c = (MenuEnumScroller)CarSelectMenu.Items.First(i => i.Caption == "Vehicle");
+                c.Index = CurrentCarModel;
+            }
+                
         }
 
         private void FinishCreation()
@@ -334,7 +351,7 @@ namespace LogicSpawn.GTARPG.Core
         private void ChooseName()
         {
             RPGInfo.KeyboardActive = true;
-            Script.Wait(0);
+            Script.Wait(1);
             String test = Game.GetUserInput(15); //new code
             RPGInfo.KeyboardActive = false;
             PlayerName = test;
@@ -343,6 +360,7 @@ namespace LogicSpawn.GTARPG.Core
         private void ChooseNumberPlate()
         {
             RPGInfo.KeyboardActive = true;
+            Script.Wait(1);
             String test = Game.GetUserInput(9); //new code
             RPGInfo.KeyboardActive = false;
             CarPlate = test;
@@ -459,7 +477,7 @@ namespace LogicSpawn.GTARPG.Core
             Camera = World.CreateCamera(_camPosition, new Vector3(0,0,30), GameplayCamera.FieldOfView);
             Camera.MotionBlurStrength = 0.4f;
             World.RenderingCamera = Camera;
-            RPG.GameHandler.CreatedNpcBlips = false;
+            RPG.GameHandler.InitiateNpcs = false;
             Initialised = true;
 
         }
@@ -685,10 +703,18 @@ namespace LogicSpawn.GTARPG.Core
             if(obj == 0)
             {
                 Gender = Gender.Male;
+                CharSelectMenu = new RPGMenu("Character Creation", new GTASprite("commonmenu", "interaction_bgd", Color.DodgerBlue), new IMenuItem[] {
+                        new MenuEnumScroller("Character Model","",AvailablePeds.Select(x => x.ToString()).ToArray()).WithEnumActions(SetCharModel,d=> { }), 
+                        new MenuButton("Continue", "").WithActivate(() => { View.PopMenu(); State = CharCreationState.Car;})
+                });
             }
             else
             {
                 Gender = Gender.Female;
+                CharSelectMenu = new RPGMenu("Character Creation", new GTASprite("commonmenu", "interaction_bgd", Color.DodgerBlue), new IMenuItem[] {
+                        new MenuEnumScroller("Character Model","",AvailablePeds.Select(x => x.ToString()).ToArray()).WithEnumActions(SetCharModel,d=> { }), 
+                        new MenuButton("Continue", "").WithActivate(() => { View.PopMenu(); State = CharCreationState.Car;})
+                });
             }
 
             State = CharCreationState.Character;
@@ -977,7 +1003,8 @@ namespace LogicSpawn.GTARPG.Core
                     //Add scrollers for each variation
                     var items = new List<IMenuItem>()
                                     {
-                                        new MenuButton("Reroll Character", "").WithActivate(RandomModel),
+                                        new MenuButton("Random Character", "").WithActivate(RandomModel),
+                                        new MenuEnumScroller("Character Model","",AvailablePeds.Select(x => x.ToString()).ToArray(),CurrentCharModel).WithEnumActions(SetCharModel,d=> { }),
                                         new MenuLabel("", true)
                                     };
 
@@ -1002,6 +1029,7 @@ namespace LogicSpawn.GTARPG.Core
                     CharSelectMenu = new RPGMenu("Character Creation", new GTASprite("commonmenu", "interaction_bgd", Color.DodgerBlue), items.ToArray());
                     RPGUI.FormatMenu(CharSelectMenu);
                     View.AddMenu(CharSelectMenu);
+                    CharSelectMenu.SelectedIndex = 1;
                     Function.Call(Hash.SET_PED_DEFAULT_COMPONENT_VARIATION, CharacterModel.Handle);
                     Camera.Position = _camPosition;
                     Camera.PointAt(CharacterModel.Position + CharacterModel.UpVector - new Vector3(0,0,0.2f));

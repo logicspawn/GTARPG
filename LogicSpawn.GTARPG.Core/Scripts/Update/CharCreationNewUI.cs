@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Linq;
+using System.Windows.Forms;
 using GTA;
 using LogicSpawn.GTARPG.Core.Objects;
 using LogicSpawn.GTARPG.Core.Scripts.Popups;
@@ -11,6 +12,19 @@ namespace LogicSpawn.GTARPG.Core
     public class CharCreationNewUI : UpdateScript
     {
         protected override bool RunWhenGameIsNotLoaded { get { return true; } }
+
+        public CharCreationNewUI()
+        {
+            KeyDown += OnKeyDown;
+        }
+
+        private void OnKeyDown(object sender, KeyEventArgs keyEventArgs)
+        {
+            if (CharCreationNew.Enabled && keyEventArgs.KeyCode == Keys.Back)
+            {
+                CharCreationNew.Instance.HandleBack();
+            }
+        }
 
         public override void Update()
         {
