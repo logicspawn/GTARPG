@@ -379,7 +379,7 @@ namespace LogicSpawn.GTARPG.Core
         public void UpdateDialog(int selected = 0)
         {
             var dialogList = new List<IMenuItem>();
-
+            if(CurrentDialog == null) return;
             var dialogs = CurrentDialog.Current.Responses.Where( r => r.ConditionsMet).ToList();
 
             for (int i = 0; i < dialogs.Count; i++)
@@ -714,7 +714,7 @@ namespace LogicSpawn.GTARPG.Core
 
             var selectedItem = quests[selected];
 
-            if(selectedItem.InProgress)
+            if(selectedItem.InProgress && selectedItem.Cancellable)
             {
                 var abandon = RPGMessageBox.Create("Would you like to abandon [" + selectedItem.Name + "] ?","Abandon Quest","Cancel", () => { selectedItem.Reset(); UpdateQuestLog(); }, () => { });
                 RPGUI.FormatMenu(abandon);
