@@ -143,7 +143,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
                 .Add(23, "Go to Jackson and tell him 'The Golden Doe has landed' he'll hook you up.",
                      Response("This better be worth it.", ResponseAction.Start_Quest, "Doe!"));
 
-            var npc4 = new NpcObject("Alicia", PedHash.Misty01, new Vector3(-53f, -1216f, 28f), 56f);
+            var npc4 = new NpcObject("Alicia", PedHash.Mistress, new Vector3(-53f, -1216f, 28f), 56f);
             npc4.SetBlip(BlipSprite.Sniper);
             npc4.SetDialog("You can stand there and look at me or speak up. Just don't waste my time.",
                            Response("What do you do around here?", 1),
