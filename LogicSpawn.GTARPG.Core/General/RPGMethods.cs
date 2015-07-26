@@ -101,6 +101,7 @@ namespace LogicSpawn.GTARPG.Core.General
             Model m = PedHash.Michael;
             m.Request(1000);
             Function.Call(Hash.SET_PLAYER_MODEL, Game.Player.Handle, m.Hash);
+            RPG.GameHandler.InitiateNpcs = false;
             RPG.GameLoaded = false;
             RPGInit.Enabled = true;
 
@@ -134,7 +135,7 @@ namespace LogicSpawn.GTARPG.Core.General
                 {
                     var wepDefinition = PlayerData.Weapons[i];
                     Game.Player.Character.Weapons.Give(wepDefinition.WeaponHash, 0, false, false);
-                    Script.Wait(500);
+                    Script.Wait(50);
                     Game.Player.Character.Weapons[wepDefinition.WeaponHash].Ammo = wepDefinition.AmmoCount;
                 }
                 Game.Player.Character.Weapons.Give(WeaponHash.Unarmed, 0, true, false);
