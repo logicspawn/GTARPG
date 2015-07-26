@@ -641,7 +641,6 @@ namespace LogicSpawn.GTARPG.Core
             _shownMotives = true;
             var mmmmmenu = new TiledMenu("Select Your Motive",
                            new TiledPanel("Rebel", new GTASprite("loadingscreen3", "foreground"), Color.DodgerBlue, SelectMotive, "You started from the bottom, and you're still there. You know that nothing's free in this world, and even working for it can be too much of hassle. Maybe you're doing this for the right reasons, but you know you have to fight for what you deserve.", ""), //Motivation Passive: Provides +25% Normal Experience
-                           new TiledPanel("Trio", new GTASprite("loadingscreen3", "foreground"), Color.DodgerBlue, SelectMotive, "Play as the original trio with RPG features added on top.", ""),
                            new TiledPanel("Lawless", new GTASprite("loadingscreen4", "foreground", Color.SteelBlue), Color.Red, SelectMotive, "You didn't choose this life, it chose you. And since the day that you knew life would always bite you in the ass, you made a vow. You're all about mayhem and destruction. You're going to watch this world burn.", "")); //Motivation Passive: Provides +25% Skill Experience
             View.AddMenu(mmmmmenu);
         }

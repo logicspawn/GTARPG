@@ -188,9 +188,9 @@ namespace LogicSpawn.GTARPG.Core.Repository
                     Response("Shit why not, we'll see if you've got the balls to shoot me.", 4))
                 .Add(7, "There's a problem with- You know what never mind man, go and speak to John Doe for a bit, he needs some help", 
                     Response("Alright man.", ResponseAction.End))
-                .Add(7, "Well there's only one thing that means.", 
-                    Response("And that is?", 8))
-                .Add(7, "Means I give you this, enjoy man.",
+                .Add(8, "Well there's only one thing that means.", 
+                    Response("And that is?", 9))
+                .Add(9, "Means I give you this, enjoy man.",
                     Response("[Accept John's Apology]", ResponseAction.Finish_Quest, "Doe!"));
 
             Npcs.Add(npc1);

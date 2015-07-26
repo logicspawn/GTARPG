@@ -147,6 +147,14 @@ namespace LogicSpawn.GTARPG.Core
             RegisterKeyUp(Keys.F4, CloseViewMenu);
 
             RegisterKeyUp(Keys.NumPad0, EndDialogFix);
+
+            RegisterKeyUp(Keys.Up, () => RPG.UIHandler.View.HandleChangeSelection(false));
+            RegisterKeyUp(Keys.Down, () => RPG.UIHandler.View.HandleChangeSelection(true));
+            RegisterKeyUp(Keys.Left, () => RPG.UIHandler.View.HandleChangeItem(false));
+            RegisterKeyUp(Keys.Right, () => RPG.UIHandler.View.HandleChangeSelection(true));
+            RegisterKeyUp(Keys.Enter, () => RPG.UIHandler.View.HandleActivate());
+
+
         }
 
         private void EndDialogFix()
