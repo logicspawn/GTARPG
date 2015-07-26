@@ -17,7 +17,7 @@ namespace LogicSpawn.GTARPG.Core
 {
     public class PlayerData
     {
-        public string Version = "0.1";
+        public string Version = RPG.Version;
         public string Name;
         public int Exp;
         public int SkillExp;

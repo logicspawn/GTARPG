@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameData\VersionMigration.cs" />
     <Compile Include="General\GM.cs" />
     <Compile Include="General\MathMethods.cs" />
     <Compile Include="General\RPGMethods.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Scripts\SkillHandler\SkillHandler.cs" />
     <Compile Include="Scripts\SkillHandler\SkillSlot.cs" />
     <Compile Include="Scripts\Update\CoolDownManager.cs" />
+    <Compile Include="Scripts\Update\LoadingUI.cs" />
     <Compile Include="Scripts\Update\RPGInfo.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="TestForm.cs" />
