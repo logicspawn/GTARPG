@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using GTA;
 using GTA.Native;
+using LogicSpawn.GTARPG.Core.GameData;
 using LogicSpawn.GTARPG.Core.General;
 using LogicSpawn.GTARPG.Core.Objects;
 using LogicSpawn.GTARPG.Core.Scripts.Popups;
@@ -16,8 +17,9 @@ namespace LogicSpawn.GTARPG.Core
 {
     public static class RPG
     {
-        public const string Version = "0.1";
+        public const string Version = "0.1.4";
 
+        public static bool Loading;
         public static bool GameLoaded;
         public static bool PlayerDead;
         public static bool CutsceneRunning;
@@ -73,10 +75,11 @@ namespace LogicSpawn.GTARPG.Core
         public static void Initialise()
         {
             RPGLog.Log("Initialising RPG Mod.");
+            Loading = true;
+            Script.Wait(1);
 
 
-
-            Game.FadeScreenOut(500);
+            //Game.FadeScreenOut(500);
             Script.Wait(500);
 
             Function.Call(Hash.DISPLAY_HUD, 1);
@@ -98,6 +101,7 @@ namespace LogicSpawn.GTARPG.Core
                 RPGLog.Log("Failed to load game successfully.");
                 UI.Notify("Failed loading RPGMod.");
                 Game.FadeScreenIn(500);
+                Loading = false;
                 return;
             }
 
@@ -113,11 +117,13 @@ namespace LogicSpawn.GTARPG.Core
                 GameLoaded = true;    
             }
 
-            Game.FadeScreenIn(500);
+            //Game.FadeScreenIn(500);
+            Loading = false;
         }
 
         public static void InitCharacter(bool spawnCar = true)
         {
+            LoadTutorial();
 
             //Settings
             RPGLog.Log("Setting model:");
@@ -178,6 +184,46 @@ namespace LogicSpawn.GTARPG.Core
             }
         }
 
+        private static void LoadTutorial()
+        {
+            if(!PlayerData.Tutorial.PressJToOpenMenu)
+            {
+                GetPopup<TutorialBox>().Show("A new quest has been started and added to your tracker.", "Press J to open up your menu.");
+            }
+            else if(!PlayerData.Tutorial.BoughtAmmoFromShop)
+            {
+                GetPopup<TutorialBox>().Pop("Through here you can find everything you need.", "Select Actions > Purchase Goods > Ammo Pack I to purchase an ammo pack.");
+            }
+            else if(!PlayerData.Tutorial.GetAKill)
+            {
+                GetPopup<TutorialBox>().Pop("Getting kills, completing missions are just two ways to earn XP and Skill Points", "Get a kill.");
+
+            }
+            else if(!PlayerData.Tutorial.UnlockSkillWithSp)
+            {
+                GetPopup<TutorialBox>().Pop("Hope you haven't attracted the cops. If so lose them. Time to unlock some skills.", "Access the menu > Character Menu > Skills. Unlock your first skill.");
+
+            }
+            else if(!PlayerData.Tutorial.UsingSkills)
+            {
+                GetPopup<TutorialBox>().Pop("Skills can get you the edge in your conflicts. You can further increase skills by 'activating' them in the menu once unlocked.", "Press [Caps-Lock] to use your unlocked skill.");
+
+            }
+            else if(!PlayerData.Tutorial.SpawnVehicle)
+            {
+                GetPopup<TutorialBox>().Pop("You're ready to begin, but you need to learn to speak in a new way.", "Press K to spawn your vehicle.");
+
+            }
+            else if(!PlayerData.Tutorial.TutorialDoneExceptSpeak)
+            {
+                GetPopup<TutorialBox>().Pop("Quest hand in NPCs are marked in by the dollar sign on the map.", "Drive to Matthew ($) and press E to speak with him and finish your quest.");
+            }
+            else if(!PlayerData.Tutorial.SpokeToNpc)
+            {
+                GetPopup<TutorialBox>().Pop("Quest hand in NPCs are marked in by the dollar sign on the map.", "Drive to Matthew ($) and press E to speak with him and finish your quest.");
+            }
+        }
+
         public static void LoadAllData()
         {
             bool needCharacter;
@@ -219,6 +265,12 @@ namespace LogicSpawn.GTARPG.Core
             else
             {
                 NeedToCreateCharacter = true;
+            }
+
+            var dataVersion = PlayerData.Version;
+            if(dataVersion != RPG.Version)
+            {
+                VersionMigration.Migrate(dataVersion, RPG.Version);
             }
 
             ApplySettings();
