@@ -173,11 +173,8 @@ namespace LogicSpawn.GTARPG.Core.Repository
 
         private static void Reinforcement(Skill skill)
         {
-            var rng = Random.Range(0, 100);
             SkillEventHandler.Do(x =>
             {
-                Function.Call(Hash.SET_TIME_SCALE, rng < 80 ? 0.4f : 0.2f);
-                Function.Call(Hash.SET_TIMECYCLE_MODIFIER, rng < 80 ? "phone_cam6" : "phone_cam7");
                 var crewSize = skill.GetIntParam("Crew Size");
                 var crewHp = skill.GetIntParam("Member HP");
                 var crewWeapon = skill.GetStringParam("Weapon");
