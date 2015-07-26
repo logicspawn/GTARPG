@@ -1,8 +1,6 @@
 # GTARPG
 An RPG mod for Grand Theft Auto V
 
-Current Version: v0.1.2
-
 Copyright 2015 LogicSpawn
 
 About
@@ -27,7 +25,7 @@ Installation
 1. ScriptHookV  , ScriptHookV.Net v1.1 , Microsoft .NET  Framework  4.5 and the  Microsoft
  Visual  C++ Redistributable Package for Visual Studio 2013 (x64) should be installed as a prerequisite
 2. The following files are required but are already included: NAudio 1.7.3 (NAudio.dll and NAudio.WindowsMediaFormat.dll), Newtonsoft.Json 6.0.8
-3. Copy the GTARPG folder into your "scripts" folder inside Grand Theft Auto V's install
+3. Copy the entire GTARPG folder into your "scripts" folder inside Grand Theft Auto V's install so you have "scripts/GTARPG"
 directory
 4. Run the game and press Y to enter RPG mode
 
@@ -39,17 +37,3 @@ Features
 - Quest System with onscreen tracker
 - Simplistic RPG UI
 - Indepth Skill System with Skill Trees and upgrades
-
-Changelog 
------- 
-v0.1.2
-- Infinite loading fix?
-- Fixed audio throwing error if it can't find files
-- Fixed popup menu throwing error if alpha > 255 or < 0
-- Hopefully fixed the '5000 cows' error by spawning correct number of targets
-
-v0.1.1 
-- Hopefully fixed black screen error 
-
-v0.1 
-- Release
