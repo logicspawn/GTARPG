@@ -5,6 +5,7 @@ using GTA;
 using GTA.Math;
 using GTA.Native;
 using LogicSpawn.GTARPG.Core.Objects;
+using LogicSpawn.GTARPG.Core.Scripts.Popups;
 using Newtonsoft.Json.Linq;
 using Notification = LogicSpawn.GTARPG.Core.Objects.Notification;
 
@@ -103,7 +104,7 @@ namespace LogicSpawn.GTARPG.Core.General
         {
             RPG.SaveAllData();
             RPG.GameMode = GameMode.NotPlaying;
-
+            RPG.GetPopup<TutorialBox>().Hide();
             Game.FadeScreenOut(500);
             var c = Player.CurrentVehicle;
             if (c != null && c.Exists())
