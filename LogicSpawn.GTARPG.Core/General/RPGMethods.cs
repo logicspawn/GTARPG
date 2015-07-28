@@ -32,11 +32,8 @@ namespace LogicSpawn.GTARPG.Core.General
             }
             
             var m = new Model(PlayerData.CarHash);
-            m.Request(5000);
-
-            while (!m.IsLoaded)
-                Script.Wait(0);
-
+            m.Request(1000);
+            
             var vec = World.CreateVehicle(m, Game.Player.Character.Position + Game.Player.Character.ForwardVector * 2f, Game.Player.Character.Heading + 90);
             RPG.WorldData.AddVehicle(new VehicleObject("rpg_PlayerVehicle",vec));
             Script.Wait(100);
