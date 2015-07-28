@@ -102,9 +102,10 @@ namespace LogicSpawn.GTARPG.Core
             if(!LoadedSuccessfully)
             {
                 RPGLog.Log("Failed to load game successfully.");
-                UI.Notify("Failed loading RPGMod.");
+                UI.Notify("Failed loading RPGMod. See Error 000");
                 Game.FadeScreenIn(500);
                 Loading = false;
+                RPGInit.Enabled = true;
                 return;
             }
 
@@ -287,6 +288,8 @@ namespace LogicSpawn.GTARPG.Core
 
         public static void SaveAllData()
         {
+            if (RPG.PlayerData.CarHash == 0) return;
+
             var newDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             var dir = Path.Combine(newDir, @"Rockstar Games\GTA V\RPGMod\");
             var playerDataFile = "PlayerData.save";
