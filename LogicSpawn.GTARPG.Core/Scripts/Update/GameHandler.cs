@@ -499,6 +499,7 @@ namespace LogicSpawn.GTARPG.Core
             }
 
             RPG.Audio.DisposeAll();
+            RPGMethods.ReturnToNormal();
             Function.Call(Hash.DESTROY_MOBILE_PHONE);    
             Function.Call(Hash.CREATE_MOBILE_PHONE,0);    
 
