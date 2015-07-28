@@ -259,7 +259,8 @@ namespace LogicSpawn.GTARPG.Core
             var index = CarSelectMenu.SelectedIndex;
             View.RemoveMenu(CarSelectMenu);
             CarSelectMenu = new RPGMenu("Vehicle Selection", new GTASprite("commonmenu", "interaction_bgd", Color.Red), new IMenuItem[] {
-                        new MenuButton("Reroll Vehicle", "").WithActivate(RandomModel),
+                        new MenuButton("Random Vehicle", "").WithActivate(RandomModel),
+                        new MenuEnumScroller("Vehicle","",AvailableCars.Select(x => x.ToString()).ToArray()).WithEnumActions(SetCarModel,d=> { }), 
                         new MenuEnumScroller("Primary Color Group","",ColorGroups,SelectedColorGroup).WithEnumActions(SetPrimaryColorGroup,d=> { }), 
                         new MenuEnumScroller("Primary Color","",AvailableColors.Select(x => x.ToString()).ToArray(),CurrentCarColor).WithEnumActions(SetColor,d=> { }), 
                         new MenuEnumScroller("Secondary Color Group","",ColorGroups,SelectedSecondaryColorGroup).WithEnumActions(SetSecondaryColorGroup,d=> { }), 
@@ -288,7 +289,8 @@ namespace LogicSpawn.GTARPG.Core
             var index = CarSelectMenu.SelectedIndex;
             View.RemoveMenu(CarSelectMenu);
             CarSelectMenu = new RPGMenu("Vehicle Selection", new GTASprite("commonmenu", "interaction_bgd", Color.Red), new IMenuItem[] {
-                        new MenuButton("Reroll Vehicle", "").WithActivate(RandomModel),
+                        new MenuButton("Random Vehicle", "").WithActivate(RandomModel),
+                        new MenuEnumScroller("Vehicle","",AvailableCars.Select(x => x.ToString()).ToArray()).WithEnumActions(SetCarModel,d=> { }), 
                         new MenuEnumScroller("Primary Color Group","",ColorGroups,SelectedColorGroup).WithEnumActions(SetPrimaryColorGroup,d=> { }), 
                         new MenuEnumScroller("Primary Color","",AvailableColors.Select(x => x.ToString()).ToArray(),0).WithEnumActions(SetColor,d=> { }), 
                         new MenuEnumScroller("Secondary Color Group","",ColorGroups,SelectedSecondaryColorGroup).WithEnumActions(SetSecondaryColorGroup,d=> { }), 
