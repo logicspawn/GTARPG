@@ -10,6 +10,8 @@ namespace LogicSpawn.GTARPG.Core.General
         private readonly string _yesText;
         private readonly string _noText;
         private bool _oldShowUI;
+        public Color TopColor = Color.DodgerBlue;
+        public float HeaderScale = 0.7f;
 
         public RPGMessageBox(string headerCaption, string yesText, string noText, Action yesAction, Action noAction) :
             base("", new IMenuItem[] { new MenuButton(yesText),new MenuButton(noText)})
@@ -21,7 +23,7 @@ namespace LogicSpawn.GTARPG.Core.General
             var buttonYes = (MenuButton)Items[0];
             buttonYes.Activated += (sender, args) => yesAction.Invoke();
 
-            var buttonNo = (MenuButton)Items[0];
+            var buttonNo = (MenuButton)Items[1];
             buttonNo.Activated += (sender, args) => noAction.Invoke();
 
         }
@@ -33,8 +35,8 @@ namespace LogicSpawn.GTARPG.Core.General
 
             var container = new UIContainer(new Point(), new Size(UI.WIDTH, UI.HEIGHT), Color.FromArgb(180, 45, 45, 45));
 
-            container.Items.Add(new UIRectangle(new Point(0, UI.HEIGHT/2 - 40 ), new Size(UI.WIDTH, 45), Color.DodgerBlue));
-            container.Items.Add(new UIText(_headerCaption.ToUpper(), new Point(UI.WIDTH / 2, UI.HEIGHT/2 - 40 + 5), 0.7f, HeaderColor, 0, true));
+            container.Items.Add(new UIRectangle(new Point(0, UI.HEIGHT / 2 - 40), new Size(UI.WIDTH, 45), TopColor));
+            container.Items.Add(new UIText(_headerCaption.ToUpper(), new Point(UI.WIDTH / 2, UI.HEIGHT / 2 - 40 + 5), HeaderScale, HeaderColor, 0, true));
             
             container.Items.Add(new UIRectangle(new Point(0, UI.HEIGHT / 2 - 40 + 45), new Size(UI.WIDTH, 20), SelectedIndex == 0 ? SelectedItemColor : UnselectedItemColor));
             container.Items.Add(new UIText("- " + _yesText + " -", new Point(UI.WIDTH / 2, UI.HEIGHT / 2 - 40 + 45), 0.3f, SelectedIndex == 0 ? SelectedTextColor : UnselectedTextColor, 0, true));
