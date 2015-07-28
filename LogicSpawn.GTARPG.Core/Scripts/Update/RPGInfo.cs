@@ -20,9 +20,17 @@ namespace LogicSpawn.GTARPG.Core
             NearestPed = World.GetNearbyPeds(player, 3).FirstOrDefault();
             NearbyLoot = PlayerMethods.GetNearbyLoot(2.5f).FirstOrDefault();
             IsWideScreen = Function.Call<bool>(Hash.GET_IS_WIDESCREEN);
-            NearbyVehicles = World.GetAllVehicles();
-            NearbyPeds = World.GetAllPeds();
             Wait(400);
+        }
+
+    }
+    public class RPGInfoAlt : UpdateScript
+    {
+        public override void Update()
+        {
+            RPGInfo.NearbyVehicles = World.GetAllVehicles();
+            RPGInfo.NearbyPeds = World.GetAllPeds();
+            Wait(10000);
         }
 
     }
