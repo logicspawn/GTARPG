@@ -41,7 +41,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
                 .Add(3, "Woah easy there. Our boy here's completed one contract and think he King B or something.",
                      Response("What's next?", 4))
                 .Add(4, "Take this and speak to me again when you're ready for some big things.",
-                     Response("[Take Items]", ResponseAction.Finish_Quest, "Welcome to GTA:RPG"))
+                     Response("[Take Items]", ResponseAction.Finish_Quest, "The Grind Begins"))
                 .Add(5, "This sounds like a good mission for you to do then. Might get bloody. Interested?",
                      Response("Let's do it", 6),
                      Response("Nvm, I aint ready for that", ResponseAction.End))
