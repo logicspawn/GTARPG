@@ -55,7 +55,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
                 Quests.Add(new Quest("Potential", "Apex and co. are impressed by your abilities. Pass their test and prove you're truly good.", false, false, 25, 800)
                                .AddFinishBlip(new Vector3(-567, -1072, 22))           
                                .AddCondiiton(QuestCondition.Acquire("Acquire the package", "Boxed Package",1))
-                               .AddCondiiton(QuestCondition.Kill("Eliminate threats",5,new Vector3(-302,-1136,23),PedHash.Genstreet01AMO, PedHash.Genstreet01AMY)).WithSpawnedTargets()
+                               .AddCondiiton(QuestCondition.Kill("Eliminate threats",5,new Vector3(-302,-1136,23),PedHash.Genstreet01AMO, PedHash.Genstreet01AMY)).WithSpawnedTargets(5)
                                .AddReward(QuestReward.Item("Bandages", 2), QuestReward.Item("Simple Protective Gear", 3))
                 );
                 Quests.Add(new Quest("Trouble in the Cap", "Help John Doe get some money so he can get some snacks.", false, false, 10, 800)

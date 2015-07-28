@@ -12,6 +12,7 @@ using GTA.Native;
 using LogicSpawn.GTARPG.Core.General;
 using LogicSpawn.GTARPG.Core.Objects;
 using LogicSpawn.GTARPG.Core.Scripts.Popups;
+using Control = GTA.Control;
 using Font = GTA.Font;
 using Menu = GTA.Menu;
 
@@ -178,6 +179,7 @@ namespace LogicSpawn.GTARPG.Core
 
             FinaliseMenu = new RPGMenu("Finish", new GTASprite("commonmenu", "interaction_bgd", Color.SkyBlue), new IMenuItem[] {
                         new MenuButton("Choose Name", "").WithActivate(ChooseName),
+                        new MenuButton("", ""),
                         new MenuButton("Continue", "").WithActivate(() => { if(PlayerName != "") FinishCreation();})
             });
             CharSelectMenu.Width = 200;
@@ -213,7 +215,41 @@ namespace LogicSpawn.GTARPG.Core
 
         private void OnKeyDown(object sender, KeyEventArgs keyEventArgs)
         {
+            if (!Enabled || RPGInfo.KeyboardActive) return;
 
+            if (keyEventArgs.KeyCode == Keys.Up)
+            {
+                View.HandleChangeSelection(false);
+            }
+            if (keyEventArgs.KeyCode == Keys.Down)
+            {
+                View.HandleChangeSelection(true);
+            }
+            if (keyEventArgs.KeyCode == Keys.Left)
+            {
+                View.HandleChangeItem(false);
+            }
+            if (keyEventArgs.KeyCode == Keys.Right)
+            {
+                View.HandleChangeItem(true);
+            }
+            if (keyEventArgs.KeyCode == Keys.Enter)
+            {
+                if (State == CharCreationState.Finalise && FinaliseMenu.SelectedIndex == 0)
+                {
+                    FinaliseMenu.SelectedIndex = 1;
+                    ChooseName();
+                }
+                else if (State == CharCreationState.Car && CarSelectMenu.SelectedIndex == 6)
+                {
+                    CarSelectMenu.SelectedIndex = 1;
+                    ChooseNumberPlate();
+                }
+                else
+                {
+                    View.HandleActivate();
+                }
+            }
         }
 
         private void SetSecondaryColorGroup(int obj)
@@ -435,6 +471,7 @@ namespace LogicSpawn.GTARPG.Core
             _shownMotives = false;
             _shownGender = false;
             _shownClass = false;
+            RPG.GetPopup<TutorialBox>().Hide();
             RPG.PlayerData.Setup.SafeArea = SafeArea;
             RPGMethods.CleanupObjects();
 
@@ -484,8 +521,51 @@ namespace LogicSpawn.GTARPG.Core
 
         public override void Update()
         {
-
+            
             if (!Enabled) return;
+
+            var up = Game.IsControlJustPressed(0, Control.ScriptPadUp);
+            var down = Game.IsControlJustPressed(0, Control.ScriptPadDown);
+            var left = Game.IsControlJustPressed(0, Control.ScriptPadLeft);
+            var rightpress = Game.IsControlJustPressed(0, Control.ScriptPadRight);
+            var back = Game.IsControlJustPressed(0, Control.Reload);
+            var interact = Game.IsControlJustPressed(0, Control.Sprint);
+
+            if (left)
+            {
+                View.HandleChangeItem(false);
+            }
+            if (rightpress)
+            {
+                View.HandleChangeItem(true);
+            }
+            if (up)
+            {
+                View.HandleChangeSelection(false);
+            }
+            if (down)
+            {
+                View.HandleChangeSelection(true);
+            }
+            if (interact)
+            {
+                if (State == CharCreationState.Finalise && FinaliseMenu.SelectedIndex == 0)
+                {
+                    FinaliseMenu.SelectedIndex = 1;
+                    ChooseName();
+                }
+                else if (State == CharCreationState.Car && CarSelectMenu.SelectedIndex == 6)
+                {
+                    CarSelectMenu.SelectedIndex = 1;
+                    ChooseNumberPlate();
+                }
+                else
+                {
+                    View.HandleActivate();
+                }
+            }
+
+
             if(!OpenedSetup)
             {
                 InitSmall();

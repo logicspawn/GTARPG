@@ -104,6 +104,7 @@
     <Compile Include="Scripts\SkillHandler\SkillHandler.cs" />
     <Compile Include="Scripts\SkillHandler\SkillSlot.cs" />
     <Compile Include="Scripts\Update\CoolDownManager.cs" />
+    <Compile Include="Scripts\Update\GeneralUpdate.cs" />
     <Compile Include="Scripts\Update\LoadingUI.cs" />
     <Compile Include="Scripts\Update\RPGInfo.cs" />
     <Compile Include="Test.cs" />

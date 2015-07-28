@@ -80,11 +80,6 @@ namespace LogicSpawn.GTARPG.Core
                 Function.Call(Hash.SET_SUPER_JUMP_THIS_FRAME, Game.Player.Handle);
             }
 
-            if (RPG.GameMode == GameMode.FullRPG)
-            {
-                Function.Call(Hash.DESTROY_MOBILE_PHONE);
-            }
-
             if(!InitiateNpcs)
             {
                 NpcDatas.AddRange(NpcRepository.Npcs);
