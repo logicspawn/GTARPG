@@ -123,8 +123,6 @@ namespace LogicSpawn.GTARPG.Core
                 RPG.GetPopup<LevelUp>().Show();
                 RPG.UIHandler.View.CloseAllMenus();
             }
-
-            RPG.SaveAllData();
         }
 
         private int ExpForLevelLogarithmic(int currentLevel)
