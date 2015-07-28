@@ -148,7 +148,7 @@ namespace LogicSpawn.GTARPG.Core
                 }
             }
 
-            var nearbyForVecs = World.GetAllVehicles();
+            var nearbyForVecs = RPGInfo.NearbyVehicles;
             foreach (var vec in nearbyForVecs.Where(v => v.EngineHealth <= 0))
             {
 
@@ -215,7 +215,7 @@ namespace LogicSpawn.GTARPG.Core
                 }
             }
 
-            var nearbyForKills = World.GetAllPeds();
+            var nearbyForKills = RPGInfo.NearbyPeds;
             //var nearbyForKills = World.GetAllPeds();
             foreach (var ped in nearbyForKills.Where(p => !p.IsAlive))
             {
