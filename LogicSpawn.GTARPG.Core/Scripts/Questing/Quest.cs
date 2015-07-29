@@ -41,6 +41,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
         //Modifiers
         public bool SpawnTargets;
         public int AmountToSpawn;
+        [JsonIgnore] public bool HasSpawnedTargets;
 
         public int ExpReward;
         public int MoneyReward;
@@ -80,6 +81,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
             AmountToSpawn = -1;
             CreateHandInBlip = false;
             HandInBlipPosition = Vector3.Zero;
+            HasSpawnedTargets = false;
         }
 
         public void CheckState()
@@ -170,9 +172,10 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
                           ped.CanSwitchWeapons = true;
                           RPG.WorldData.AddPed(new NpcObject("Quest_" + Name, ped));
                           RPG.WorldData.AddBlip(new BlipObject("Quest_" + Name, b));
+                          RPGLog.Log("Spawned ped for quest");
                       }
                     });
-
+                    HasSpawnedTargets = true;
                 }
             }
 

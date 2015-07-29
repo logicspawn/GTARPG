@@ -308,7 +308,7 @@ namespace LogicSpawn.GTARPG.Core
         {
             var questsInProgress = PlayerData.Quests.Where(q => q.InProgress).ToList();
             var qNum = 1;
-            foreach (var q in questsInProgress)
+            foreach (var q in questsInProgress.Where(qu => qu.SpawnTargets && !qu.HasSpawnedTargets))
             {
                 foreach(var b in q.BlipObjects)
                 {
@@ -343,6 +343,7 @@ namespace LogicSpawn.GTARPG.Core
                     {
                         q.ClearObjectsAndBlips();
                         q.SetupCondition(c, false);
+                        RPGLog.Log("Spawning more peds for quest : " + quest.Name);
                     }
 
                 }
@@ -440,22 +441,22 @@ namespace LogicSpawn.GTARPG.Core
             {
                 var dist = npc.Position.DistanceTo(Game.Player.Character.Position);
 
-                if (dist < 20)
-                {
-                    var pos = npc.Ped != null ? npc.Ped.Position : npc.Position;
-                    pos.Z += 1.0f;
-                    OutputArgument xArg = new OutputArgument();
-                    OutputArgument yArg = new OutputArgument();
-                    Function.Call(Hash._WORLD3D_TO_SCREEN2D, pos.X, pos.Y, pos.Z, xArg, yArg);
-                    var x = xArg.GetResult<float>();
-                    var y = yArg.GetResult<float>();
-
-                    new UIRectangle(new Point((int)(UI.WIDTH * x) - 50, (int)(UI.HEIGHT * y) + 12), new Size(100, 2), Color.DodgerBlue).Draw();
-                    new UIText(npc.Name, new Point((int)(UI.WIDTH * x), (int)(UI.HEIGHT * y)), 0.21f, Color.White, 0, true).Draw();
-                }
-
                 if(npc.IsQuestNpc && !npc.Spawned)
                 {
+                    if (dist < 20)
+                    {
+                        var pos = npc.Ped != null ? npc.Ped.Position : npc.Position;
+                        pos.Z += 1.0f;
+                        OutputArgument xArg = new OutputArgument();
+                        OutputArgument yArg = new OutputArgument();
+                        Function.Call(Hash._WORLD3D_TO_SCREEN2D, pos.X, pos.Y, pos.Z, xArg, yArg);
+                        var x = xArg.GetResult<float>();
+                        var y = yArg.GetResult<float>();
+
+                        new UIRectangle(new Point((int)(UI.WIDTH * x) - 50, (int)(UI.HEIGHT * y) + 12), new Size(100, 2), Color.DodgerBlue).Draw();
+                        new UIText(npc.Name, new Point((int)(UI.WIDTH * x), (int)(UI.HEIGHT * y)), 0.21f, Color.White, 0, true).Draw();
+                    }
+
                     //RPGLog.Log("Found unspawned NPC");
                     if (dist < 100)
                     {
@@ -499,8 +500,7 @@ namespace LogicSpawn.GTARPG.Core
             }
 
             RPG.Audio.DisposeAll();
-            Function.Call(Hash.DESTROY_MOBILE_PHONE);    
-            Function.Call(Hash.CREATE_MOBILE_PHONE,0);    
+
 
             int objDestroyed = 0;
             var count = RPG.WorldData.AllObjects.Count;
