@@ -172,7 +172,6 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
                           ped.CanSwitchWeapons = true;
                           RPG.WorldData.AddPed(new NpcObject("Quest_" + Name, ped));
                           RPG.WorldData.AddBlip(new BlipObject("Quest_" + Name, b));
-                          RPGLog.Log("Spawned ped for quest");
                       }
                     });
                     HasSpawnedTargets = true;
