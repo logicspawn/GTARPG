@@ -320,12 +320,15 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
                         n.Destroy();
                     }
 
-                    var itemNeeded = (string)c.Parameters["ItemName"];
-                    var itemsInWorldData = RPG.WorldData.Loot.Where(l => l.Name == itemNeeded).ToList();
-                    for (int i = 0; i < itemsInWorldData.Count; i++)
+                    if(c.Done)
                     {
-                        var n = itemsInWorldData[i];
-                        n.Destroy();
+                        var itemNeeded = (string)c.Parameters["ItemName"];
+                        var itemsInWorldData = RPG.WorldData.Loot.Where(l => l.Name == itemNeeded).ToList();
+                        for (int i = 0; i < itemsInWorldData.Count; i++)
+                        {
+                            var n = itemsInWorldData[i];
+                            n.Destroy();
+                        }
                     }
                 }
 

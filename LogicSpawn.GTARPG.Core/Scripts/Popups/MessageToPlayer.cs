@@ -26,6 +26,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Popups
                                      "",
                                      "Once again thanks for playing, hope you had a great time.",
                                      "LogicSpawn",
+                                     "Press E to Close",
                                  };
             var extra = lines.Length;
             popup.Size = new Size(popup.Size.Width, popup.Size.Height + extra*20);
