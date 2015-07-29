@@ -24,12 +24,6 @@ namespace LogicSpawn.GTARPG.Core
             }
         }
 
-        private void OnTick(object sender, EventArgs eventArgs)
-        {
-
-            Tick -= OnTick;
-        }
-
         public static void Do(Action<object> action, object parameter = null)
         {
             a.Add(action, parameter);
