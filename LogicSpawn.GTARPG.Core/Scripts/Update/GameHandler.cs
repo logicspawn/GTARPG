@@ -232,6 +232,11 @@ namespace LogicSpawn.GTARPG.Core
                 {
                     KilledPeds.Add(ped.Handle);
                     //Check if kill needed for quest
+                    var pedData = NpcDatas.FirstOrDefault(npc => npc.Ped != null && npc.Ped.Handle == ped.Handle);
+                    if (pedData != null)
+                    {
+                        pedData.Destroy();
+                    }
                     CheckIfForQuest(ped,ped.Model.Hash, true);
                     //If player didn't damage, continue
                     if (!ped.HasBeenDamagedBy(Game.Player.Character)) continue;
@@ -308,7 +313,7 @@ namespace LogicSpawn.GTARPG.Core
         {
             var questsInProgress = PlayerData.Quests.Where(q => q.InProgress).ToList();
             var qNum = 1;
-            foreach (var q in questsInProgress.Where(qu => qu.SpawnTargets && !qu.HasSpawnedTargets))
+            foreach (var q in questsInProgress.Where(qu => qu.SpawnTargets && qu.HasSpawnedTargets))
             {
                 foreach(var b in q.BlipObjects)
                 {
@@ -337,10 +342,13 @@ namespace LogicSpawn.GTARPG.Core
                     }
 
                     //If no npcs found, or npcs are too high
-                    if (WorldData.Npcs.All(n => n.Name != "Quest_" + quest.Name) ||
+                    if (WorldData.Npcs.All(n => n.Name != "Quest_" + quest.Name) || WorldData.Npcs.Where(n => n.Name == "Quest_" + quest.Name).All(n => !n.Ped.IsAlive) || 
                         WorldData.Npcs.Where(n => n.Name == "Quest_" + quest.Name).All(w => w.Ped.Exists() &&  w.Ped.Position.Z > Game.Player.Character.Position.Z + 45) ||
                         WorldData.Npcs.Where(n => n.Name == "Quest_" + quest.Name).All(w => w.Ped.Exists() && w.Ped.Position.Z < Game.Player.Character.Position.Z - 45))
                     {
+                        q.HasSpawnedTargets = false;
+                        c.Position = RPGMethods.GetSpawnPoint(200);
+
                         q.ClearObjectsAndBlips();
                         q.SetupCondition(c, false);
                         RPGLog.Log("Spawning more peds for quest : " + quest.Name);
