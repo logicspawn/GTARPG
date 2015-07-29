@@ -121,6 +121,10 @@ namespace LogicSpawn.GTARPG.Core.General
             Model m = PedHash.Michael;
             m.Request(1000);
             Function.Call(Hash.SET_PLAYER_MODEL, Game.Player.Handle, m.Hash);
+            Script.Wait(500);
+            Function.Call(Hash.DESTROY_MOBILE_PHONE);
+            Script.Wait(500);
+            Function.Call(Hash.CREATE_MOBILE_PHONE, 0);    
             RPG.GameHandler.InitiateNpcs = false;
             RPG.GameLoaded = false;
             RPGInit.Enabled = true;
