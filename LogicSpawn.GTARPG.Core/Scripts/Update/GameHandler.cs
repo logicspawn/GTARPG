@@ -338,8 +338,8 @@ namespace LogicSpawn.GTARPG.Core
 
                     //If no npcs found, or npcs are too high
                     if (WorldData.Npcs.All(n => n.Name != "Quest_" + quest.Name) ||
-                        WorldData.Npcs.Where(n => n.Name == "Quest_" + quest.Name).All(w => w.Ped.Position.Z > Game.Player.Character.Position.Z + 45) ||
-                        WorldData.Npcs.Where(n => n.Name == "Quest_" + quest.Name).All(w => w.Ped.Position.Z < Game.Player.Character.Position.Z - 45))
+                        WorldData.Npcs.Where(n => n.Name == "Quest_" + quest.Name).All(w => w.Ped.Exists() &&  w.Ped.Position.Z > Game.Player.Character.Position.Z + 45) ||
+                        WorldData.Npcs.Where(n => n.Name == "Quest_" + quest.Name).All(w => w.Ped.Exists() && w.Ped.Position.Z < Game.Player.Character.Position.Z - 45))
                     {
                         q.ClearObjectsAndBlips();
                         q.SetupCondition(c, false);

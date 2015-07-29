@@ -161,6 +161,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
                           var ped = World.CreatePed(m, pos + Vector3.RandomXY() * 2, Game.Player.Character.Heading + 180);
                           ped.RelationshipGroup = enemies;
                           var b = ped.AddBlip();
+                          EventHandler.Wait(100);
                           b.IsFriendly = false;
                           b.Scale = 0.6f;
                           ped.Task.WanderAround();
