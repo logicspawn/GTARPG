@@ -207,6 +207,8 @@ namespace LogicSpawn.GTARPG.Core
 
         public void UpdateX()
         {
+            if (Function.Call<bool>(Hash.IS_CUTSCENE_ACTIVE)) return;
+
             Ped player = Game.Player.Character;
 
             Vehicle vehicle = player.CurrentVehicle;

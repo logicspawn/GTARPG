@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using GTA;
+using GTA.Native;
 using LogicSpawn.GTARPG.Core.General;
 
 namespace LogicSpawn.GTARPG.Core
@@ -68,7 +69,7 @@ namespace LogicSpawn.GTARPG.Core
                 {
                     if (HideOnlyWhenClosed)
                     {
-                        while (_show)
+                        while (_show && !Function.Call<bool>(Hash.IS_CUTSCENE_ACTIVE))
                         {
                             _popup.Draw();
                             Wait(0);
