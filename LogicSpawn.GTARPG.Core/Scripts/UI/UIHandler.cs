@@ -108,7 +108,7 @@ namespace LogicSpawn.GTARPG.Core
                 new MenuButton("Character Menu", "").WithActivate(OpenCharacterMenu),
                 new MenuButton("Actions ", "").WithActivate(() => View.AddMenu(ActionsMenu)),
                 new MenuButton("Options", "").WithActivate(() => OpenOptionsMenu()),                
-                new MenuButton("Play as Micheal, Franklin and Trevor ", "").WithActivate(ConfirmPlayAsTrio),
+                new MenuButton("Play as Michael, Franklin and Trevor ", "").WithActivate(ConfirmPlayAsTrio),
                 new MenuButton("Play as Yourself", "").WithActivate(ConfirmPlayAsYourCharacter),
                 new MenuButton("Return to Normal Mode ", "").WithActivate(ConfirmReturnToNormal),
                 new MenuButton("Close", "").WithActivate(View.PopMenu) 
@@ -152,7 +152,7 @@ namespace LogicSpawn.GTARPG.Core
 
         private void ConfirmPlayAsTrio()
         {
-            var box = RPGMessageBox.Create("Are you sure you want to play as the trio?","Play as Micheal Trevor and Franklin","Continue Playing GTA:RPG", () => { View.CloseAllMenus(); RPGMethods.PlayAsTrio(); }, () => { View.MenuPosition = new Point(UI.WIDTH - 300, 0); });
+            var box = RPGMessageBox.Create("Are you sure you want to play as the trio?","Play as Michael Trevor and Franklin","Continue Playing GTA:RPG", () => { View.CloseAllMenus(); RPGMethods.PlayAsTrio(); }, () => { View.MenuPosition = new Point(UI.WIDTH - 300, 0); });
             RPGUI.FormatMenu(box);
             View.AddMenu(box);
         }

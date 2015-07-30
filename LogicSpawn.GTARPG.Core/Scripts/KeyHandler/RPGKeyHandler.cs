@@ -223,7 +223,7 @@ namespace LogicSpawn.GTARPG.Core
                 {
                     tut.Hide();
                     EventHandler.Wait(300);
-                    tut.Pop("You're ready to begin, but you need to learn to speak in a new way.", "Press K to spawn your vehicle.");
+                    tut.Pop("You're ready to begin, but you'll need to learn to speak in a new way.", "Press K to spawn your vehicle.");
                 });
             } 
             
@@ -256,7 +256,7 @@ namespace LogicSpawn.GTARPG.Core
                 {
                     tut.Hide();
                     EventHandler.Wait(300);
-                    tut.Pop("Quest hand in NPCs are marked in by the dollar sign on the map.", "Drive to Matthew ($) and press E to speak with him and finish your quest.");
+                    tut.Pop("Quest hand in NPCs are marked by the dollar sign on the map.", "Drive to Matthew ($) and press E to speak with him and finish your quest.");
                 });
             } 
             RPGMethods.SpawnCar(); 

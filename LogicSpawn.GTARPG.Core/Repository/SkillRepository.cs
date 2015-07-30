@@ -143,7 +143,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
                 if (rng > 80)
                 {
 
-                    RPG.Notify(Notification.Danger("Woah, what a hit! HP Lost"));
+                    RPG.Notify(Notification.Danger("Unlucky, what a hit! HP Lost"));
                     if (Game.Player.Character.Health > 10)
                         Game.Player.Character.Health -= 10;
                     else

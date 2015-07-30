@@ -111,13 +111,13 @@ namespace LogicSpawn.GTARPG.Core
 
             if(NeedToCreateCharacter)
             {
-                RPGLog.Log("Loaded sucessfully with no character found. Starting character creation.");
+                RPGLog.Log("Loaded successfully with no character found. Starting character creation.");
 
                 CharCreationNew.Enabled = true;
             }
             else
             {
-                RPGLog.Log("Loaded sucessfully with character found.");
+                RPGLog.Log("Loaded successfully with character found.");
                 GameLoaded = true;    
             }
 
@@ -193,7 +193,7 @@ namespace LogicSpawn.GTARPG.Core
         {
             if(!PlayerData.Tutorial.PressJToOpenMenu)
             {
-                GetPopup<TutorialBox>().Show("A new quest has been started and added to your tracker.", "Press J to open up your menu.");
+                GetPopup<TutorialBox>().Show("A new quest has started and has been added to your tracker.", "Press J to open up your menu.");
             }
             else if(!PlayerData.Tutorial.BoughtAmmoFromShop)
             {
@@ -201,12 +201,12 @@ namespace LogicSpawn.GTARPG.Core
             }
             else if(!PlayerData.Tutorial.GetAKill)
             {
-                GetPopup<TutorialBox>().Pop("Getting kills, completing missions are just two ways to earn XP and Skill Points", "Get a kill.");
+                GetPopup<TutorialBox>().Pop("Getting kills and completing missions are just two ways to earn XP and Skill Points", "Get a kill.");
 
             }
             else if(!PlayerData.Tutorial.UnlockSkillWithSp)
             {
-                GetPopup<TutorialBox>().Pop("Hope you haven't attracted the cops. If so lose them. Time to unlock some skills.", "Access the menu > Character Menu > Skills. Unlock your first skill.");
+                GetPopup<TutorialBox>().Pop("Hope you haven't attracted the cops. If so, lose them. Time to unlock some skills.", "Access the menu > Character Menu > Skills. Unlock your first skill.");
 
             }
             else if(!PlayerData.Tutorial.UsingSkills)
@@ -216,16 +216,16 @@ namespace LogicSpawn.GTARPG.Core
             }
             else if(!PlayerData.Tutorial.SpawnVehicle)
             {
-                GetPopup<TutorialBox>().Pop("You're ready to begin, but you need to learn to speak in a new way.", "Press K to spawn your vehicle.");
+                GetPopup<TutorialBox>().Pop("You're ready to begin, but you'll need to learn to speak in a new way.", "Press K to spawn your vehicle.");
 
             }
             else if(!PlayerData.Tutorial.TutorialDoneExceptSpeak)
             {
-                GetPopup<TutorialBox>().Pop("Quest hand in NPCs are marked in by the dollar sign on the map.", "Drive to Matthew ($) and press E to speak with him and finish your quest.");
+                GetPopup<TutorialBox>().Pop("Quest hand in NPCs are marked by the dollar sign on the map.", "Drive to Matthew ($) and press E to speak with him and finish your quest.");
             }
             else if(!PlayerData.Tutorial.SpokeToNpc)
             {
-                GetPopup<TutorialBox>().Pop("Quest hand in NPCs are marked in by the dollar sign on the map.", "Drive to Matthew ($) and press E to speak with him and finish your quest.");
+                GetPopup<TutorialBox>().Pop("Quest hand in NPCs are marked by the dollar sign on the map.", "Drive to Matthew ($) and press E to speak with him and finish your quest.");
             }
         }
 

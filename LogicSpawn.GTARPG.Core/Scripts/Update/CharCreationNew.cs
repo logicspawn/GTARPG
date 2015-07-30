@@ -775,7 +775,7 @@ namespace LogicSpawn.GTARPG.Core
             _shownGender = true;
             var mmmmmenu = new TiledMenu("Select Your Gender",
                                new TiledPanel("Male", new GTASprite("loadingscreen10", "foreground"), Color.DodgerBlue, SelectGender, "Male characters, typically played by men. "),
-                               new TiledPanel("Female", new GTASprite("loadingscreen16", "foreground", Color.LightPink), Color.Purple, SelectGender, "Female characters, typically played by men...and also women. ")
+                               new TiledPanel("Female", new GTASprite("loadingscreen16", "foreground", Color.LightPink), Color.Purple, SelectGender, "Female characters, typically played by women...and also men. ")
                            );
             View.AddMenu(mmmmmenu);
         }
@@ -921,7 +921,7 @@ namespace LogicSpawn.GTARPG.Core
             bgMusic.Dispose();
             Wait(5000);
 
-            RPG.GetPopup<TutorialBox>().Show("A new quest has been started and added to your tracker.","Press J to open up your menu.");
+            RPG.GetPopup<TutorialBox>().Show("A new quest has started and has been added to your tracker.","Press J to open up your menu.");
             Enabled = false;
 
         }

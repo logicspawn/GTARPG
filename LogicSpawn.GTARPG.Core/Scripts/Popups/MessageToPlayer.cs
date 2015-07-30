@@ -14,7 +14,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Popups
             string[] lines = new string[]
                                  {
                                      "Thank you for playing the GTA:RPG experience. It's a work in progress and ",
-                                     "hopefully this preview has been fun to play. Keep updated on GTA5Mods for new updates.",
+                                     "hopefully this preview has been fun to play. More missions soon!",
                                      "",
                                      "Your feedback and support is important in making this a great mod.",
                                      "Feel free to continue playing, completing contracts and earning exp.",

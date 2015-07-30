@@ -107,7 +107,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
 
 
                 //Contracts:
-                Quests.Add(new Quest("Are you Chicken?", "Cluck cluck cluck, these are worst than the cows... silence them", true, true, 15, 500)
+                Quests.Add(new Quest("Are you Chicken?", "Cluck cluck cluck, these are worse than the cows... silence them", true, true, 15, 500)
                                .AddCondiiton(QuestCondition.Kill("Chickens silenced", 5, PedHash.Hen)).WithSpawnedTargets(5)
                                .AddReward(QuestReward.Item("Bandages", 2), QuestReward.Item("Simple Protective Gear", 3))
                                .WithSpawnedTargets()

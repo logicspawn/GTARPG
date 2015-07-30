@@ -29,7 +29,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
 
             Items.Add(new Item("Simple Protective Gear", "Better than nothing I guess. Restores 5 armor", 100, 1, ItemType.Usable, Rarity.Common, () => { Game.Player.Character.Armor += 5; }));
             Items.Add(new Item("Refurbished Kevlar", "Bet you won't find this on ebay... Restores 10 armor", 800, 1, ItemType.Usable, Rarity.Uncommon, () => { Game.Player.Character.Armor += 10; }));
-            Items.Add(new Item("Adv Armor Kit", "A strong peice of armor. Restores 50 armor", 2000, 1, ItemType.Usable, Rarity.Uncommon, () => { Game.Player.Character.Armor += 50; })
+            Items.Add(new Item("Adv Armor Kit", "A strong piece of armor. Restores 50 armor", 2000, 1, ItemType.Usable, Rarity.Uncommon, () => { Game.Player.Character.Armor += 50; })
             {
                 CoolDownMs = 10000,
                 CanBuy = false,
@@ -70,7 +70,6 @@ namespace LogicSpawn.GTARPG.Core.Repository
             Items.Add(new Item("Cowhide", "Looks like a cowhide", 0, 1, ItemType.QuestItem, Rarity.Quest, () => { }) { CanBuy = false });
             Items.Add(new Item("Feather", "Plucked straight from a chicken.", 0, 5, ItemType.QuestItem, Rarity.Quest, () => { }) { CanBuy = false });
             Items.Add(new Item("Shredding Machine", "Now this is what I call a guitar!", 0, 1, ItemType.QuestItem, Rarity.Quest, () => { }) { CanBuy = false });
-            Items.Add(new Item("Arkham Knight", "A sealed copy of Rocksteady's Arkham Knight", 0, 1, ItemType.QuestItem, Rarity.Quest, () => { }) { CanBuy = false });
             Items.Add(new Item("Incriminating Phone", "This phone has data Apexers don't want to be public.", 0, 1, ItemType.QuestItem, Rarity.Quest, () => { }) { CanBuy = false });
             Items.Add(new Item("Woman's Purse", "It has money in it, and a mirror. Better not drop this.", 0, 1, ItemType.QuestItem, Rarity.Quest, () => { }) { CanBuy = false });
             Items.Add(new Item("Men's Wallet", "Hmm, quite a few credit cards in here...", 0, 1, ItemType.QuestItem, Rarity.Quest, () => { }) { CanBuy = false });
