@@ -17,7 +17,7 @@ namespace LogicSpawn.GTARPG.Core
 {
     public static class RPG
     {
-        public const string Version = "0.1.4";
+        public const string Version = "0.1.11";
 
         public static bool Loading;
         public static bool UsingController;
