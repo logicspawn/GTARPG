@@ -167,7 +167,7 @@ namespace LogicSpawn.GTARPG.Core
 
         private void ToggleUI()
         {
-            RPGSettings.ShowUI = false;
+            RPGSettings.ShowUI = !RPGSettings.ShowUI;
         }
 
         private void ShowQuestLog()

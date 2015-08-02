@@ -18,7 +18,7 @@ namespace LogicSpawn.GTARPG.Core
 {
     public static class RPG
     {
-        public const string Version = "0.1.11";
+        public const string Version = "0.1.12";
 
         public static bool Loading;
         public static bool UsingController;
@@ -326,7 +326,7 @@ namespace LogicSpawn.GTARPG.Core
             }
 
             PlayerData.SkillSlots = SkillHandler.Slots;
-
+            PlayerData.Version = Version;
             Directory.CreateDirectory(dir);
 
             using (var stringwriter = new StreamWriter(playerDataPath, false))
