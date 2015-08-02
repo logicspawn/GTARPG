@@ -148,7 +148,7 @@ namespace LogicSpawn.GTARPG.Core
             //Instantiate our menu
             State = CharCreationState.PickMotives;
             SetupMenu = new RPGMenu("RPG Setup", new GTASprite("commonmenu","interaction_bgd",Color.DodgerBlue), new IMenuItem[] {
-                        new MenuNumericScroller("SafeArea Setting","Change the safearea setting until the RPG UI covers the bottom area of your minimap.",0,10,1,RPG.PlayerData.Setup.SafeArea).WithNumericActions(ChangeSafeArea,d => { }), 
+                        new MenuNumericScroller("SafeArea Setting","Change the safearea setting until the RPG UI covers the bottom area of your minimap.",0,10,1,SafeArea).WithNumericActions(ChangeSafeArea,d => { }), 
                         new MenuButton("Finish Setup", "").WithActivate(() => { View.PopMenu(); SetupFinished = true;
                         })
             });
@@ -209,7 +209,7 @@ namespace LogicSpawn.GTARPG.Core
 
         private void ChangeSafeArea(double obj)
         {
-            RPG.PlayerData.Setup.SafeArea = (int)obj;
+            RPG.UIHandler.SafeArea = (int)obj;
             SafeArea = (int) obj;
         }
 
@@ -474,7 +474,7 @@ namespace LogicSpawn.GTARPG.Core
             _shownGender = false;
             _shownClass = false;
             RPG.GetPopup<TutorialBox>().Hide();
-            RPG.PlayerData.Setup.SafeArea = SafeArea;
+            RPG.UIHandler.SafeArea = SafeArea;
             RPGMethods.CleanupObjects();
 
             if (RPG.UIHandler != null && RPG.UIHandler.View != null)
@@ -580,7 +580,7 @@ namespace LogicSpawn.GTARPG.Core
                 Point rectanglePoint;
                 Point textPoint;
 
-                switch (RPG.PlayerData.Setup.SafeArea)
+                switch (RPG.UIHandler.SafeArea)
                 {
                     case 0:
                         rectanglePoint = new Point((RPGInfo.IsWideScreen ? 63 : 63), UI.HEIGHT - 47);
@@ -632,8 +632,11 @@ namespace LogicSpawn.GTARPG.Core
                         break;
                 }
 
-                new UIRectangle(rectanglePoint, new Size(181, 10), Color.FromArgb(255, 75, 75, 75)).Draw(); //playerinfo
-                new UIText("Player", textPoint, 0.22f, Color.White, 0, false).Draw();
+                new UIRectangle(new Point(rectanglePoint.X, rectanglePoint.Y - 121), new Size(181, 10), Color.FromArgb(255, 51, 153, 204)).Draw(); //topborder
+                new UIRectangle(new Point(rectanglePoint.X, rectanglePoint.Y - 121), new Size(10, 121), Color.FromArgb(255, 51, 153, 204)).Draw(); //leftborder
+                new UIRectangle(new Point(rectanglePoint.X + 171, rectanglePoint.Y - 121), new Size(10, 121), Color.FromArgb(255, 51, 153, 204)).Draw(); //leftborder
+                new UIRectangle(rectanglePoint, new Size(181, 10), Color.FromArgb(255, 51, 153, 204)).Draw(); //playerinfo
+                new UIText("Adjust till this borders your map", textPoint, 0.22f, Color.White, 0, false).Draw();
 
                 return;
             }
