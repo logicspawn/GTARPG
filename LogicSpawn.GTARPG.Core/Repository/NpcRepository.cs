@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using GTA;
 using GTA.Math;
 using GTA.Native;
-using LogicSpawn.GTARPG.Core.General;
-using LogicSpawn.GTARPG.Core.Objects;
 
 namespace LogicSpawn.GTARPG.Core.Repository
 {
@@ -19,6 +16,11 @@ namespace LogicSpawn.GTARPG.Core.Repository
 
             var npc1 = new NpcObject("Matthew", PedHash.Omega, new Vector3(-8.9106f, -1090.779f, 26.6720f), 90.2f);
             npc1.SetBlip(BlipSprite.Marijuana);
+            npc1.SetQuestsToGive("Potential", "An Assassin's Greed");
+            npc1.SetPersonalQuestLine("Welcome to GTA:RPG", "The Grind Begins", "Potential","Trouble in the Cap", "An Assassin's Greed");
+            npc1.SetQuestHandIns("Welcome to GTA:RPG","The Grind Begins");
+            npc1.SetSideQuests();
+            npc1.SetQuestConditions();
             npc1.SetDialog("Can I Help you?",
                            Response("I'm still working on the assignments ...", 1).WithCondition(ResponseCondition.QuestInProgress("Welcome to GTA:RPG")),
                            Response("About these assignments... They're impossible.", 0).WithCondition(ResponseCondition.QuestInProgress("Welcome to GTA:RPG")),
@@ -58,7 +60,8 @@ namespace LogicSpawn.GTARPG.Core.Repository
                      Response("Damn straight, I'll head there now", ResponseAction.Start_Quest, "Potential"));
 
             var npc2 = new NpcObject("King B", PedHash.JanitorSMM, new Vector3(-65f, -1202f, 27f), 135f);
-            npc2.SetBlip(BlipSprite.AssaultRifle);
+            npc2.SetBlip(BlipSprite.Store);
+            npc2.SetAsVendor();
             npc2.SetDialog("What's good my man?",
                                 Response("Later Homie", ResponseAction.End),
                                 Response("Who are you?", 0),
@@ -74,6 +77,11 @@ namespace LogicSpawn.GTARPG.Core.Repository
 
             var npc3 = new NpcObject("John Doe", PedHash.PoloGoon01GMY, new Vector3(-67f, -1208f, 28f), 312f);
             npc3.SetBlip(BlipSprite.SMG);
+            npc3.SetQuestsToGive("Trouble in the Cap");
+            npc3.SetPersonalQuestLine("Potential", "Trouble in the Cap", "An Assassin's Greed", "Doe!");
+            npc3.SetQuestHandIns("Trouble in the Cap");
+            npc3.SetSideQuests("Doe!");
+            npc3.SetQuestConditions(Condition("Potential", "Acquire the package"));
             npc3.SetDialog("Yes? Keep it simple please.",
                            Response("Matthew sent me to get a package.", 1).WithCondition(ResponseCondition.QuestInProgress("Potential")),
                            Response("You need some help?", 8).WithConditions(ResponseCondition.QuestComplete("Potential"), ResponseCondition.QuestNotInProgressOrDone("Trouble in the Cap")),
@@ -145,6 +153,11 @@ namespace LogicSpawn.GTARPG.Core.Repository
 
             var npc4 = new NpcObject("Alicia", PedHash.Mistress, new Vector3(-53f, -1216f, 28f), 56f);
             npc4.SetBlip(BlipSprite.Sniper);
+            npc4.SetQuestsToGive("Smash the CraftSquad");
+            npc4.SetPersonalQuestLine("An Assassin's Greed", "Smash the CraftSquad");
+            npc4.SetQuestHandIns();
+            npc4.SetSideQuests();
+            npc4.SetQuestConditions();
             npc4.SetDialog("You can stand there and look at me or speak up. Just don't waste my time.",
                            Response("What do you do around here?", 1),
                            Response("Apex sounded pissed, what's going on?", 3).WithConditions(ResponseCondition.QuestComplete("An Assassin's Greed"), ResponseCondition.QuestNotInProgressOrDone("Smash the CraftSquad")),
@@ -166,6 +179,11 @@ namespace LogicSpawn.GTARPG.Core.Repository
 
             var npc5 = new NpcObject("Jackson", PedHash.Clay, new Vector3(-567, -1072, 22), 162f);
             npc5.SetBlip(BlipSprite.RPG);
+            npc5.SetQuestsToGive();
+            npc5.SetPersonalQuestLine("Potential", "Doe!");
+            npc5.SetQuestHandIns("Potential","Doe!");
+            npc5.SetSideQuests();
+            npc5.SetQuestConditions();
             npc5.SetDialog("What's up man?",
                            Response("I've got the package right here, and the thugs are out of the picture", 0).WithCondition(ResponseCondition.QuestConditionsDone("Potential")),
                            Response("The Golden Doe has landed, or some shit", 8).WithCondition(ResponseCondition.QuestConditionsDone("Doe!")),
@@ -215,6 +233,10 @@ namespace LogicSpawn.GTARPG.Core.Repository
         static Response Response(string text, ResponseAction action, Action custaction)
         {
             return new Response(text, action, custaction);
+        }
+        static QuestConditionCheck Condition(string quest, string conditionName)
+        {
+            return new QuestConditionCheck(quest, conditionName);
         }
     }
 }

@@ -50,8 +50,8 @@ namespace LogicSpawn.GTARPG.Core.General
         public override void OnOpen()
         {
             SelectedIndex = 1;
-            _oldShowUI = RPG.UIHandler.ShowUI;
-            RPG.UIHandler.ShowUI = false;
+            _oldShowUI = RPGSettings.ShowUI;
+            RPGSettings.ShowUI = false;
             Game.Player.CanControlCharacter = false;
         }
 
@@ -64,7 +64,7 @@ namespace LogicSpawn.GTARPG.Core.General
         public override void OnClose()
         {
             Game.Player.CanControlCharacter = true;
-            RPG.UIHandler.ShowUI = _oldShowUI;
+            RPGSettings.ShowUI = _oldShowUI;
         }
 
         public override void Draw()

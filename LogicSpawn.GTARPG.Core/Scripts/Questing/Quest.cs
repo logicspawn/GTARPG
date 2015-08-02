@@ -213,8 +213,37 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
         {
           if(IsContract)
           {
+
+              if (!RPG.PlayerData.Tutorial.LearntAboutIcons && RPG.PlayerData.Tutorial.PurchasedContract)
+              {
+                  var tut = RPG.GetPopup<TutorialBox>();
+                  RPG.PlayerData.Tutorial.LearntAboutIcons = true;
+                  EventHandler.Do(o =>
+                  {
+                      tut.Hide();
+                      EventHandler.Wait(300);
+                      tut.Pop("The information blip is for available quests and speech bubbles for interaction.", "The star blip is for handing in quests. Hand in the quest 'The Grind Begins'");
+                  });
+              } 
+
               RPG.PlayerData.CompletedContracts++;
           }
+
+            if(Name == "The Grind Begins")
+            {
+                if (!RPG.PlayerData.Tutorial.LearntAboutCrafting && RPG.PlayerData.Tutorial.LearntAboutIcons)
+                {
+                    var tut = RPG.GetPopup<TutorialBox>();
+                    RPG.PlayerData.Tutorial.LearntAboutCrafting = true;
+                    EventHandler.Do(o =>
+                    {
+                        tut.Hide();
+                        EventHandler.Wait(300);
+                        tut.Pop("Crafting can help you get items you need.", "Access the menu > Actions > Craft Items and craft a 'Vehicle Repair Kit'");
+                    });
+                }   
+            }
+            
             RPG.PlayerData.AddExp(ExpReward);
             RPG.PlayerData.AddMoney(MoneyReward);
 
@@ -464,6 +493,11 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
             HandInBlipPosition = position;
             return this;
         }
+
+        public QuestCondition GetCondition(string conditionName)
+        {
+            return Conditions.FirstOrDefault(c => c.Name == conditionName);
+        }
     }
 
     public class QuestReward
@@ -605,6 +639,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
 
             var models = modelHashes;
             c.ProgressPrefix = progressPrefix;
+            c.Name = progressPrefix;
             c.Parameters.Add("ModelHash", models);
             c.Parameters.Add("Amount",amount);
             return c;
@@ -614,6 +649,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
             var c = new QuestCondition {Type = ConditionType.Kill};
 
             c.ProgressPrefix = progressPrefix;
+            c.Name = progressPrefix;
             c.Parameters.Add("Amount",amount);
             return c;
         }
@@ -624,6 +660,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
 
             var models = modelHashes;
             c.Position = position;
+            c.Name = progressPrefix;
             c.ProgressPrefix = progressPrefix;
             c.Parameters.Add("ModelHash", models);
             c.Parameters.Add("Amount",amount);
@@ -633,6 +670,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
         {
             var c = new QuestCondition {Type = ConditionType.Kill};
             c.Position = position;
+            c.Name = progressPrefix;
             c.ProgressPrefix = progressPrefix;
             c.Parameters.Add("Amount",amount);
             return c;
@@ -644,6 +682,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
 
             var models = vehicleHashes;
             c.ProgressPrefix = progressPrefix;
+            c.Name = progressPrefix;
             c.Parameters.Add("VehHash", models);
             c.Parameters.Add("Amount", amount);
             return c;
@@ -653,6 +692,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
             var c = new QuestCondition { Type = ConditionType.DestroyVehicle };
 
             c.ProgressPrefix = progressPrefix;
+            c.Name = progressPrefix;
             c.Parameters.Add("Amount", amount);
             return c;
         }
@@ -662,6 +702,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
         {
             var c = new QuestCondition {Type = ConditionType.Loot};
             c.ProgressPrefix = progressPrefix;
+            c.Name = progressPrefix;
             var models = modelHashes;
             c.Parameters.Add("ModelHash", models);
             c.Parameters.Add("ItemName",itemName);
@@ -676,6 +717,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
             var models = vehicleHashes;
 
             c.ProgressPrefix = progressPrefix;
+            c.Name = progressPrefix;
             c.Parameters.Add("VehHash", models);
             c.Parameters.Add("ItemName",itemName);
             c.Parameters.Add("Amount",amountNeeded);
@@ -688,6 +730,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
         {
             var c = new QuestCondition {Type = ConditionType.Loot};
             c.ProgressPrefix = progressPrefix;
+            c.Name = progressPrefix;
             c.Parameters.Add("ItemName",itemName);
             c.Parameters.Add("Amount",amountNeeded);
             c.Parameters.Add("DropRate", dropRateOutOf100);
@@ -699,6 +742,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
             var c = new QuestCondition {Type = ConditionType.Loot};
 
             c.ProgressPrefix = progressPrefix;
+            c.Name = progressPrefix;
             c.Parameters.Add("ItemName",itemName);
             c.Parameters.Add("Amount",amountNeeded);
             c.Parameters.Add("DropRate", dropRateOutOf100);
@@ -710,6 +754,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
         public static QuestCondition Acquire(string progressPrefix, string itemName, int amountNeeded)
         {
             var c = new QuestCondition { Type = ConditionType.Acquire };
+            c.Name = progressPrefix;
             c.ProgressPrefix = progressPrefix;
             c.Parameters.Add("ItemName", itemName);
             c.Parameters.Add("Amount", amountNeeded);

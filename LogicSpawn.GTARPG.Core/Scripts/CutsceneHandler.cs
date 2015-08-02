@@ -49,7 +49,7 @@ namespace LogicSpawn.GTARPG.Core
 
             Function.Call(Hash.DISPLAY_HUD, 0);
             Function.Call(Hash.DISPLAY_RADAR, 0);
-            RPG.UIHandler.ShowUI = false;
+            RPGSettings.ShowUI = false;
         }
 
         private void StartCutscene(Cutscene cutscene)
@@ -76,7 +76,7 @@ namespace LogicSpawn.GTARPG.Core
             //Re-enable UI
             Function.Call(Hash.DISPLAY_HUD, 1);
             Function.Call(Hash.DISPLAY_RADAR, 1);
-            RPG.UIHandler.ShowUI = true;
+            RPGSettings.ShowUI = true;
 
             NeededPeds = null;
             NeededVehicles = null;

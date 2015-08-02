@@ -129,8 +129,8 @@ namespace LogicSpawn.GTARPG.Core.General
         {
             Function.Call(Hash.DISPLAY_HUD, 0);
             Function.Call(Hash.DISPLAY_RADAR, 0);
-            _showUIOld = RPG.UIHandler.ShowUI;
-            RPG.UIHandler.ShowUI = false;
+            _showUIOld = RPGSettings.ShowUI;
+            RPGSettings.ShowUI = false;
             RPG.UIHandler.CurrentMenu = this;
             Game.Player.CanControlCharacter = false;
         }
@@ -141,7 +141,7 @@ namespace LogicSpawn.GTARPG.Core.General
             Function.Call(Hash.DISPLAY_RADAR, 1);
             Game.Player.CanControlCharacter = true;
             RPG.UIHandler.CurrentMenu = null;
-            RPG.UIHandler.ShowUI = _showUIOld;
+            RPGSettings.ShowUI = _showUIOld;
         }
 
         public override void OnActivate()

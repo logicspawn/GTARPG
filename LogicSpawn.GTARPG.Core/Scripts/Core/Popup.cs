@@ -67,7 +67,7 @@ namespace LogicSpawn.GTARPG.Core
 
                 if (_timeWaited > showTime - fadeTime)
                 {
-                    if (HideOnlyWhenClosed)
+                    if (HideOnlyWhenClosed || HideTillManuallyClosed)
                     {
                         while (_show && !Function.Call<bool>(Hash.IS_CUTSCENE_ACTIVE))
                         {
@@ -132,6 +132,7 @@ namespace LogicSpawn.GTARPG.Core
 
         protected virtual bool FadeInPopup { get { return true; } }
         protected virtual bool HideOnlyWhenClosed { get { return false; } }
+        protected virtual bool HideTillManuallyClosed { get { return false; } }
         protected virtual bool FadeOutPopup { get { return true; } }
     }
 }

@@ -30,7 +30,7 @@ namespace LogicSpawn.GTARPG.Core.General
 
         public override void Draw()
         {
-            if (!RPG.UIHandler.ShowUI) return;
+            if (!RPGSettings.ShowUI) return;
 
             new UIRectangle(new Point(0, 0), new Size(UI.WIDTH, UI.HEIGHT), Color.FromArgb(180, 80, 80, 80)).Draw();
             new UIRectangle(new Point(0, (int)(UI.HEIGHT * 0.30f)), new Size(UI.WIDTH, 220 + PanelBorder*2), Color.FromArgb(240, 28, 28, 28)).Draw();
@@ -75,7 +75,7 @@ namespace LogicSpawn.GTARPG.Core.General
         
         public override void Draw(Size offset)
         {
-            if (!RPG.UIHandler.ShowUI) return;
+            if (!RPGSettings.ShowUI) return;
 
             Draw();
         }

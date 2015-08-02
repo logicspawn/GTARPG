@@ -8,15 +8,17 @@ namespace LogicSpawn.GTARPG.Core
         
         public override void Update()
         {
+            if (!RPGSettings.EnableAutoSave) return;
             if (!RPG.GameLoaded || !RPG.LoadedSuccessfully || CharCreationNew.Enabled) return;
 
-            Wait(30000);
+            Wait(RPGSettings.AutosaveInterval * 1000);
+            if (!RPGSettings.EnableAutoSave) return;
             if (!RPG.GameLoaded || !RPG.LoadedSuccessfully || CharCreationNew.Enabled) return;
 
             while(RPG.GameLoaded)
             {
                 RPG.SaveAllData();
-                Wait(30000);
+                Wait(RPGSettings.AutosaveInterval * 1000);
             }
         }
 

@@ -50,7 +50,23 @@ namespace LogicSpawn.GTARPG.Core
             WorldData = new WorldData();
             SkillHandler = new SkillHandler();
             Settings = ScriptSettings.Load("scripts\\GTARPG\\config.ini");
+            InitSettings();
             GameMode = GameMode.NotPlaying;
+        }
+
+        private static void InitSettings()
+        {
+            RPGSettings.AudioVolume = Settings.GetValue("Options", "AudioVolume", 35);
+            RPGSettings.PlayKillstreaks = Settings.GetValue("Options", "PlayKillAnnouncements", true);
+            RPGSettings.ShowKillstreaks = Settings.GetValue("Options", "ShowKillAnnouncements", true);
+            RPGSettings.ShowPrerequisiteWarning = Settings.GetValue("Options", "ShowPrerequisiteWarning", true);
+            RPGSettings.ShowPressYToStart = Settings.GetValue("Options", "ShowPressYToStart", true);
+            RPGSettings.EnableAutoSave = Settings.GetValue("Options", "EnableAutoSave", true);
+            RPGSettings.AutosaveInterval = Settings.GetValue("Options", "AutosaveIntervalSeconds", 30);
+            RPGSettings.AutostartRPGMode = Settings.GetValue("Options", "AutostartRPGMode", true);
+            RPGSettings.ShowQuestTracker = Settings.GetValue("Options", "ShowQuestTracker", true);
+            RPGSettings.ShowSkillBar = Settings.GetValue("Options", "ShowSkillBar", true);
+            RPGSettings.SafeArea = Settings.GetValue("Options", "SafeArea", 10);
         }
 
         private static Notifier Notifier
@@ -127,7 +143,7 @@ namespace LogicSpawn.GTARPG.Core
             Loading = false;
         }
 
-        public static void InitCharacter(bool spawnCar = true)
+        public static void InitCharacter()
         {
             LoadTutorial();
             RPG.GameMode = GameMode.FullRPG;
@@ -143,18 +159,6 @@ namespace LogicSpawn.GTARPG.Core
                 Script.Wait(500);
             }
             
-            //Load weapons ETC            
-            if(spawnCar)
-            {
-                RPGLog.Log("Spawning Car");
-                var vec = RPGMethods.SpawnCar();
-                if (vec == null)
-                {
-                    RPGLog.Log("Vehicle was null, player or character must of been null.");
-                    return;
-                }
-            }
-
             //remember we can control max health/ /useful for skills later on
             RPGLog.Log("Setting player HP");
             Game.Player.Character.MaxHealth = 100;
@@ -223,11 +227,27 @@ namespace LogicSpawn.GTARPG.Core
             }
             else if(!PlayerData.Tutorial.TutorialDoneExceptSpeak)
             {
-                GetPopup<TutorialBox>().Pop("Quest hand in NPCs are marked by the dollar sign on the map.", "Drive to Matthew ($) and press E to speak with him and finish your quest.");
+                GetPopup<TutorialBox>().Pop("Quest hand in locations are marked by the white star blip on the map.", "Drive to Matthew ($) and press E to speak with him and finish your quest.");
             }
             else if(!PlayerData.Tutorial.SpokeToNpc)
             {
-                GetPopup<TutorialBox>().Pop("Quest hand in NPCs are marked by the dollar sign on the map.", "Drive to Matthew ($) and press E to speak with him and finish your quest.");
+                GetPopup<TutorialBox>().Pop("Quest hand in locations are marked by the white star blip on the map.", "Drive to Matthew ($) and press E to speak with him and finish your quest.");
+            }
+            else if(!PlayerData.Tutorial.PurchasedContract)
+            {
+                GetPopup<TutorialBox>().Pop("Contracts are an easy way to earn exp and loot outside of missions.", "Access the menu > Actions > Get Random Contract to get a new contract.");
+            }
+            else if (!PlayerData.Tutorial.LearntAboutIcons)
+            {
+                GetPopup<TutorialBox>().Pop("The information blip is for available quests and speech bubbles for interaction.", "The star blip is for handing in quests. Hand in the quest 'The Grind Begins'");
+            }
+            else if (!PlayerData.Tutorial.LearntAboutCrafting)
+            {
+                GetPopup<TutorialBox>().Pop("Crafting can help you get items you need.", "Access the menu > Actions > Craft Items and craft a 'Vehicle Repair Kit'");
+            }
+            else if (!PlayerData.Tutorial.LearntAboutSkillbar)
+            {
+                GetPopup<TutorialBox>().Pop("You can use items directly from the inventory or bind them to your skillbar.", "Access the menu > Character Menu > Set SkillBar and bind 'Health Kit' to T");
             }
         }
 

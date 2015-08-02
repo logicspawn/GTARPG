@@ -18,7 +18,7 @@ namespace LogicSpawn.GTARPG.Core.General
 
         public override void Draw(Size offset)
         {
-            if (!RPG.UIHandler.ShowUI) return;
+            if (!RPGSettings.ShowUI) return;
 
             new UIRectangle(new Point(offset.Width, offset.Height - UI.HEIGHT), new Size(300, UI.HEIGHT), UnselectedItemColor).Draw();
             _banner.Draw(new Point(offset.Width,offset.Height), 300, 70);
@@ -35,7 +35,7 @@ namespace LogicSpawn.GTARPG.Core.General
 
         public override void Draw()
         {
-            if (!RPG.UIHandler.ShowUI) return;
+            if (!RPGSettings.ShowUI) return;
 
             Draw(new Size());
         }

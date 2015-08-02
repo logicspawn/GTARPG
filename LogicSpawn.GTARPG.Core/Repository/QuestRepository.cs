@@ -23,7 +23,6 @@ namespace LogicSpawn.GTARPG.Core.Repository
 
                 //Starting Quest
                 Quests.Add(new Quest("Welcome to GTA:RPG", "Show me you've got what it takes.", false, false, 10, 500)
-                               .AddFinishBlip(new Vector3(-8.9106f, -1090.779f, 26.6720f))
                                .AddCondiiton(QuestCondition.Custom("Complete the tutorial", "Tutorial", () => RPG.PlayerData.Tutorial.TutorialDoneExceptSpeak))
                                .WithCannotBeCancelled()
                                .WithOnStart(q => EventHandler.Do(o =>
@@ -42,7 +41,6 @@ namespace LogicSpawn.GTARPG.Core.Repository
                 );
                 Quests.Add(new Quest("The Grind Begins", "Complete a contract and return to Matthew.", false, false, 15, 600)
                                .AddCondiiton(QuestCondition.Custom("Contract completed","q_Start_contract", ()=> RPG.PlayerData.CompletedContracts > 0))
-                               .AddFinishBlip(new Vector3(-8.9106f, -1090.779f, 26.6720f))
                                .WithCannotBeCancelled()
                                .WithOnStart(q => EventHandler.Do(o =>
                                                                       {
@@ -50,16 +48,15 @@ namespace LogicSpawn.GTARPG.Core.Repository
                                                                           RPG.Subtitle("Apex: Matthew has told me what you've done, not bad... for a rookie.", 5000);EventHandler.Wait(5000);
                                                                           RPG.Subtitle("Apex: Access our network and purchase a contract through the actions interface.", 5000);EventHandler.Wait(5000);
                                                                           RPG.Subtitle("Apex: Hope those words weren't to big for you, get a contract done, and then return to Matthew.", 5000);EventHandler.Wait(5000);
+                                                                          RPG.GetPopup<TutorialBox>().Pop("Contracts are an easy way to earn exp and loot outside of missions.", "Access the menu > Actions > Get Random Contract to get a new contract.");
                                                                       }))
                 );
                 Quests.Add(new Quest("Potential", "Apex and co. are impressed by your abilities. Pass their test and prove you're truly good.", false, false, 25, 800)
-                               .AddFinishBlip(new Vector3(-567, -1072, 22))           
                                .AddCondiiton(QuestCondition.Acquire("Acquire the package", "Boxed Package",1))
                                .AddCondiiton(QuestCondition.Kill("Eliminate threats",5,new Vector3(-302,-1136,23),PedHash.Genstreet01AMO, PedHash.Genstreet01AMY)).WithSpawnedTargets(5)
                                .AddReward(QuestReward.Item("Bandages", 2), QuestReward.Item("Simple Protective Gear", 3))
                 );
                 Quests.Add(new Quest("Trouble in the Cap", "Help John Doe get some money so he can get some snacks.", false, false, 10, 800)
-                               .AddFinishBlip(new Vector3(-67f, -1208f, 28f))           
                                .AddCondiiton(QuestCondition.LootAnyPed("Wallets Stolen","Men's Wallet","prop_ld_wallet_02",80,5))
                                .AddCondiiton(QuestCondition.LootAnyPed("Purses Stolen","Woman's Purse","prop_ld_purse_01",80,5))
                                .AddReward(QuestReward.Item("Bandages", 2), QuestReward.Item("Simple Protective Gear", 3))
@@ -85,7 +82,6 @@ namespace LogicSpawn.GTARPG.Core.Repository
                 
                 //-- John 'side-quest'
                 Quests.Add(new Quest("Doe!", "Accept John's apology.", false, false, 25, 800)
-                               .AddFinishBlip(new Vector3(-567, -1072, 22))           
                                .AddCondiiton(QuestCondition.Custom("Get to Jackson", "q_Reach_Jackson", () => Game.Player.Character.Position.DistanceTo(new Vector3(-567, -1071, 22)) < 5))
                                .AddReward(QuestReward.Item("Adv Health Kit", 5), QuestReward.Item("Adv Armor Kit", 5))
                 );
@@ -140,7 +136,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
                 );
 
                 Quests.Add(new Quest("Grandrune", "Buddy of mine starting playing a new game, he's a roleplayer you know? Get some cowhides for him.", true, true, 15, 650)
-                               .AddCondiiton(QuestCondition.Loot("Cowhide @ 130gp ea", "Cowhide", "prop_paper_box_01", 100, 5, PedHash.Cow)).WithSpawnedTargets(5)
+                               .AddCondiiton(QuestCondition.Loot("Cowhides @ 130gp ea", "Cowhide", "prop_paper_box_01", 100, 5, PedHash.Cow)).WithSpawnedTargets(5)
                                .WithSpawnedTargets()
                 );
                 Quests.Add(new Quest("Theftscape", "Buddy of mine starting playing a new game, he's a roleplayer you know? Get some feathers for him.", true, true, 15, 650)
@@ -177,7 +173,7 @@ namespace LogicSpawn.GTARPG.Core.Repository
 
                 Quests.Add(new Quest("Rampage", "Trevor would like this one. Kill and destroy. That is all.", true, true, 25, 1000)
                                .AddCondiiton(QuestCondition.KillAny("Mindless kills", 10))
-                               .AddCondiiton(QuestCondition.DestroyAnyVehicle("Ruthless destruction", 5))
+                               .AddCondiiton(QuestCondition.DestroyAnyVehicle("Vehicles Rekt", 5))
                                .AddReward(QuestReward.Item("Adv Health Kit", 2), QuestReward.Item("Vehicle Repair Kit", 1))
                 );
             }

@@ -24,7 +24,7 @@ namespace LogicSpawn.GTARPG.Core.General
 
         public override void Draw(Size offset)
         {
-            if (!RPG.UIHandler.ShowUI) return;
+            if (!RPGSettings.ShowUI) return;
 
             if (ExtendWindowHeight)
             {
@@ -53,7 +53,7 @@ namespace LogicSpawn.GTARPG.Core.General
 
         public override void Draw()
         {
-            if (!RPG.UIHandler.ShowUI) return;
+            if (!RPGSettings.ShowUI) return;
 
             Draw(new Size());
         }
@@ -108,7 +108,7 @@ namespace LogicSpawn.GTARPG.Core.General
 
         public override void Draw(Size offset)
         {
-            if (!RPG.UIHandler.ShowUI) return;
+            if (!RPGSettings.ShowUI) return;
 
             if (ExtendWindowHeight)
             {
@@ -228,7 +228,7 @@ namespace LogicSpawn.GTARPG.Core.General
 
         public override void Draw()
         {
-            if (!RPG.UIHandler.ShowUI) return;
+            if (!RPGSettings.ShowUI) return;
 
             Draw(new Size());
         }

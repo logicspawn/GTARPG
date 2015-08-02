@@ -85,6 +85,7 @@
     <Compile Include="Repository\ItemRepository.cs" />
     <Compile Include="Scripts\AbilityTrees\NTree.cs" />
     <Compile Include="Scripts\Popups\MessageToPlayer.cs" />
+    <Compile Include="Scripts\RPGSettings.cs" />
     <Compile Include="Scripts\SkillEventHandler.cs" />
     <Compile Include="Scripts\CutsceneHandler.cs" />
     <Compile Include="Scripts\Popups\TutorialBox.cs" />

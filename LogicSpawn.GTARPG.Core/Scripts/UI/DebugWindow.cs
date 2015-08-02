@@ -92,9 +92,14 @@ namespace LogicSpawn.GTARPG.Core
                 //RPG.WorldData.AddLoot(new LootItem(ItemRepository.Get("Vehicle Parts"), p));
 
 
-                //Model m2 = PedHash.Genstreet01AMY;
-                //var ped2 = World.CreatePed(m2, new Vector3(Game.Player.Character.Position.X + 0.5f, Game.Player.Character.Position.Y + 0.5f, Game.Player.Character.Position.Z + 0.5f));
-                //RPG.PlayerData.AddExp(100);
+                for (int i = 0; i < 15; i++)
+                {
+                    Model m2 = PedHash.Genstreet01AMY;
+                    m2.Request(1000);
+                    var ped2 = World.CreatePed(m2, new Vector3(Game.Player.Character.Position.X + 0.5f, Game.Player.Character.Position.Y + 0.5f, Game.Player.Character.Position.Z + 0.5f) + Vector3.RandomXY());
+                    RPG.WorldData.AddPed(new NpcObject(i + "asdasd",ped2));
+                }
+               
 
             }
 

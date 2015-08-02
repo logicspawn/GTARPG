@@ -27,26 +27,31 @@ namespace LogicSpawn.GTARPG.Core
         {
             if (Enabled && keyEventArgs.KeyCode == Keys.Y)
             {
-                World.DestroyAllCameras();
-                Game.Player.CanControlCharacter = true;
+                StartRPGMode();
+            }
+        }
 
-                string missing;
-                var statusGood = CheckStatus(out missing);
-                if(statusGood)
-                {
-                    RPG.Initialise();
-                    Enabled = false;
-                }
-                else
-                {
-                    var mb = (RPGMessageBox)RPGMessageBox.Create("Missing: " + missing + " View readme for more info.",
-                                               "Play Anyway ( WARNING: Bugs/errors expected))", "Return to normal mode", PlayAnyway, () => { RPGMethods.ReturnToNormal(); RPG.UIHandler.View.CloseAllMenus(); });
-                    RPGUI.FormatMenu(mb);
-                    mb.TopColor = Color.Red;
-                    mb.HeaderScale = 0.5f;
-                    RPG.UIHandler.View.AddMenu(mb);
-                    Enabled = false;
-                }
+        private void StartRPGMode()
+        {
+            World.DestroyAllCameras();
+            Game.Player.CanControlCharacter = true;
+
+            string missing;
+            var statusGood = CheckStatus(out missing);
+            if (statusGood || !RPGSettings.ShowPrerequisiteWarning)
+            {
+                RPG.Initialise();
+                Enabled = false;
+            }
+            else
+            {
+                var mb = (RPGMessageBox)RPGMessageBox.Create("Missing: " + missing + " View readme for more info.",
+                                           "Play Anyway ( WARNING: Bugs/errors expected))", "Return to normal mode", PlayAnyway, () => { RPGMethods.ReturnToNormal(); RPG.UIHandler.View.CloseAllMenus(); });
+                RPGUI.FormatMenu(mb);
+                mb.TopColor = Color.Red;
+                mb.HeaderScale = 0.5f;
+                RPG.UIHandler.View.AddMenu(mb);
+                Enabled = false;
             }
         }
 
@@ -140,6 +145,12 @@ namespace LogicSpawn.GTARPG.Core
 
             Function.Call(Hash.SET_PLAYER_WEAPON_DAMAGE_MODIFIER, Game.Player, 1.0f);
             Function.Call(Hash.SET_AI_WEAPON_DAMAGE_MODIFIER, 1.0f);
+
+            if (RPGSettings.AutostartRPGMode)
+            {
+                Wait(500);
+                StartRPGMode();
+            }
         }
 
 
@@ -148,6 +159,7 @@ namespace LogicSpawn.GTARPG.Core
         public override void Update()
         {
             if (!Enabled) return;
+            if (!RPGSettings.ShowPressYToStart) return;
 
             new UIText("press y to play gta:rpg", new Point(UI.WIDTH - 100 , 10), 0.22f, Color.White, 0, false).Draw();
             new UIRectangle(new Point(UI.WIDTH - 100, 10), new Size(95, 15), Color.FromArgb(120, 8, 8, 8)).Draw();

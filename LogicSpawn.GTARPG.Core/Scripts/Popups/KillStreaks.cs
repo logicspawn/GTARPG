@@ -14,11 +14,6 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Popups
             Show(count);
         }
 
-        public void Pop(string text)
-        {
-            Show(text);
-        }
-
         protected override void OnPopup(UIContainer popup, object[] args)
         {
             if (!args.Any()) return;
@@ -26,7 +21,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Popups
             var text = TextToShow(args[0]);
 
             if (string.IsNullOrEmpty(text)) return;
-
+            if (!RPGSettings.ShowKillstreaks) return;
             popup.Size = new Size(UI.WIDTH, 105);
             popup.Position = new Point(0, 100);
 

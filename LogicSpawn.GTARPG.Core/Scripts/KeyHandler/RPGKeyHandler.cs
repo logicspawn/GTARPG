@@ -167,7 +167,7 @@ namespace LogicSpawn.GTARPG.Core
 
         private void ToggleUI()
         {
-            RPG.UIHandler.ShowUI = false;
+            RPGSettings.ShowUI = false;
         }
 
         private void ShowQuestLog()
@@ -256,7 +256,7 @@ namespace LogicSpawn.GTARPG.Core
                 {
                     tut.Hide();
                     EventHandler.Wait(300);
-                    tut.Pop("Quest hand in NPCs are marked by the dollar sign on the map.", "Drive to Matthew ($) and press E to speak with him and finish your quest.");
+                    tut.Pop("Quest hand in locations are marked by the white star blip on the map.", "Drive to Matthew ($) and press E to speak with him and finish your quest.");
                 });
             } 
             RPGMethods.SpawnCar(); 

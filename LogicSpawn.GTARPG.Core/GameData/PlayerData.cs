@@ -105,17 +105,17 @@ namespace LogicSpawn.GTARPG.Core
             }
         }
 
-        public void AddItem(string stringVal, int intVal)
+        public void AddItem(string itemName, int quantity)
         {
-            var i = ItemRepository.Get(stringVal);
-            i.Quantity = intVal;
+            var i = ItemRepository.Get(itemName);
+            i.Quantity = quantity;
             AddItem(i);
         }
 
         public void AddExp(int i)
         {
             Exp += i;
-            SkillExp += Exp * 15;
+            SkillExp += (int)Math.Max(1,Exp * 0.05);
             if (Exp >= ExpToLevel)
             {
                 Exp -= ExpToLevel;
@@ -179,6 +179,10 @@ namespace LogicSpawn.GTARPG.Core
         public bool SpawnVehicle;
         public bool TutorialDoneExceptSpeak;
         public bool SpokeToNpc;
+        public bool PurchasedContract;
+        public bool LearntAboutIcons;
+        public bool LearntAboutCrafting;
+        public bool LearntAboutSkillbar;
     }
 
     public enum PlayerClass

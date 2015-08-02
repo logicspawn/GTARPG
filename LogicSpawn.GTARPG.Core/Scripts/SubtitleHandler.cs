@@ -19,7 +19,7 @@ namespace LogicSpawn.GTARPG.Core
         {
             if (string.IsNullOrEmpty(text)) return;
             var t = text;
-            RPG.UIHandler.ShowingSubtitle = true;
+            RPGSettings.ShowingSubtitle = true;
             UI.ShowSubtitle(text,duration);
             var intervals = duration/50 + 1;
             bool changed = false;
@@ -35,7 +35,7 @@ namespace LogicSpawn.GTARPG.Core
             }
 
             if (!changed)
-                RPG.UIHandler.ShowingSubtitle = false;
+                RPGSettings.ShowingSubtitle = false;
             
             if(!changed)
                 text = null;

@@ -159,7 +159,7 @@ namespace LogicSpawn.GTARPG.Core.General
                 {
                     var wepDefinition = PlayerData.Weapons[i];
                     Game.Player.Character.Weapons.Give(wepDefinition.WeaponHash, 0, false, false);
-                    Script.Wait(250);
+                    Script.Wait(10);
                     Game.Player.Character.Weapons[wepDefinition.WeaponHash].Ammo = wepDefinition.AmmoCount;
                 }
                 Game.Player.Character.Weapons.Give(WeaponHash.Unarmed, 0, true, false);

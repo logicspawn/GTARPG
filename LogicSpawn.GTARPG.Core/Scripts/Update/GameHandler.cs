@@ -113,6 +113,35 @@ namespace LogicSpawn.GTARPG.Core
                     });
                 }
             }
+            if(!PlayerData.Tutorial.LearntAboutCrafting && PlayerData.Tutorial.LearntAboutIcons)
+            {
+                var tut = RPG.GetPopup<TutorialBox>();
+                var repairKit = PlayerData.Inventory.FirstOrDefault(i => i.Name.Contains("Vehicle Repair Kit"));
+                if(repairKit != null)
+                {
+                    PlayerData.Tutorial.LearntAboutCrafting = true;
+                    EventHandler.Do(o =>
+                    {
+                        PlayerData.AddItem("Health Kit",5);             
+                        tut.Hide();
+                        Wait(300);
+                        tut.Pop("You can use items directly from the inventory or bind them to your skillbar.", "Access the menu > Character Menu > Set SkillBar and bind 'Health Kit' to T");
+                    });
+                }
+            }
+            if(!PlayerData.Tutorial.LearntAboutSkillbar && PlayerData.Tutorial.LearntAboutCrafting)
+            {
+                var tut = RPG.GetPopup<TutorialBox>();
+                var healthKitInT = !PlayerData.SkillSlots[0].IsEmpty && PlayerData.SkillSlots[0].IsItem && PlayerData.SkillSlots[0].ItemName == "Health Kit";
+                if (healthKitInT)
+                {
+                    PlayerData.Tutorial.LearntAboutSkillbar = true;
+                    EventHandler.Do(o =>
+                    {
+                        tut.Hide();
+                    });
+                }
+            }
 
 	        CheckNpcs();
             
@@ -120,7 +149,7 @@ namespace LogicSpawn.GTARPG.Core
             {
                 if(l.Prop != null && l.Prop.Exists() && l.Item != null)
                 {
-                    if(RPG.UIHandler.ShowUI)
+                    if(RPGSettings.ShowUI)
                     {
                         var dist = l.Prop.Position.DistanceTo(Game.Player.Character.Position);
                         if (dist < 60)
@@ -448,21 +477,82 @@ namespace LogicSpawn.GTARPG.Core
             foreach(var npc in NpcDatas)
             {
                 var dist = npc.Position.DistanceTo(Game.Player.Character.Position);
-
-                if (npc.IsQuestNpc && dist < 20)
+                var npcStatus = npc.GetNpcStatus();
+                var npcBlip = WorldData.Blips.FirstOrDefault(b => b.Name == "Blip_" + npc.Name);
+                if(npcBlip != null)
                 {
-                    var pos = npc.Ped != null ? npc.Ped.Position : npc.Position;
-                    pos.Z += 1.0f;
-                    OutputArgument xArg = new OutputArgument();
-                    OutputArgument yArg = new OutputArgument();
-                    Function.Call(Hash._WORLD3D_TO_SCREEN2D, pos.X, pos.Y, pos.Z, xArg, yArg);
-                    var x = xArg.GetResult<float>();
-                    var y = yArg.GetResult<float>();
+                    var blipPos = npcBlip.Blip.Position;
 
-                    new UIRectangle(new Point((int)(UI.WIDTH * x) - 50, (int)(UI.HEIGHT * y) + 12), new Size(100, 2), Color.DodgerBlue).Draw();
-                    new UIText(npc.Name, new Point((int)(UI.WIDTH * x), (int)(UI.HEIGHT * y)), 0.21f, Color.White, 0, true).Draw();
+                    if(string.IsNullOrEmpty(npcStatus))
+                    {
+                        if (npcBlip.Blip.Sprite != npc.BlipSprite)
+                        {
+                            npcBlip.Blip.Remove();
+                            npcBlip.Blip = World.CreateBlip(blipPos);
+                            npcBlip.Blip.Sprite = npc.BlipSprite;
+                        }
+                    }
+                    else
+                    {
+                        var importantMarker = npcStatus[0];
+                        switch(importantMarker)
+                        {
+                            case '!':
+                                if (npcBlip.Blip.Sprite != BlipSprite.Information)
+                                {
+                                    npcBlip.Blip.Remove();
+                                    npcBlip.Blip = World.CreateBlip(blipPos);
+                                    npcBlip.Blip.Sprite = BlipSprite.Information;
+                                }
+                                break;
+                            case '?':
+                                if (npcBlip.Blip.Sprite != BlipSprite.GTAOMission)
+                                {
+                                    npcBlip.Blip.Remove();
+                                    npcBlip.Blip = World.CreateBlip(blipPos);
+                                    npcBlip.Blip.Sprite = BlipSprite.GTAOMission;
+                                }
+                                break;
+                            case '*':
+                                if (npcBlip.Blip.Sprite != BlipSprite.ChatBubble)
+                                {
+                                    npcBlip.Blip.Remove();
+                                    npcBlip.Blip = World.CreateBlip(blipPos);
+                                    npcBlip.Blip.Sprite = BlipSprite.ChatBubble;
+                                }
+                                break;
+                            case '$':
+                                if (npcBlip.Blip.Sprite != BlipSprite.Store)
+                                {
+                                    npcBlip.Blip.Remove();
+                                    npcBlip.Blip = World.CreateBlip(blipPos);
+                                    npcBlip.Blip.Sprite = BlipSprite.Store;
+                                }
+                                break;
+                        }
+                    }
                 }
 
+
+                if (RPGSettings.ShowUI && RPG.UIHandler.CurrentDialog == null)
+                {
+                    if (npc.IsQuestNpc && dist < 20)
+                    {
+                        var pos = npc.Ped != null ? npc.Ped.Position : npc.Position;
+                        pos.Z += 1.0f;
+                        OutputArgument xArg = new OutputArgument();
+                        OutputArgument yArg = new OutputArgument();
+                        Function.Call(Hash._WORLD3D_TO_SCREEN2D, pos.X, pos.Y, pos.Z, xArg, yArg);
+                        var x = xArg.GetResult<float>();
+                        var y = yArg.GetResult<float>();
+
+                        new UIRectangle(new Point((int) (UI.WIDTH*x) - 50, (int) (UI.HEIGHT*y) + 12), new Size(100, 2), Color.DodgerBlue).Draw();
+                        new UIText(npc.Name, new Point((int) (UI.WIDTH*x), (int) (UI.HEIGHT*y)), 0.21f, Color.White, 0, true).Draw();
+
+                        if(!string.IsNullOrEmpty(npcStatus))
+                            new UIText(npcStatus, new Point((int)(UI.WIDTH * x), (int)(UI.HEIGHT * y) - 35), 0.8f, Color.Gold, 0, true).Draw();
+                    }
+                }
                 if(npc.IsQuestNpc && !npc.Spawned)
                 {
                     

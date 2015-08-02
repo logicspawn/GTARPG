@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Windows.Forms;
 using GTA;
 
 namespace LogicSpawn.GTARPG.Core.General
@@ -12,7 +13,7 @@ namespace LogicSpawn.GTARPG.Core.General
          {
              Dictionary<String, List<Tuple<String, String> > >  result = new Dictionary<String  , List<Tuple<String, String>>>();
 
-             var mValues = (Dictionary<String, String>)typeof (ScriptSettings).GetField("mValues", BindingFlags.NonPublic).GetValue(settings);
+             var mValues = (Dictionary<String, String>)typeof (ScriptSettings).GetField("mValues", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(settings);
 
 		foreach (KeyValuePair<String  , String  > data in mValues)
 		{
@@ -35,7 +36,7 @@ namespace LogicSpawn.GTARPG.Core.General
 
 		try
 		{
-            var mFileName = (string)typeof (ScriptSettings).GetField("mFileName", BindingFlags.NonPublic).GetValue(settings);
+            var mFileName = Path.Combine(Application.StartupPath, "scripts\\GTARPG\\config.ini");
 			writer = File.CreateText(mFileName);
 		}
 		catch (IOException)

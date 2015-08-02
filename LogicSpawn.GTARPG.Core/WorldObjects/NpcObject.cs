@@ -20,7 +20,14 @@ namespace LogicSpawn.GTARPG.Core
         public DialogContainer Dialog;
         public List<string> SimpleDialog;
         public bool Spawned;
+        public bool IsVendor;
+        public List<string> QuestsToGive;
+        public List<string> PersonalQuestLine;
+        public List<string> QuestHandIns;
+        public List<string> SideQuests;
+        public List<QuestConditionCheck> QuestConditionChecks;
 
+        
         public override EntityType Type
         {
             get { return EntityType.Ped; }
@@ -28,7 +35,6 @@ namespace LogicSpawn.GTARPG.Core
 
         public NpcObject()
         {
-            BlipSprite = BlipSprite.SMG;
         }
 
         public NpcObject(string name, Ped ped)
@@ -37,6 +43,11 @@ namespace LogicSpawn.GTARPG.Core
             BlipSprite = BlipSprite.SMG;
             Name = name;
             Ped = ped;
+            QuestsToGive = new List<string>();
+            PersonalQuestLine = new List<string>();
+            QuestHandIns = new List<string>();
+            SideQuests = new List<string>();
+            QuestConditionChecks = new List<QuestConditionCheck>();
         }
         
         public NpcObject(string name, PedHash modelName, Vector3 pos, float heading)
@@ -51,6 +62,11 @@ namespace LogicSpawn.GTARPG.Core
             Dialog = new DialogContainer(this);
             SimpleDialog = new List<string>();
             Ped = null;
+            QuestsToGive = new List<string>();
+            PersonalQuestLine = new List<string>();
+            QuestHandIns = new List<string>();
+            SideQuests = new List<string>();
+            QuestConditionChecks = new List<QuestConditionCheck>();
         }
 
         public DialogContainer SetDialog(string npcText, params Response[] playerOptions)
@@ -63,6 +79,12 @@ namespace LogicSpawn.GTARPG.Core
         public NpcObject SetSimpleDialog(params string[] dialogs)
         {
             SimpleDialog.AddRange(dialogs);
+            return this;
+        }
+
+        public NpcObject SetAsVendor()
+        {
+            IsVendor = true;
             return this;
         }
 
@@ -81,6 +103,99 @@ namespace LogicSpawn.GTARPG.Core
         public void SetBlip(BlipSprite sprite)
         {
             BlipSprite = sprite;
+        }
+
+        public void SetQuestsToGive(params string[] quests)
+        {
+            QuestsToGive = quests.ToList();
+        }
+        public void SetPersonalQuestLine(params string[] quests)
+        {
+            PersonalQuestLine = quests.ToList();
+        }
+        public void SetQuestHandIns(params string[] quests)
+        {
+            QuestHandIns = quests.ToList();
+        }
+        public void SetSideQuests(params string[] quests)
+        {
+            SideQuests = quests.ToList();
+        }
+        public void SetQuestConditions(params QuestConditionCheck[] checks)
+        {
+            QuestConditionChecks = checks.ToList();
+        }
+
+        public string GetNpcStatus()
+        {
+            if (IsVendor) return "$";
+
+            var availableQuests = false;
+            var questsToHandIn = false;
+            var conditionChecks = false;
+
+            var sidequest = SideQuests.FirstOrDefault(s => !RPG.PlayerData.Quests.First(q => q.Name == s).InProgress);
+            if(sidequest != null)
+            {
+                if (PersonalQuestLine.FirstOrDefault(q => q == sidequest) == null)
+                    availableQuests = true;
+            }
+
+            for (int i = 0; i < PersonalQuestLine.Count; i++)
+            {
+                var questLineQuest = PersonalQuestLine[i];
+                var quest = RPG.PlayerData.Quests.First(q => q.Name == questLineQuest);
+                
+                if (quest.InProgress) break;
+                 
+                if (!quest.Done && (QuestsToGive.FirstOrDefault(q => q == questLineQuest) != null || SideQuests.FirstOrDefault(q => q == questLineQuest) != null))
+                {
+                    availableQuests = true;
+                    break;
+                }
+
+                if(!quest.Done)
+                {
+                    break;
+                }
+            }
+
+            if(QuestHandIns.Any(s => 
+                                    {
+                                        var qu = RPG.PlayerData.Quests.First(q => q.Name == s);
+                                        return qu.InProgress && qu.Conditions.All(c => c.Done);
+                                    }))
+            {
+                questsToHandIn = true;
+            }
+
+            if(QuestConditionChecks.Any(ch =>
+                                            {
+                                                var qu = RPG.PlayerData.Quests.First(q => q.Name == ch.QuestName);
+                                                return !qu.GetCondition(ch.ConditionName).Done;
+                                            } ))
+            {
+                conditionChecks = true;
+            }
+
+            var status = "";
+            if (availableQuests) status += "!";
+            if (questsToHandIn) status += "?";
+            if (conditionChecks) status += "*";
+
+            return status;
+        }
+    }
+
+    public class QuestConditionCheck
+    {
+        public string QuestName;
+        public string ConditionName;
+
+        public QuestConditionCheck(string questName, string conditionName)
+        {
+            QuestName = questName;
+            ConditionName = conditionName;
         }
     }
 

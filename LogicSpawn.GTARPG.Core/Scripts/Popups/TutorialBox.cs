@@ -6,7 +6,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Popups
 {
     public class TutorialBox : Popup
     {
-        protected override bool HideOnlyWhenClosed { get { return true; } }
+        protected override bool HideTillManuallyClosed { get { return true; } }
 
         public void Pop(string text1, string text2)
         {
@@ -43,7 +43,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Popups
 
         protected override int TimeToShowMs
         {
-            get { return 1000; }
+            get { return 10000; }
         }
     }
 }

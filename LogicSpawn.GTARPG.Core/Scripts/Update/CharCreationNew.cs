@@ -209,7 +209,7 @@ namespace LogicSpawn.GTARPG.Core
 
         private void ChangeSafeArea(double obj)
         {
-            RPG.UIHandler.SafeArea = (int)obj;
+            RPGSettings.SafeArea = (int)obj;
             SafeArea = (int) obj;
         }
 
@@ -474,7 +474,7 @@ namespace LogicSpawn.GTARPG.Core
             _shownGender = false;
             _shownClass = false;
             RPG.GetPopup<TutorialBox>().Hide();
-            RPG.UIHandler.SafeArea = SafeArea;
+            RPGSettings.SafeArea = SafeArea;
             RPGMethods.CleanupObjects();
 
             if (RPG.UIHandler != null && RPG.UIHandler.View != null)
@@ -580,7 +580,7 @@ namespace LogicSpawn.GTARPG.Core
                 Point rectanglePoint;
                 Point textPoint;
 
-                switch (RPG.UIHandler.SafeArea)
+                switch (RPGSettings.SafeArea)
                 {
                     case 0:
                         rectanglePoint = new Point((RPGInfo.IsWideScreen ? 63 : 63), UI.HEIGHT - 47);
@@ -915,8 +915,7 @@ namespace LogicSpawn.GTARPG.Core
             RPG.SaveAllData();
             Wait(500);
 
-            //Give personal vehicle
-            RPG.InitCharacter(false);
+            RPG.InitCharacter();
 
             Game.FadeScreenIn(500);
             RPG.GameHandler.Init();

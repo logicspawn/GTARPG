@@ -24,7 +24,7 @@ namespace LogicSpawn.GTARPG.Core
                 try
                 {
                     RPG.UIHandler.CloseAll();
-                    RPG.UIHandler.ShowUI = false;
+                    RPGSettings.ShowUI = false;
                     var c = World.CreateCamera(Game.Player.Character.Position + new Vector3(0, 0, 100), new Vector3(0, 0, 90), GameplayCamera.FieldOfView);
                     World.RenderingCamera = c;
 
@@ -60,7 +60,7 @@ namespace LogicSpawn.GTARPG.Core
                     Game.Player.Character.FreezePosition = false;
 
                     RPGMethods.OnRespawn();
-                    RPG.UIHandler.ShowUI = true;
+                    RPGSettings.ShowUI = true;
                     Function.Call(Hash.DISPLAY_HUD, 1);
                     Function.Call(Hash.DISPLAY_RADAR, 1);
                     World.RenderingCamera = null;

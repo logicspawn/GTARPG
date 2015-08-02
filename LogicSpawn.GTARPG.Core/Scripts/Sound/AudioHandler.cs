@@ -21,7 +21,10 @@ namespace LogicSpawn.GTARPG.Core
         {   
             get { return Path.Combine(_basePath, "Audio\\Sfx\\"); }
         }
-        public float Volume = 0.35f;
+        public float Volume
+        {
+            get { return (float)RPGSettings.AudioVolume/100; }
+        }
 
         public AudioHandler()
         {
@@ -96,6 +99,8 @@ namespace LogicSpawn.GTARPG.Core
 
         public IWavePlayer PlayKillStreak(string sfxName, string ext = "wav")
         {
+            if (!RPGSettings.PlayKillstreaks) return null;
+
             KillStreakDevice = KillStreakDevice ?? new WaveOutEvent();
 
             var path = SFXPath + sfxName + "." + ext;
