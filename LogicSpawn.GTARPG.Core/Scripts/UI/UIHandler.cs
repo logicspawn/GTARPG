@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -13,6 +14,7 @@ using GTA.Native;
 using LogicSpawn.GTARPG.Core.General;
 using LogicSpawn.GTARPG.Core.Objects;
 using LogicSpawn.GTARPG.Core.Repository;
+using LogicSpawn.GTARPG.Core.Scripts.Popups;
 using Control = GTA.Control;
 using Font = GTA.Font;
 using Menu = GTA.Menu;
@@ -49,11 +51,7 @@ namespace LogicSpawn.GTARPG.Core
             get { return RPG.PlayerData; }
         }
 
-        //ShowHide
-        public bool ShowUI = true;
-        public bool ShowSkillBar = true;
-        public bool ShowQuestTracker = true;
-        public bool ShowingSubtitle;
+
 
         //Dialog
         private NpcObject CurrentNpc;
@@ -71,15 +69,6 @@ namespace LogicSpawn.GTARPG.Core
             View.MenuOffset = new Point(-302, 0);
             View.MenuPosition = new Point(UI.WIDTH -300, 0);
 
-            OptionsMenu = new RPGMenu("Options", new GTASprite("CommonMenu", "interaction_bgd", Color.ForestGreen), new IMenuItem[] {
-                        new MenuButton("Save Game", "").WithActivate(() => { RPG.SaveAllData(); RPG.Subtitle("Saved");}),
-                        new MenuButton("New Game", "").WithActivate(NewGame),
-                        new MenuNumericScroller("SafeArea Setting","",0,10,1,RPG.PlayerData.Setup.SafeArea).WithNumericActions(ChangeSafeArea,d => { }), 
-                        new MenuToggle("Toggle Skill Bar", "",ShowSkillBar).WithToggles(() => ShowSkillBar = true, () => ShowSkillBar = false), 
-                        new MenuToggle("Toggle Quest Tracker", "").WithToggles(() => ShowQuestTracker = true, () => ShowQuestTracker = false), 
-                        new MenuButton("Mod Version: " + RPG.Version, ""), 
-                        new MenuButton("Back", "").WithActivate(() => View.PopMenu())
-                    });
             CharacterMenu = new RPGMenu("Character Menu", new GTASprite("CommonMenu", "interaction_bgd", Color.ForestGreen), new IMenuItem[] { 
                         new MenuButton("Quests", "").WithActivate(OpenQuestLog),
                         new MenuButton("Set Skillbar", "").WithActivate(OpenSkillBarMenu),
@@ -116,27 +105,124 @@ namespace LogicSpawn.GTARPG.Core
 
             
 
-            RPGUI.FormatMenu(OptionsMenu);
             RPGUI.FormatMenu(ActionsMenu);
             RPGUI.FormatMenu(MainMenu);
             RPGUI.FormatMenu(CharacterMenu);
         }
+
+        
 
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
             
         }
 
-        private void ChangeSafeArea(double obj)
-        {
-            RPG.PlayerData.Setup.SafeArea = (int) obj;
-        }
+        
 
 
         protected override void Start()
         {
+            RPGSettings.AudioVolume = RPG.Settings.GetValue("Options", "AudioVolume", 35);
+            RPGSettings.PlayKillstreaks = RPG.Settings.GetValue("Options", "PlayKillAnnouncements", true);
+            RPGSettings.ShowKillstreaks = RPG.Settings.GetValue("Options", "ShowKillAnnouncements", true);
+            RPGSettings.ShowPrerequisiteWarning = RPG.Settings.GetValue("Options", "ShowPrerequisiteWarning", true);
+            RPGSettings.ShowPressYToStart = RPG.Settings.GetValue("Options", "ShowPressYToStart", true);
+            RPGSettings.EnableAutoSave = RPG.Settings.GetValue("Options", "EnableAutoSave", true);
+            RPGSettings.AutosaveInterval = RPG.Settings.GetValue("Options", "AutosaveIntervalSeconds", 30);
+            RPGSettings.AutostartRPGMode = RPG.Settings.GetValue("Options", "AutostartRPGMode", true);
+            RPGSettings.ShowQuestTracker = RPG.Settings.GetValue("Options", "ShowQuestTracker", true);
+            RPGSettings.ShowSkillBar = RPG.Settings.GetValue("Options", "ShowSkillBar", true);
+            RPGSettings.SafeArea = RPG.Settings.GetValue("Options", "SafeArea", 10);
+
             NpcCamera = World.CreateCamera(Game.Player.Character.Position, Game.Player.Character.Rotation, GameplayCamera.FieldOfView);
+            OptionsMenu = new RPGMenu("Options", new GTASprite("CommonMenu", "interaction_bgd", Color.ForestGreen), new IMenuItem[] {
+                        new MenuButton("Save Game", "").WithActivate(() => { RPG.SaveAllData(); RPG.Subtitle("Saved");}),
+                        new MenuButton("New Game", "").WithActivate(NewGame),
+                        new MenuNumericScroller("AudioVolume","",0,100,10,RPGSettings.AudioVolume/10).WithNumericActions(ChangeAudioVolume,d => { }), 
+                        new MenuNumericScroller("SafeArea Setting","",0,10,1,RPGSettings.SafeArea).WithNumericActions(ChangeSafeArea,d => { }), 
+                        new MenuToggle("Toggle Skill Bar", "",RPGSettings.ShowSkillBar).WithToggles(ToggleSkillBar, ToggleSkillBar), 
+                        new MenuToggle("Toggle Quest Tracker", "",RPGSettings.ShowQuestTracker).WithToggles(ToggleQuestTracker, ToggleQuestTracker), 
+
+                        new MenuToggle("Play Kill Announcer Sounds", "",RPGSettings.PlayKillstreaks).WithToggles(ToggleKillAnnounceSounds, ToggleKillAnnounceSounds), 
+                        new MenuToggle("Show Killstreak Text", "",RPGSettings.ShowKillstreaks).WithToggles(ToggleShowKillAnnounce, ToggleShowKillAnnounce), 
+                        new MenuToggle("Show Prerequisite Warning", "",RPGSettings.ShowPrerequisiteWarning).WithToggles(ToggleWarning, ToggleWarning), 
+                        new MenuToggle("Show Press Y To Start", "",RPGSettings.ShowPressYToStart).WithToggles(ToggleShowPressY, ToggleShowPressY), 
+                        new MenuToggle("Enable Auto Save", "",RPGSettings.EnableAutoSave).WithToggles(ToggleAutoSave, ToggleAutoSave), 
+                        new MenuNumericScroller("Autosave Interval (s)","",0,120,10,RPGSettings.AutosaveInterval/10).WithNumericActions(ChangeAutosaveInterval,d => { }), 
+                        new MenuToggle("Autostart RPG Mode", "",RPGSettings.AutostartRPGMode).WithToggles(ToggleAutostartRPG, ToggleAutostartRPG), 
+
+
+                        new MenuButton("Mod Version: " + RPG.Version, ""), 
+                        new MenuButton("Back", "").WithActivate(() => View.PopMenu())
+                    });
+            RPGUI.FormatMenu(OptionsMenu);
         }
+
+        private void ToggleAutostartRPG()
+        {
+            RPGSettings.AutostartRPGMode = !RPGSettings.AutostartRPGMode;
+            RPG.Settings.SetValue("Options", "AutostartRPGMode", RPGSettings.AutostartRPGMode);
+        }
+        private void ToggleAutoSave()
+        {
+            RPGSettings.EnableAutoSave = !RPGSettings.EnableAutoSave;
+            RPG.Settings.SetValue("Options", "EnableAutoSave", RPGSettings.EnableAutoSave);
+        }
+        private void ToggleShowPressY()
+        {
+            RPGSettings.ShowPressYToStart = !RPGSettings.ShowPressYToStart;
+            RPG.Settings.SetValue("Options", "ShowPressYToStart", RPGSettings.ShowPrerequisiteWarning);
+        }
+
+        private void ToggleWarning()
+        {
+            RPGSettings.ShowPrerequisiteWarning = !RPGSettings.ShowPrerequisiteWarning;
+            RPG.Settings.SetValue("Options", "ShowPrerequisiteWarning", RPGSettings.ShowPrerequisiteWarning);
+        }
+
+        private void ToggleShowKillAnnounce()
+        {
+            RPGSettings.ShowKillstreaks = !RPGSettings.ShowKillstreaks;
+            RPG.Settings.SetValue("Options", "ShowKillAnnouncements", RPGSettings.ShowKillstreaks);
+        }
+
+        private void ToggleKillAnnounceSounds()
+        {
+            RPGSettings.PlayKillstreaks = !RPGSettings.PlayKillstreaks;
+            RPG.Settings.SetValue("Options", "PlayKillAnnouncements", RPGSettings.PlayKillstreaks);
+        }
+
+        private void ChangeAutosaveInterval(double obj)
+        {
+            RPGSettings.AutosaveInterval = (int)obj;
+            RPG.Settings.SetValue("Options", "AutosaveIntervalSeconds", RPGSettings.AutosaveInterval);
+        }
+
+        private void ChangeAudioVolume(double obj)
+        {
+            RPGSettings.AudioVolume = (int)obj;
+            RPG.Settings.SetValue("Options", "AudioVolume", RPGSettings.AudioVolume);
+        }
+
+        private void ToggleQuestTracker()
+        {
+            RPGSettings.ShowQuestTracker = !RPGSettings.ShowQuestTracker;
+            RPG.Settings.SetValue("Options", "ShowQuestTracker", RPGSettings.ShowQuestTracker);
+        }
+
+
+        private void ToggleSkillBar()
+        {
+            RPGSettings.ShowSkillBar = !RPGSettings.ShowSkillBar;
+            RPG.Settings.SetValue("Options", "ShowSkillBar", RPGSettings.ShowSkillBar);
+        }
+
+        private void ChangeSafeArea(double obj)
+        {
+            RPGSettings.SafeArea = (int)obj;
+            RPG.Settings.SetValue("Options", "SafeArea", RPGSettings.SafeArea);
+        }
+
         private void NewGame()
         {
             var confirm = RPGMessageBox.Create("Are you sure you want to start over?", "Start new game", "Continue playing", () =>
@@ -186,6 +272,16 @@ namespace LogicSpawn.GTARPG.Core
                 last.Add(nextContract.Name);
                 RPG.PlayerData.LastContracts = last.ToArray();
 
+                if (!RPG.PlayerData.Tutorial.PurchasedContract && RPG.PlayerData.Tutorial.SpokeToNpc)
+                {
+                    var tut = RPG.GetPopup<TutorialBox>();
+                    RPG.PlayerData.Tutorial.PurchasedContract = true;
+                    EventHandler.Do(o =>
+                    {
+                        tut.Hide();
+                    });
+                } 
+
                 nextContract.Start();
                 View.CloseAllMenus();
             }
@@ -222,7 +318,7 @@ namespace LogicSpawn.GTARPG.Core
                 {
                     RPGMethods.Loot(nearbyLoot);
                 }
-                else if (ShowUI)
+                else if (RPGSettings.ShowUI)
                 {
                     var interactUI = new UIContainer(new Point(UI.WIDTH / 2 - 120, UI.HEIGHT - 100), new Size(240, 17), Color.FromArgb(70, 70, 200, 70));
                     var lootStr = RPG.UsingController ? "Hold (A) To Loot " : "Press E To Loot ";
@@ -295,7 +391,7 @@ namespace LogicSpawn.GTARPG.Core
 
             }
 
-            if (!ShowUI || CurrentDialog != null) return;
+            if (!RPGSettings.ShowUI || CurrentDialog != null) return;
 
             //NPC Interact
             if(!showingLoot && CurrentDialog == null && !Game.Player.Character.IsInCombat)
@@ -315,13 +411,6 @@ namespace LogicSpawn.GTARPG.Core
             }
             
 
-            if (vehicle != null)
-            {
-                var speed = ((int)(vehicle.Speed * 2.45)).ToString("000");
-                new UIText(" MPH", new Point(RPGInfo.IsWideScreen ? 207 : 248, UI.HEIGHT - 41), 0.22f, Color.White, 0, false).Draw(); //55
-                new UIText(speed, new Point(RPGInfo.IsWideScreen ? 192 : 233, UI.HEIGHT - 41), 0.22f, Color.White, 0, false).Draw(); //55
-            }
-
             //Player text
             //new UIText(PlayerData.Name.ToLower() + " level " + PlayerData.Level + " criminal", new Point(51, UI.HEIGHT - 55), 0.25f, Color.White, 0, false).Draw();
             
@@ -337,7 +426,7 @@ namespace LogicSpawn.GTARPG.Core
             Point rectanglePoint;
             Point textPoint;
 
-            switch(PlayerData.Setup.SafeArea)
+            switch (RPGSettings.SafeArea)
             {
                 case 0:
                     rectanglePoint = new Point((RPGInfo.IsWideScreen ? 63 : 63), UI.HEIGHT - 47);
@@ -389,11 +478,18 @@ namespace LogicSpawn.GTARPG.Core
                     break;
             }
 
+            if (vehicle != null)
+            {
+                var speed = ((int)(vehicle.Speed * 2.45)).ToString("000");
+                new UIText(" MPH", new Point(RPGInfo.IsWideScreen ? textPoint.X + 156 : textPoint.X + 156, textPoint.Y), 0.22f, Color.White, 0, false).Draw(); //55
+                new UIText(speed, new Point(RPGInfo.IsWideScreen ? textPoint.X + 141 : textPoint.X + 141, textPoint.Y), 0.22f, Color.White, 0, false).Draw(); //55
+            }
+
             new UIRectangle(rectanglePoint, new Size(181, 10), borderColor).Draw(); //playerinfo
             new UIText(PlayerData.Name + " Level " + PlayerData.Level + " " + PlayerData.Class.ToString().Replace("_", " "), textPoint, 0.22f, Color.White, 0, false).Draw();
 
 
-            var offset = ShowingSubtitle ? - 85 : 0;
+            var offset = RPGSettings.ShowingSubtitle ? -85 : 0;
 
 
             new UIRectangle(new Point(UI.WIDTH / 2 - 173, UI.HEIGHT - 45 - 28 + offset), new Size(345, 10), Color.FromArgb(60, 0, 0, 0)).Draw();
@@ -434,15 +530,15 @@ namespace LogicSpawn.GTARPG.Core
 
 
             //Quest Tracker
-            if(ShowQuestTracker)
+            if (RPGSettings.ShowQuestTracker)
             {
                 GetQuestTracker().Draw();
             }
 
             //Skill bar
-            if(ShowSkillBar)
+            if (RPGSettings.ShowSkillBar)
             {
-                var skillOffset = ShowingSubtitle ? -80 : 0;
+                var skillOffset = RPGSettings.ShowingSubtitle ? -80 : 0;
                 var skillBarUI = RPG.SkillHandler.GetSkillBar(skillOffset);
                 skillBarUI.Draw();
             }
@@ -564,7 +660,7 @@ namespace LogicSpawn.GTARPG.Core
 
             //350 IS MAP height
             Point questTrackerPoint;
-            switch (PlayerData.Setup.SafeArea)
+            switch (RPGSettings.SafeArea)
             {
                 case 0:
                     questTrackerPoint = new Point((RPGInfo.IsWideScreen ? 63 : 63), 10);
@@ -721,8 +817,8 @@ namespace LogicSpawn.GTARPG.Core
             if(!IsOpen(OptionsMenu))
                 View.AddMenu(OptionsMenu);
 
-            toggleSkillbar.Value = ShowSkillBar;
-            toggleQuestTracker.Value = ShowQuestTracker;
+            toggleSkillbar.Value = RPGSettings.ShowSkillBar;
+            toggleQuestTracker.Value = RPGSettings.ShowQuestTracker;
 
             OptionsMenu.SelectedIndex = i;
         }
