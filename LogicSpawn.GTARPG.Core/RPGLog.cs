@@ -10,7 +10,7 @@ namespace LogicSpawn.GTARPG.Core
             if(string.IsNullOrEmpty(log))
                 L("");
             else
-                L("[INFO]" + log);
+                L("[INFO] " + log);
         }
 
         public static void LogError(Exception ex)
@@ -24,7 +24,7 @@ namespace LogicSpawn.GTARPG.Core
 
         public static void LogError(string error)
         {
-            L("[Error]" + error);
+            L("[Error] " + error);
         }
 
         private static void L(string s, bool raw = false)
@@ -40,7 +40,7 @@ namespace LogicSpawn.GTARPG.Core
             using (var stringwriter = new StreamWriter(logPath, true))
             {
                 if(!raw)
-                    stringwriter.WriteLine("[Log @ " + DateTime.Now + "] " + s);
+                    stringwriter.WriteLine("[" + DateTime.Now.ToLongTimeString() + "]" + s);
                 else
                     stringwriter.Write(s);
             }
