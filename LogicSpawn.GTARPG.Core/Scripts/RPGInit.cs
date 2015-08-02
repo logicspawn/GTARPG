@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using GTA;
 using GTA.Native;
 using LogicSpawn.GTARPG.Core.General;
+using Microsoft.Win32;
 
 namespace LogicSpawn.GTARPG.Core
 {
@@ -13,6 +14,10 @@ namespace LogicSpawn.GTARPG.Core
     {
         protected override bool RunWhenGameIsNotLoaded { get { return true; } }
         public static bool Enabled = true;
+        private bool hasScriptHookV;
+        private bool hasScriptHookDotNet;
+        private bool hasNet45;
+
         public RPGInit()
         {
             KeyDown += OnKeyDown;
@@ -22,7 +27,6 @@ namespace LogicSpawn.GTARPG.Core
         {
             if (Enabled && keyEventArgs.KeyCode == Keys.Y)
             {
-                RPGLog.Clear();
                 World.DestroyAllCameras();
                 Game.Player.CanControlCharacter = true;
 
@@ -56,17 +60,17 @@ namespace LogicSpawn.GTARPG.Core
         {
             var scripthookvpath = Path.Combine(Application.StartupPath, "ScriptHookV.dll");
             var scripthookvnetpath = Path.Combine(Application.StartupPath, "ScriptHookVDotNet.dll");
-            var scripthookv = GetMD5Hash(scripthookvpath) == "4be83badebac3da379555c83f18b6e94";
-            var scripthooknet = GetMD5Hash(scripthookvnetpath) == "68bf4bf432f95c1c18a6d290c8241c71";
-            var net45 = IsNet45OrNewer();
+            hasScriptHookV = GetMD5Hash(scripthookvpath) == "4be83badebac3da379555c83f18b6e94";
+            hasScriptHookDotNet = GetMD5Hash(scripthookvnetpath) == "68bf4bf432f95c1c18a6d290c8241c71";
+            hasNet45 = IsNet45OrNewer();
 
             missing = "";
 
-            if (!scripthookv) missing += "[ScriptHookV v1.0.393.4] ";
-            if (!scripthooknet) missing += "[ScriptHookVNET v1.1] ";
-            if (!net45) missing += "[.NET v4.5]";
+            if (!hasScriptHookV) missing += "[ScriptHookV v1.0.393.4] ";
+            if (!hasScriptHookDotNet) missing += "[ScriptHookVNET v1.1] ";
+            if (!hasNet45) missing += "[.NET v4.5]";
 
-            return scripthookv && scripthooknet && net45;
+            return hasScriptHookV && hasScriptHookDotNet && hasNet45;
 
         }
 
@@ -88,8 +92,42 @@ namespace LogicSpawn.GTARPG.Core
             return Type.GetType("System.Reflection.ReflectionContext", false) != null;
         }
 
+        public string HKLM_GetString(string path, string key)
+        {
+            try
+            {
+                RegistryKey rk = Registry.LocalMachine.OpenSubKey(path);
+                if (rk == null) return "";
+                return (string)rk.GetValue(key);
+            }
+            catch { return ""; }
+        }
+
+        public string FriendlyName()
+        {
+            string ProductName = HKLM_GetString(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ProductName");
+            string CSDVersion = HKLM_GetString(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "CSDVersion");
+            if (ProductName != "")
+            {
+                return (ProductName.StartsWith("Microsoft") ? "" : "Microsoft ") + ProductName +
+                            (CSDVersion != "" ? " " + CSDVersion : "");
+            }
+            return "";
+        }
+
         protected override void Start()
         {
+            RPGLog.Clear();
+            string str;
+            CheckStatus(out str);
+            RPGLog.Log("Starting GTARPG Log:");
+            RPGLog.Log("Date: " + DateTime.Now.ToLongDateString());
+            RPGLog.Log("OS: " + FriendlyName());
+            RPGLog.Log("GTAV Path: " + Application.StartupPath);
+            RPGLog.Log("ScriptHook V v1.0.393.4: " + (hasScriptHookV ? "Found" : "Not Found"));
+            RPGLog.Log("ScriptHookVNET v1.1: " + (hasScriptHookDotNet ? "Found" : "Not Found"));
+            RPGLog.Log(".NET v4.5: " + (hasNet45 ? "Found" : "Not Found"));
+            RPGLog.LogRaw("");
             RPGLog.Log("Waiting to start rpg mode...");
 
             Function.Call(Hash.DISPLAY_HUD, 1);
@@ -103,6 +141,9 @@ namespace LogicSpawn.GTARPG.Core
             Function.Call(Hash.SET_PLAYER_WEAPON_DAMAGE_MODIFIER, Game.Player, 1.0f);
             Function.Call(Hash.SET_AI_WEAPON_DAMAGE_MODIFIER, 1.0f);
         }
+
+
+
 
         public override void Update()
         {
