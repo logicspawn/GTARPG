@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Forms;
 using GTA;
 using GTA.Native;
 using LogicSpawn.GTARPG.Core.GameData;
@@ -48,6 +49,7 @@ namespace LogicSpawn.GTARPG.Core
             PlayerData = new PlayerData();
             WorldData = new WorldData();
             SkillHandler = new SkillHandler();
+            Settings = ScriptSettings.Load("scripts\\GTARPG\\config.ini");
             GameMode = GameMode.NotPlaying;
         }
 
@@ -244,13 +246,8 @@ namespace LogicSpawn.GTARPG.Core
             var newDir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             var dir = Path.Combine(newDir, @"Rockstar Games\GTA V\RPGMod\");
             var playerDataFile = "PlayerData.save";
-            var settingsFile = "Settings.INI";
-
 
             var playerDataPath = Path.Combine(dir, playerDataFile);
-            var settingsPath = Path.Combine(dir, settingsFile);
-
-            Settings = ScriptSettings.Load(settingsPath);
 
             if (File.Exists(playerDataPath))
             {
@@ -317,6 +314,8 @@ namespace LogicSpawn.GTARPG.Core
                 var saveFile = JsonConvert.SerializeObject(PlayerData, GM.GetSerialisationSettings());
                 stringwriter.Write(saveFile);
             }
+
+            Settings.Save();
         }
 
         public static T GetPopup<T>() where T : class
