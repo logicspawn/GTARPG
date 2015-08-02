@@ -62,6 +62,7 @@
     <Compile Include="General\GM.cs" />
     <Compile Include="General\MathMethods.cs" />
     <Compile Include="General\RPGMethods.cs" />
+    <Compile Include="General\ScriptSettingsMethods.cs" />
     <Compile Include="General\UI\RPGListMenu.cs" />
     <Compile Include="General\UI\RPGMenu.cs" />
     <Compile Include="General\UI\RPGMessageBox.cs" />
