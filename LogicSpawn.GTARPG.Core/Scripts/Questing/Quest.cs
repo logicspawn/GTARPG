@@ -239,6 +239,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Questing
                     {
                         tut.Hide();
                         EventHandler.Wait(300);
+                        RPG.PlayerData.AddItem("Vehicle Parts",9);
                         tut.Pop("Crafting can help you get items you need.", "Access the menu > Actions > Craft Items and craft a 'Vehicle Repair Kit'");
                     });
                 }   

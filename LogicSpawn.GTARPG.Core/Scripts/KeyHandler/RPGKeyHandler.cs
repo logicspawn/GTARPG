@@ -256,7 +256,7 @@ namespace LogicSpawn.GTARPG.Core
                 {
                     tut.Hide();
                     EventHandler.Wait(300);
-                    tut.Pop("Quest hand in locations are marked by the white star blip on the map.", "Drive to Matthew ($) and press E to speak with him and finish your quest.");
+                    tut.Pop("Quest hand in locations are marked by the white star blip on the map.", "Drive to Matthew (Star) and press E to speak with him and finish your quest.");
                 });
             } 
             RPGMethods.SpawnCar(); 

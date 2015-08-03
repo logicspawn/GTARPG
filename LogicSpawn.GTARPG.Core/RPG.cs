@@ -227,11 +227,11 @@ namespace LogicSpawn.GTARPG.Core
             }
             else if(!PlayerData.Tutorial.TutorialDoneExceptSpeak)
             {
-                GetPopup<TutorialBox>().Pop("Quest hand in locations are marked by the white star blip on the map.", "Drive to Matthew ($) and press E to speak with him and finish your quest.");
+                GetPopup<TutorialBox>().Pop("Quest hand in locations are marked by the white star blip on the map.", "Drive to Matthew (Star) and press E to speak with him and finish your quest.");
             }
             else if(!PlayerData.Tutorial.SpokeToNpc)
             {
-                GetPopup<TutorialBox>().Pop("Quest hand in locations are marked by the white star blip on the map.", "Drive to Matthew ($) and press E to speak with him and finish your quest.");
+                GetPopup<TutorialBox>().Pop("Quest hand in locations are marked by the white star blip on the map.", "Drive to Matthew (Star) and press E to speak with him and finish your quest.");
             }
             else if(!PlayerData.Tutorial.PurchasedContract)
             {
@@ -243,6 +243,11 @@ namespace LogicSpawn.GTARPG.Core
             }
             else if (!PlayerData.Tutorial.LearntAboutCrafting)
             {
+                var vehKit = PlayerData.Inventory.FirstOrDefault(i => i.Name == "Vehicle Parts");
+                if (vehKit == null || vehKit.Quantity < 3)
+                {
+                    PlayerData.AddItem("Vehicle Parts",9);
+                }
                 GetPopup<TutorialBox>().Pop("Crafting can help you get items you need.", "Access the menu > Actions > Craft Items and craft a 'Vehicle Repair Kit'");
             }
             else if (!PlayerData.Tutorial.LearntAboutSkillbar)

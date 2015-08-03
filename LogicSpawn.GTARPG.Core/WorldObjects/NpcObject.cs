@@ -172,7 +172,7 @@ namespace LogicSpawn.GTARPG.Core
             if(QuestConditionChecks.Any(ch =>
                                             {
                                                 var qu = RPG.PlayerData.Quests.First(q => q.Name == ch.QuestName);
-                                                return !qu.GetCondition(ch.ConditionName).Done;
+                                                return qu.InProgress && !qu.GetCondition(ch.ConditionName).Done;
                                             } ))
             {
                 conditionChecks = true;
