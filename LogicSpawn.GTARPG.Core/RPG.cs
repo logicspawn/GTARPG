@@ -18,7 +18,7 @@ namespace LogicSpawn.GTARPG.Core
 {
     public static class RPG
     {
-        public const string Version = "0.1.12";
+        public const string Version = "0.1.13";
 
         public static bool Loading;
         public static bool UsingController;
@@ -35,6 +35,7 @@ namespace LogicSpawn.GTARPG.Core
         public static CutsceneHandler CutsceneHandler;
         public static SubtitleHandler SubtitleHandler;
         public static SkillHandler SkillHandler;
+        public static WeaponHandler WeaponHandler;
         public static AudioHandler Audio;
         private static Notifier _notifier;
         public static bool LoadedSuccessfully = true;
@@ -49,6 +50,7 @@ namespace LogicSpawn.GTARPG.Core
             PlayerData = new PlayerData();
             WorldData = new WorldData();
             SkillHandler = new SkillHandler();
+            WeaponHandler = new WeaponHandler();
             Settings = ScriptSettings.Load("scripts\\GTARPG\\config.ini");
             InitSettings();
             GameMode = GameMode.NotPlaying;
@@ -280,6 +282,12 @@ namespace LogicSpawn.GTARPG.Core
                 {
                     var loadedData = File.ReadAllText(playerDataPath);
                     PlayerData = JsonConvert.DeserializeObject<PlayerData>(loadedData, GM.GetSerialisationSettings());
+                    var dataVersion = PlayerData.Version;
+                    if (dataVersion != RPG.Version)
+                    {
+                        VersionMigration.Migrate(dataVersion, RPG.Version);
+                    }
+
                     InitCharacter();
                 }
                 catch (Exception e)
@@ -294,11 +302,7 @@ namespace LogicSpawn.GTARPG.Core
                 NeedToCreateCharacter = true;
             }
 
-            var dataVersion = PlayerData.Version;
-            if(dataVersion != RPG.Version)
-            {
-                VersionMigration.Migrate(dataVersion, RPG.Version);
-            }
+
 
             ApplySettings();
         }

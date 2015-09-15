@@ -63,6 +63,11 @@ namespace LogicSpawn.GTARPG.Core.General
                     subText = "SP: " + RPG.PlayerData.SkillExp.ToString("N0");
                     activateText = "unlock skill / customise skill";
                     break;
+                case TreeType.Weapon:
+                    title = "WEAPONS";
+                    subText = "SP: " + RPG.PlayerData.SkillExp.ToString("N0");
+                    activateText = "unlock weapon / customise weapon";
+                    break;
                 case TreeType.SkillMod:
                     var s = RPG.PlayerData.GetSkill(tree.TreeRef);
                     title = s.Name;
@@ -82,13 +87,13 @@ namespace LogicSpawn.GTARPG.Core.General
             {
                 var parentUnlocked = parent.Unlocked(DataTree);
                 if (!parentUnlocked && !selected) color = Color.FromArgb(150, 120, 120, 120);
-                if (parentUnlocked && parent == SelectedObj && !RPG.PlayerData.GetSkill(SelectedObj.Ref).Unlocked) color = Color.FromArgb(150, 255, 150, 0);
+                if (parentUnlocked && parent == SelectedObj && !SelectedObj.Unlocked(DataTree)) color = Color.FromArgb(150, 255, 150, 0);
             }
             
             new UIRectangle(nodedata.Position, new Size(NTree.NodeSize, NTree.NodeSize), Color.Black).Draw();
             new UIRectangle(nodedata.Position + new Size(2,2), new Size(NTree.NodeSize -4, NTree.NodeSize-4), color).Draw();
             new UIRectangle(nodedata.Position + new Size(4, 4), new Size(NTree.NodeSize - 8, NTree.NodeSize - 8), Color.FromArgb(255, 24, 24, 24)).Draw();
-            nodedata.Sprite.Draw(nodedata.Position + new Size(4, 4),56,56,Color.White);
+            nodedata.Sprite.Draw(nodedata.Position + new Size(4, 4), NTree.NodeSize - 8, NTree.NodeSize - 8, Color.White);
 
             new UIText(nodedata.GetName(), nodedata.Position + new Size(NTree.NodeSize / 2, NTree.NodeSize), 0.35f, Color.White, 0, true).Draw();
             new UIText(nodedata.GetFooter(DataTree), nodedata.Position + new Size(NTree.NodeSize / 2, NTree.NodeSize + 17), 0.21f, Color.White, 0, true).Draw();
@@ -110,7 +115,7 @@ namespace LogicSpawn.GTARPG.Core.General
                     new UIRectangle(pPos + NTree.NodeCenter + new Size(-(NTree.NodeSize / 2 + 29) - 50, -NTree.LinkThickness / 2), new Size(NTree.LinkLength - 19, NTree.LinkThickness), linkColor).Draw();
                     break;
                 case TreeDirection.Up:
-                    new UIRectangle(pPos + NTree.NodeCenter + new Size(-NTree.LinkThickness / 2, -(NTree.NodeSize / 2 + 29) - 50), new Size(NTree.LinkThickness, NTree.LinkLength - 19), linkColor).Draw();
+                    new UIRectangle(pPos + NTree.NodeCenter + new Size(-NTree.LinkThickness / 2, -(NTree.NodeSize / 2 + 29) - 31), new Size(NTree.LinkThickness, NTree.LinkLength - 19), linkColor).Draw();
                     break;
             }
         }
@@ -174,6 +179,19 @@ namespace LogicSpawn.GTARPG.Core.General
                     }
 
                     skill.Unlock();
+                }
+            }
+            else if(DataTree.Type == TreeType.Weapon && (SelectedObj.Parent == null || SelectedObj.Parent.Node.Unlocked(DataTree)))
+            {
+                var wep = RPG.PlayerData.GetWeapon(SelectedObj.WepHash);
+                if (wep.Unlocked)//&& skill.Mods.Count > 0
+                {
+                    //RPG.UIHandler.View.RemoveMenu(this);
+                    //RPG.UIHandler.View.AddMenu(new TreeMenu(SkillRepository.GetModTree(SelectedObj.Ref)));
+                }
+                else if (!wep.Unlocked)
+                {
+                    wep.Unlock();
                 }
             }
             else if (DataTree.Type == TreeType.SkillMod && SelectedObj.Parent.Node.Unlocked(DataTree))

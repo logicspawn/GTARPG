@@ -11,6 +11,7 @@ using GTA.Math;
 using GTA.Native;
 using LogicSpawn.GTARPG.Core.General;
 using LogicSpawn.GTARPG.Core.Objects;
+using LogicSpawn.GTARPG.Core.Repository;
 using LogicSpawn.GTARPG.Core.Scripts.Popups;
 using Control = GTA.Control;
 using Font = GTA.Font;
@@ -901,16 +902,11 @@ namespace LogicSpawn.GTARPG.Core
 
             //Give and spawn stuff::
             //Give Weps
-            for (int i = 0; i < Data.WeaponHashes.Length; i++)
-            {
-                var wepName = Data.WeaponHashes[i];
-                RPG.PlayerData.Weapons.Add(new WeaponDefinition()
-                                               {
-                                                   WeaponHash = wepName,
-                                                   AmmoCount = 10
-                                               });
-                Game.Player.Character.Weapons.Give(wepName, 10, false, false);
-            }
+            RPG.PlayerData.Weapons.AddRange(WeaponRepository.Weapons);
+            RPG.PlayerData.GetWeapon(WeaponHash.Pistol).Unlocked = true;
+            RPG.PlayerData.GetWeapon(WeaponHash.Pistol).AmmoCount = 100;
+            RPG.PlayerData.GetWeapon(WeaponHash.AssaultRifle).Unlocked = true;
+            RPG.PlayerData.GetWeapon(WeaponHash.AssaultRifle).AmmoCount = 1000;
 
             RPG.SaveAllData();
             Wait(500);

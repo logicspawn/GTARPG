@@ -108,7 +108,6 @@ namespace LogicSpawn.GTARPG.Core.Objects
                     } 
                 }
             }
-            
         }
 
         public bool UnlockMod(string modName)

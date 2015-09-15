@@ -45,7 +45,10 @@ namespace LogicSpawn.GTARPG.Core
             //Request texture dictionaries here
             //Then draw sprite , using OPENIV to see texture names
             //Hash.DRAW_SPRITE
-
+            Function.Call(Hash.REQUEST_STREAMED_TEXTURE_DICT, "srange_weap", true);
+            Function.Call(Hash.REQUEST_STREAMED_TEXTURE_DICT, "srange_weap", true);
+            Function.Call(Hash.REQUEST_STREAMED_TEXTURE_DICT, "srange_weap", true);
+            Function.Call(Hash.REQUEST_STREAMED_TEXTURE_DICT, "srange_weap", true); 
             NpcDatas.AddRange(NpcRepository.Npcs);
             Init();
         }
@@ -58,7 +61,7 @@ namespace LogicSpawn.GTARPG.Core
 
             if(RPG.PlayerData.Exp == 0 && !RPG.PlayerData.Quests.Any(q => q.InProgress))
             {
-                RPG.PlayerData.Quests.First(q => q.Name == "Welcome to GTA:RPG").Start();
+                RPG.PlayerData.Quests.First(q => q.Name == "Welcome to GTA:RPG").Start() ;
             }
         }
 

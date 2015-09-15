@@ -37,6 +37,7 @@ namespace LogicSpawn.GTARPG.Core
         private RPGListMenu CraftingMenu;
         private RPGListMenu QuestLogMenu;
         public TreeMenu SkillTreeMenu;
+        public TreeMenu WeaponTreeMenu;
 
 
         private RPGDialogMenu DialogMenu;
@@ -73,6 +74,7 @@ namespace LogicSpawn.GTARPG.Core
                         new MenuButton("Quests", "").WithActivate(OpenQuestLog),
                         new MenuButton("Set Skillbar", "").WithActivate(OpenSkillBarMenu),
                         new MenuButton("Skills", "").WithActivate(OpenSkillsMenu),
+                        new MenuButton("Weapons", "").WithActivate(OpenWeaponsMenu),
                         //new MenuButton("Talents", "", () => { View.PopMenu(); }),
                         //new MenuButton("Mod Weapons", "", () => { View.PopMenu(); }),
                         //new MenuButton("Mod Cars", "", () => { View.PopMenu();}),
@@ -88,6 +90,7 @@ namespace LogicSpawn.GTARPG.Core
                     });
 
             SkillTreeMenu = RPG.SkillHandler.GetSkillMenu();
+            WeaponTreeMenu = RPG.WeaponHandler.GetWeaponMenu();
 
             //var o = new MenuNumericScroller("Number", "", d => { }, d => { }, 0, 100, 1);
             //var p = new MenuToggle("Toggle", "", ()=> { }, () => { });
@@ -827,6 +830,11 @@ namespace LogicSpawn.GTARPG.Core
         public void OpenSkillsMenu()
         {
             View.AddMenu(SkillTreeMenu);
+        }
+
+        public void OpenWeaponsMenu()
+        {
+            View.AddMenu(WeaponTreeMenu);
         }
 
         public void OpenQuestLog()

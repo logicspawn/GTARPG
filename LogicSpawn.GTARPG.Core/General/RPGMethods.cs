@@ -132,24 +132,6 @@ namespace LogicSpawn.GTARPG.Core.General
             Game.FadeScreenIn(500);
         }
 
-        public static void UnlockWeapons()
-        {
-            RPG.PlayerData.Weapons = new List<WeaponDefinition>();
-            Game.Player.Character.Weapons.RemoveAll();
-            for (int i = 0; i < Data.WeaponHashes.Length; i++)
-            {
-                var wepName = Data.WeaponHashes[i];
-                RPG.PlayerData.Weapons.Add(new WeaponDefinition()
-                {
-                    WeaponHash = wepName,
-                    AmmoCount = 1000
-                });
-                Game.Player.Character.Weapons.Give(wepName, 1000, false, false);
-            }
-            Game.Player.Character.Weapons.Give(WeaponHash.Unarmed, 0, true, false);
-            RPG.SaveAllData();
-        }
-
         public static void LoadPlayerWeapons()
         {
             try
@@ -158,6 +140,8 @@ namespace LogicSpawn.GTARPG.Core.General
                 for (int i = 0; i < PlayerData.Weapons.Count; i++)
                 {
                     var wepDefinition = PlayerData.Weapons[i];
+                    if (!wepDefinition.Unlocked) continue;
+
                     Game.Player.Character.Weapons.Give(wepDefinition.WeaponHash, 0, false, false);
                     Script.Wait(150);
                     Game.Player.Character.Weapons[wepDefinition.WeaponHash].Ammo = wepDefinition.AmmoCount;

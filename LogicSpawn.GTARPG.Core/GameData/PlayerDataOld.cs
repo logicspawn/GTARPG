@@ -15,7 +15,7 @@ using Newtonsoft.Json.Converters;
 
 namespace LogicSpawn.GTARPG.Core
 {
-    public class PlayerData
+    public class PlayerDataOld
     {
         public string Version = RPG.Version;
         public string Name;
@@ -51,7 +51,7 @@ namespace LogicSpawn.GTARPG.Core
         public Vehicle CurrentVehicle;
 
 
-        public PlayerData()
+        public PlayerDataOld()
         {
             Name = "";
             NumberPlate = "";
@@ -162,44 +162,5 @@ namespace LogicSpawn.GTARPG.Core
         {
             return Skills.FirstOrDefault(s => s.Name == skillName);
         }
-        
-        public WeaponDefinition GetWeapon(WeaponHash wepHash)
-        {
-            return Weapons.FirstOrDefault(s => s.WeaponHash == wepHash);
-        }
-    }
-
-    public class Setup
-    {
-        public int SafeArea = 10;
-    }
-
-    public class Tutorial
-    {
-        public bool PressJToOpenMenu;
-        public bool BoughtAmmoFromShop;
-        public bool GetAKill;
-        public bool UnlockSkillWithSp;
-        public bool UsingSkills;
-        public bool SpawnVehicle;
-        public bool TutorialDoneExceptSpeak;
-        public bool SpokeToNpc;
-        public bool PurchasedContract;
-        public bool LearntAboutIcons;
-        public bool LearntAboutCrafting;
-        public bool LearntAboutSkillbar;
-    }
-
-    public enum PlayerClass
-    {
-        Time_Master,
-        Speedster,
-        Berserker
-    }
-
-    public enum PlayerMotive
-    {
-        Rebel,
-        Lawless
     }
 }

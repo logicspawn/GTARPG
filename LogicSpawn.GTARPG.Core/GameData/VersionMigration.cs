@@ -1,5 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using GTA.Native;
+using LogicSpawn.GTARPG.Core.Objects;
 using LogicSpawn.GTARPG.Core.Repository;
+using LogicSpawn.GTARPG.Core.Scripts.Popups;
 
 namespace LogicSpawn.GTARPG.Core.GameData
 {
@@ -23,9 +27,28 @@ namespace LogicSpawn.GTARPG.Core.GameData
                 case "0.1.9":
                 case "0.1.10":
                 case "0.1.11":
+                case "0.1.12":
                     FixTutorial();
+                    FixWeapons();
                     break;
             }
+
+            if (dataVersion != version)
+            {
+                RPG.GetPopup<PatchNotes>().Show();
+            }
+
+            RPG.PlayerData.Version = RPG.Version;
+        }
+
+        private static void FixWeapons()
+        {
+            RPG.PlayerData.Weapons = new List<WeaponDefinition>();
+            RPG.PlayerData.Weapons.AddRange(WeaponRepository.Weapons);
+            RPG.PlayerData.GetWeapon(WeaponHash.Pistol).Unlocked = true;
+            RPG.PlayerData.GetWeapon(WeaponHash.Pistol).AmmoCount = 100;
+            RPG.PlayerData.GetWeapon(WeaponHash.AssaultRifle).Unlocked = true;
+            RPG.PlayerData.GetWeapon(WeaponHash.AssaultRifle).AmmoCount = 1000;
         }
 
         private static void FixTutorial()
@@ -55,6 +78,7 @@ namespace LogicSpawn.GTARPG.Core.GameData
             }
 
             RPG.PlayerData.Version = "0.1.4";
+            Migrate(RPG.PlayerData.Version, RPG.Version);
         }
     }
 }

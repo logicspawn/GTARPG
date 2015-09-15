@@ -51,6 +51,7 @@ namespace LogicSpawn.GTARPG.Core
             if(keyEventArgs.KeyCode == Keys.F5)
             {
 
+                RPG.PlayerData.AddExp(10);
                 //RPG.PlayerData.SkillExp += 100000;
 //                RPG.PlayerData.Setup.SafeArea -= 1;
 //                if (RPG.PlayerData.Setup.SafeArea < 0) RPG.PlayerData.Setup.SafeArea = 0;
@@ -270,17 +271,27 @@ namespace LogicSpawn.GTARPG.Core
             debug += "- model hash: " + Game.Player.Character.Model.Hash + "\n";
              var v = new UIText(debug,new Point(0, 0), 0.25f, Color.White);
 
-            var cardebug = "";
              if (Game.Player.Character.IsInVehicle())
              {
-                 cardebug += "vehicle model: " + Game.Player.Character.CurrentVehicle.Model.Hash + "\n";
-                 cardebug += "- heading: " + Game.Player.Character.CurrentVehicle.Heading + "\n";
-                 cardebug += "- rotation: " + VecStr(Game.Player.Character.CurrentVehicle.Rotation) + "\n";
+                 debug += "vehicle model: " + Game.Player.Character.CurrentVehicle.Model.Hash + "\n";
+                 debug += "- heading: " + Game.Player.Character.CurrentVehicle.Heading + "\n";
+                 debug += "- rotation: " + VecStr(Game.Player.Character.CurrentVehicle.Rotation) + "\n";
              }
-             var x = new UIText(cardebug, new Point(0, 200), 0.25f, Color.White);
 
-            c.Items.Add(v);
-            c.Items.Add(x);
+            foreach(var wep in RPG.PlayerData.Weapons)
+            {
+                debug += string.Format("Weapon: {0} [{1}] , Unlocked {2} \n", wep.WeaponName, wep.WeaponHash.ToString(), wep.Unlocked);
+            }
+
+            var lines = RPGUI.FormatText(debug, 99);
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                var x = new UIText(lines[i], new Point(0, 0 + (30 * i)), 0.25f, Color.White);
+                c.Items.Add(x);
+
+            }
+
             c.Draw();
         }
 

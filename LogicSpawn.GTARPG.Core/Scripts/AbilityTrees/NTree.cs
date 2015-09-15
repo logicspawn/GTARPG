@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using GTA;
+using GTA.Native;
 using LogicSpawn.GTARPG.Core.Objects;
 using LogicSpawn.GTARPG.Core.Repository;
 
@@ -28,7 +29,26 @@ namespace LogicSpawn.GTARPG.Core.AbilityTrees
             Sprite = sprite;
         }
 
+        public Node(string reference, WeaponHash wepHash, GTASprite sprite, NodeType type, TreeDirection direction = TreeDirection.Auto)
+        {
+            Ref = reference;
+            Direction = direction;
+            Type = type;
+            Sprite = sprite;
+            WepHash = wepHash;
+        }
+
+        public Node(string reference, WeaponHash wepHash, GTASprite sprite, NodeType type)
+        {
+            Ref = reference;
+            Direction = TreeDirection.Auto;
+            Type = type;
+            Sprite = sprite;
+            WepHash = wepHash;
+        }
+
         public NodeType Type;
+        public WeaponHash WepHash;
         public GTASprite Sprite;
         public string Ref;
         public bool NotUsable;
@@ -50,6 +70,9 @@ namespace LogicSpawn.GTARPG.Core.AbilityTrees
                 case NodeType.Skill:
                     var skill = RPG.PlayerData.Skills.FirstOrDefault(s => s.Name == Ref);
                     return skill.Unlocked ? "unlocked" : skill.PointsToUnlock + " SP";
+                case NodeType.Weapon:
+                    var wep = RPG.PlayerData.Weapons.FirstOrDefault(s => s.WeaponHash == WepHash);
+                    return wep.Unlocked ? "unlocked" : wep.PointsToUnlock + " SP at Level " + wep.LevelToUnlock;
                 case NodeType.SkillMod:
                     var skillForMod = RPG.PlayerData.Skills.FirstOrDefault(s => s.Name == dataTree.TreeRef);
                     var mod = skillForMod.UsedMods.FirstOrDefault(s => s == Ref);
@@ -79,6 +102,25 @@ namespace LogicSpawn.GTARPG.Core.AbilityTrees
                 new UIText(skill.Unlocked ? "unlocked" : "unlock for " + skill.PointsToUnlock + " SP", new Point(UI.WIDTH / 2, UI.HEIGHT - 22), 0.20f, Color.Gray, 0, true).Draw();
                 Sprite.Draw(new Point(UI.WIDTH / 2 - 140, UI.HEIGHT - 50), 40, 40, Color.FromArgb(120, 255, 255, 255));
             }
+            else if(Type == NodeType.Weapon)
+            {
+                var wep = RPG.PlayerData.Weapons.FirstOrDefault(s => s.WeaponHash == WepHash);
+                new UIText(Ref, new Point(UI.WIDTH / 2, UI.HEIGHT - 95), 0.3f, Color.White, 0, true).Draw();
+                new UIText(wep.Description, new Point(UI.WIDTH / 2, UI.HEIGHT - 75), 0.22f, Color.White, 0, true).Draw();
+
+                var topPoint = new Point(UI.WIDTH/2, UI.HEIGHT - 62);
+
+                //var i = 0;
+                //var sparams = SkillRepository.GetVisibleParams(Ref);
+                //foreach (var kvp in sparams)
+                //{
+                //    new UIText(kvp.Key +": " + kvp.Value.Invoke(skill) ,topPoint + new Size(0,10 * i) , 0.20f, Color.DodgerBlue, 0, true).Draw();
+                //    i++;
+                //}
+                
+                new UIText(wep.Unlocked ? "unlocked" : "unlock for " + wep.PointsToUnlock + " SP [Requires Lv." + wep.LevelToUnlock + "]", new Point(UI.WIDTH / 2, UI.HEIGHT - 22), 0.20f, Color.Gray, 0, true).Draw();
+                Sprite.Draw(new Point(UI.WIDTH / 2 - 140, UI.HEIGHT - 50), 40, 40, Color.FromArgb(120, 255, 255, 255));
+            }
             else if (Type == NodeType.SkillMod)
             {
                 new UIText(Ref, new Point(UI.WIDTH / 2, UI.HEIGHT - 95), 0.3f, Color.White, 0, true).Draw();
@@ -100,6 +142,12 @@ namespace LogicSpawn.GTARPG.Core.AbilityTrees
             {
                 var skill = RPG.PlayerData.Skills.First(s => s.Name == Ref);
                 return skill.Unlocked;
+            }
+
+            if (Type == NodeType.Weapon)
+            {
+                var wep = RPG.PlayerData.Weapons.First(s => s.WeaponHash == WepHash);
+                return wep.Unlocked;
             }
             
             if (Type == NodeType.SkillMod)
@@ -134,7 +182,8 @@ namespace LogicSpawn.GTARPG.Core.AbilityTrees
     public enum NodeType
     {
         Skill,
-        SkillMod
+        SkillMod,
+        Weapon
     }
 
     public enum TreeDirection
@@ -148,7 +197,7 @@ namespace LogicSpawn.GTARPG.Core.AbilityTrees
 
     public class NTree
     {
-        public const int NodeSize = 64;
+        public const int NodeSize = 40;
         public const int LinkThickness = 2;
         public const int LinkLength = 75;
         public const int CellLength = NodeSize + 20 + LinkLength;
@@ -233,6 +282,7 @@ namespace LogicSpawn.GTARPG.Core.AbilityTrees
     public enum TreeType
     {
         Skill,
-        SkillMod
+        SkillMod,
+        Weapon
     }
 }

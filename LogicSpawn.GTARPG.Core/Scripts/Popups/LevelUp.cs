@@ -1,5 +1,7 @@
 ﻿using System.Drawing;
+using System.Linq;
 using GTA;
+using LogicSpawn.GTARPG.Core.Repository;
 
 namespace LogicSpawn.GTARPG.Core.Scripts.Popups
 {
@@ -14,6 +16,14 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Popups
             popup.Items.Add(new UIRectangle(new Point(0, 0), new Size(UI.WIDTH, 25), Color.FromArgb(150, 2, 70, 200)));
 
             popup.Items.Add(new UIText("- you are now level " + RPG.PlayerData.Level + " -", new Point(UI.WIDTH / 2, 15), 1.5f, Color.White, 0, true));
+
+
+            var unlockedWeapons = RPG.PlayerData.Weapons.Where(w => w.LevelToUnlock == RPG.PlayerData.Level).Select(w => w.WeaponName).ToArray();
+            var unlocks = string.Join(", ", unlockedWeapons);
+
+            if(unlockedWeapons.Any())
+                popup.Items.Add(new UIText("- weapons unlocked: "+ unlocks + " -", new Point(UI.WIDTH / 2, 80), 0.32f, Color.White, 0, true));
+
             popup.Items.Add(new UIRectangle(new Point(0, 25), new Size(UI.WIDTH, 80), Color.FromArgb(150, 2, 70, 200)));
         }
 

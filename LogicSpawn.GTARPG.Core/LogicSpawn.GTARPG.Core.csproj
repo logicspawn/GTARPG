@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameData\PlayerDataOld.cs" />
     <Compile Include="GameData\VersionMigration.cs" />
     <Compile Include="General\GM.cs" />
     <Compile Include="General\MathMethods.cs" />
@@ -78,12 +79,15 @@
     <Compile Include="Objects\Skill.cs" />
     <Compile Include="Objects\WeaponDefinition.cs" />
     <Compile Include="prototype\ModelViewerNew.cs" />
+    <Compile Include="Repository\WeaponRepository.cs" />
     <Compile Include="Repository\CutsceneRepository.cs" />
     <Compile Include="Repository\NpcRepository.cs" />
     <Compile Include="Repository\QuestRepository.cs" />
     <Compile Include="Repository\SkillRepository.cs" />
     <Compile Include="Repository\ItemRepository.cs" />
     <Compile Include="Scripts\AbilityTrees\NTree.cs" />
+    <Compile Include="Scripts\Popups\PatchNotes.cs" />
+    <Compile Include="Scripts\Popups\WeaponUnlocked.cs" />
     <Compile Include="Scripts\Popups\MessageToPlayer.cs" />
     <Compile Include="Scripts\RPGSettings.cs" />
     <Compile Include="Scripts\SkillEventHandler.cs" />
@@ -109,6 +113,7 @@
     <Compile Include="Scripts\Update\GeneralUpdate.cs" />
     <Compile Include="Scripts\Update\LoadingUI.cs" />
     <Compile Include="Scripts\Update\RPGInfo.cs" />
+    <Compile Include="Scripts\WeaponHandler\WeaponHandler.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="TestForm.cs" />
     <Compile Include="WorldObjects\RPGBlips.cs" />

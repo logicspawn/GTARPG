@@ -33,7 +33,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Popups
 
             popup.Position = new Point(0, UI.HEIGHT / 2 - 50);
 
-            var headerText = "gta:rpg";
+            var headerText = "GTA:RPG";
             var color = Color.FromArgb(150, 2, 70, 200);
             popup.Color = color;
 
@@ -44,7 +44,7 @@ namespace LogicSpawn.GTARPG.Core.Scripts.Popups
             for (int index = 0; index < extra; index++)
             {
                 var text = lines[index];
-                popup.Items.Add(new UIText("- " + text + " -", new Point(UI.WIDTH / 2, point + (index * 15)), 0.24f, Color.White, 0, true));
+                popup.Items.Add(new UIText(text, new Point(UI.WIDTH / 2, point + (index * 15)), 0.24f, Color.White, 0, true));
 
             }
         }
